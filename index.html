@@ -246,6 +246,74 @@ function labSection(){var s=el('section');s.id='lab';var L=D.lab;
  +(D.role==='profe'?'<div class="note profe-only">'+ICON.info+'<div><span class="pbadge">profe</span> Guía completa de la infraestructura (Proxmox aula + Vagrant casa, VLAN por alumno, plantillas, correcciones) en el documento del módulo <b>Laboratorio — Proxmox y Vagrant</b>.</div></div>':'');
  return s;}
 
+function escenarioSection(){var s=el('section');s.id='escenario';
+ function box(x,y,w,h,col,lines){var cx=x+w/2;
+  var g='<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10" fill="var(--surface-2)" stroke="'+col+'" stroke-width="1.8"/>';
+  var ty=y+22;
+  lines.forEach(function(t,i){var cls=i===0?'font-size="12" font-weight="600" fill="var(--ink)"':'font-size="10" fill="var(--muted)"';g+='<text x="'+cx+'" y="'+ty+'" text-anchor="middle" '+cls+'>'+t+'</text>';ty+=(i===0?20:16);});
+  return g+'</g>';}
+ var diag='<div class="diagram" role="img" aria-label="Escenario de red del laboratorio MP5021: anfitrion, SIEM, victimas srvweb y win10, atacante kali, sobre la red interna aislada 172.21.10.0/24">'
+ +'<svg viewBox="0 0 800 470" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, monospace">'
+ +'<defs>'
+ +'<marker id="aAtk" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--attack)"/></marker>'
+ +'<marker id="aTel" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--accent)"/></marker>'
+ +'</defs>'
+ +'<g><rect x="30" y="18" width="210" height="52" rx="10" fill="var(--surface-3)" stroke="var(--border-strong)" stroke-width="1.5"/>'
+ +'<text x="135" y="40" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">ANFITRIÓN · tu equipo</text>'
+ +'<text x="135" y="57" text-anchor="middle" fill="var(--muted)" font-size="10">Panel Wazuh: https://localhost:8443</text></g>'
+ +'<line x1="135" y1="70" x2="135" y2="120" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 4"/>'
+ +'<text x="145" y="98" fill="var(--accent-ink)" font-size="10">NAT 8443→443</text>'
+ +box(30,120,220,96,'var(--ud1)',['SIEM · 172.21.10.10','Debian 12 · puerta de enlace','Wazuh (SIEM/XDR) · Suricata','TheHive · MailHog'])
+ +box(300,120,210,96,'var(--ud2)',['SRV-WEB · 172.21.10.30','Debian 12 · LAMP','DVWA / OWASP Juice Shop','Víctima · portal municipal'])
+ +box(560,120,210,96,'var(--ud5)',['WIN10 · 172.21.10.20','Windows 10/11 Eval','Sysmon + agente Wazuh','Víctima · puesto de usuario'])
+ +'<rect x="30" y="256" width="740" height="46" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>'
+ +'<text x="48" y="275" fill="var(--accent-ink)" font-size="12" font-weight="600">RED INTERNA AISLADA · "labcyber" · 172.21.10.0/24</text>'
+ +'<text x="48" y="291" fill="var(--accent-ink)" font-size="10.5">sin salida a Internet · siem es la puerta de enlace y Suricata ve todo el tráfico</text>'
+ +'<g stroke="var(--border-strong)" stroke-width="2"><line x1="140" y1="216" x2="140" y2="256"/><line x1="405" y1="216" x2="405" y2="256"/><line x1="665" y1="216" x2="665" y2="256"/><line x1="405" y1="302" x2="405" y2="344"/></g>'
+ +box(300,344,210,96,'var(--attack)',['KALI · 172.21.10.100','Kali Linux rolling','nmap · hydra · sqlmap · nikto','Atacante / estación forense'])
+ +'<g><rect x="560" y="344" width="210" height="96" rx="10" fill="var(--surface-2)" stroke="var(--border)" stroke-width="1.4"/>'
+ +'<text x="575" y="366" fill="var(--ink)" font-size="11.5" font-weight="600">Flujo del incidente</text>'
+ +'<line x1="575" y1="386" x2="612" y2="386" stroke="var(--attack)" stroke-width="2.4" marker-end="url(#aAtk)"/>'
+ +'<text x="620" y="390" fill="var(--muted)" font-size="10">ataque: kali → víctimas</text>'
+ +'<line x1="575" y1="414" x2="612" y2="414" stroke="var(--accent)" stroke-width="2.4" marker-end="url(#aTel)"/>'
+ +'<text x="620" y="418" fill="var(--muted)" font-size="10">telemetría → siem</text></g>'
+ +'</svg></div>';
+ s.innerHTML='<div class="sec-head"><span class="tag" style="background:var(--accent)">ESC</span><h2>Escenario detallado</h2></div>'
+ +'<p class="sec-meta">Qué hay en cada máquina, para qué sirve y cómo encajan</p>'
+ +'<p class="lead">Cuatro máquinas recrean la red de <b>TecnoMariña S.L.</b> (presta servicios TIC a un ayuntamiento), todas colgadas de una <b>red interna aislada</b> de VirtualBox/Proxmox llamada <span class="mono">labcyber</span> en el rango <span class="mono ip">172.21.10.0/24</span>. No hay salida a Internet ni modo bridge: al panel del SIEM se entra por <b>reenvío de puertos NAT</b> (<span class="mono">8443</span> del anfitrión → <span class="mono">443</span> de la VM). El ciclo de fondo es siempre el mismo: <b>kali ataca → la víctima (srvweb o win10) genera eventos → siem los recoge, correla y alerta</b>.</p>'
+ +diag
+ +'<h3>1 · <span class="mono">siem</span> — el cerebro defensivo</h3>'
+ +'<div class="chips"><span class="chip">Debian 12</span><span class="chip">4–6 GB RAM</span><span class="chip">172.21.10.10</span></div>'
+ +'<p>Es el <b>centro de operaciones (SOC)</b> del laboratorio y, además, la <b>puerta de enlace</b> del segmento: reenvía el tráfico para que Suricata lo vea.</p>'
+ +'<ul>'
+ +'<li><b>Wazuh</b> (indexer + manager + dashboard, todo en una VM): el <b>SIEM/XDR</b>. Recibe los logs de las víctimas a través de sus agentes y los convierte en alertas.</li>'
+ +'<li><b>Suricata</b>: <b>IDS de red (NIDS)</b>. Vigila el tráfico del segmento y detecta escaneos, fuerza bruta, etc. Sus alertas (<span class="mono">eve.json</span>) se integran en Wazuh.</li>'
+ +'<li><b>TheHive</b>: gestión de casos; convierte alertas sueltas en <b>incidentes con ficha, gravedad, responsable y seguimiento</b> (UD2).</li>'
+ +'<li><b>MailHog</b>: buzón de correo de laboratorio para recibir avisos y notificaciones <b>sin salir a Internet</b> (phishing controlado de UD1, notificación de brecha de UD5).</li>'
+ +'</ul>'
+ +'<p>Acceso al panel desde el anfitrión: <span class="mono">https://localhost:8443</span>.</p>'
+ +'<h3>2 · <span class="mono">srvweb</span> — víctima servidor web</h3>'
+ +'<div class="chips"><span class="chip">Debian 12</span><span class="chip">1,5–2 GB RAM</span><span class="chip">172.21.10.30</span></div>'
+ +'<p>Representa el <b>portal del ayuntamiento</b>. Pila <b>LAMP</b> (Apache + MariaDB + PHP) con <b>DVWA / OWASP Juice Shop</b> (en contenedor): aplicaciones <b>vulnerables a propósito</b> para practicar ataques web (inyección SQL, XSS, subida de ficheros). Un <b>agente Wazuh</b> envía los logs de Apache al SIEM. Es la máquina que recibe los ataques y deja rastro en los logs.</p>'
+ +'<h3>3 · <span class="mono">win10</span> — víctima puesto de usuario</h3>'
+ +'<div class="chips"><span class="chip">Windows 10/11 Eval</span><span class="chip">3–4 GB RAM</span><span class="chip">172.21.10.20</span></div>'
+ +'<p>Es el PC de un empleado. Lleva <b>Sysmon</b> (registra con detalle creación de procesos, conexiones de red y cambios en el registro: visibilidad fina del endpoint) y <b>agente Wazuh</b> que envía esos eventos al SIEM. Sirve para malware, procesos sospechosos y <b>análisis forense</b> de memoria y disco. Se arranca solo cuando hace falta, porque consume bastante RAM.</p>'
+ +'<h3>4 · <span class="mono">kali</span> — atacante y estación forense</h3>'
+ +'<div class="chips"><span class="chip">Kali Linux rolling</span><span class="chip">3–4 GB RAM</span><span class="chip">172.21.10.100</span></div>'
+ +'<p>Doble papel. En UD1–UD2 es el <b>atacante</b> que genera el ruido a detectar (nmap, hydra, hping3, sqlmap, nikto, diccionario rockyou); en UD3 es la <b>estación forense</b> donde se analizan las evidencias (Autopsy, Volatility, YARA, CyberChef).</p>'
+ +'<div class="note">'+ICON.info+'<div><b>Comprobación de aislamiento:</b> desde kali, <span class="mono">ping 172.21.10.10</span> debe llegar al SIEM, pero <span class="mono">ping 8.8.8.8</span> <b>debe fallar</b> — la red no sale a Internet.</div></div>'
+ +'<h3>Ejemplo de principio a fin · fuerza bruta SSH</h3>'
+ +'<p class="lead">El flujo típico de la actividad 2.2, visto desde el SIEM:</p>'
+ +codeBlock({who:'kali · fuerza bruta SSH contra srvweb',lines:'<span class="a">nmap</span> -sS -p- 172.21.10.30            <span class="c"># descubre puertos abiertos → lo ve Suricata</span>\n<span class="a">hydra</span> -l empleado -P rockyou.txt ssh://172.21.10.30  <span class="c"># prueba el diccionario contra SSH</span>'})
+ +'<ol>'
+ +'<li><b>kali</b> escanea y lanza la fuerza bruta contra el SSH de srvweb.</li>'
+ +'<li><b>srvweb</b> acumula intentos de login fallidos; su <b>agente Wazuh</b> los reenvía al SIEM. A la vez, <b>Suricata</b> ve los paquetes al puerto 22 y dispara su alerta de red.</li>'
+ +'<li>En el <b>panel de Wazuh</b> aparece la alerta de posible fuerza bruta, con la IP de origen (<span class="mono ip">172.21.10.100</span>, el kali).</li>'
+ +'<li>El alumnado <b>clasifica el incidente, abre la ficha en TheHive</b> y decide la respuesta (bloquear la IP, deshabilitar la cuenta). En UD4 se automatiza con la <em>active response</em> de Wazuh.</li>'
+ +'</ol>'
+ +'<p class="amp"><b>Y a partir de aquí ·</b> el mismo ciclo se repite cambiando el ataque: web con sqlmap sobre DVWA, malware en win10 analizado con Sysmon y Volatility, inundación ICMP con hping3…</p>';
+ return s;}
+
 function iaSection(){var s=el('section');s.id='ia';s.setAttribute('data-ia','1');
  var flow=D.units.map(function(u){var m={ud1:['Produce','y el alumnado verifica'],ud2:['Propone','y el alumnado decide'],ud3:['Pregunta','y el alumnado investiga'],ud4:['Despeja','el papel en blanco, y el alumnado aterriza'],ud5:['Traduce','y el alumnado responde']}[u.id];return '<div class="st" style="--udc:'+u.color+'"><div class="u">'+u.tag+'</div><div class="v">'+m[0]+'</div><div class="d">'+m[1]+'</div></div>';}).join('');
  s.innerHTML='<div class="sec-head"><span class="tag" style="background:var(--ia)">IA</span><h2>Trabajar con IA en el módulo</h2></div>'
@@ -336,6 +404,7 @@ function footer(){var f=el('footer');
 
 function buildNav(){var h='<li class="grp">Entorno</li>'
  +'<li><a href="#lab" class="udh" style="--udc:var(--accent)"><span class="n">LAB</span>El laboratorio</a></li>'
+ +'<li><a href="#escenario" class="udh" style="--udc:var(--accent)"><span class="n">ESC</span>Escenario detallado</a></li>'
  +'<li data-ia="1"><a href="#ia" class="udh" style="--udc:var(--ia)"><span class="n">IA</span>Trabajar con IA</a></li>'
  +'<li class="grp">Unidades</li>';
  D.units.forEach(function(u){h+='<li><a href="#'+u.id+'" class="udh" style="--udc:'+u.color+'"><span class="n">'+u.tag+'</span>'+u.title+'</a></li>';});
@@ -346,7 +415,7 @@ function buildNav(){var h='<li class="grp">Entorno</li>'
  $('#navList').innerHTML=h;}
 
 var main=$('#main');
-main.appendChild(hero());main.appendChild(labSection());main.appendChild(iaSection());
+main.appendChild(hero());main.appendChild(labSection());main.appendChild(escenarioSection());main.appendChild(iaSection());
 D.units.forEach(function(u){main.appendChild(unitSection(u));});
 if(D.role==='profe'){main.appendChild(usoSection());main.appendChild(resumenSection());}
 main.appendChild(evalSection());main.appendChild(footer());
