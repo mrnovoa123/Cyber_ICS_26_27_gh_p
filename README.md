@@ -7,7 +7,13 @@ Web didáctica del módulo **MP5021 Incidentes de Ciberseguridade** (Curso de Es
 | `index.html` | **Profesorado** — todo + correcciones, decisiones, soluciones, prácticas y resumen operativo (con verja de contraseña) | `/` |
 | `alumnado/index.html` | **Alumnado** — sin soluciones ni notas docentes; de momento solo la UD1 desarrollada | `/alumnado/` |
 
-Ambas versiones se generan de la **misma fuente** (`window.DATA` + motor JS): cambia `data-role` y el campo `role`. En la de alumnado se eliminan del fichero las soluciones, las notas de profesorado y las prácticas internas, y el desarrollo detallado solo se incluye para las unidades ya publicadas (hoy, la UD1).
+Ambas versiones salen de la **misma fuente** (`window.DATA` + motor JS). **Solo se edita `index.html`** (profesorado) y después se regenera la de alumnado:
+
+```bash
+python3 build_alumnado.py
+```
+
+El script **elimina del fichero** (no solo oculta) todo lo docente: soluciones, correcciones y notas de profesorado, prácticas de aula de Moodle, resumen operativo, la sección «Uso indebido de la IA», la verja de contraseña y el desarrollo detallado de las unidades no publicadas (hoy solo se publica la UD1; se cambia en `PUBLICADAS`). Si encuentra contenido docente que no sabe quitar, se detiene con un error en vez de generar el fichero.
 
 Incluye laboratorio (Proxmox en aula + Vagrant en casa, red `172.21.10.0/24`, Debian 12), teoría por unidad, las 26 actividades con su capa de IA (ruta · riesgo · control) y la evaluación. Interruptor de "Capa IA" y tema claro/oscuro incorporados.
 
