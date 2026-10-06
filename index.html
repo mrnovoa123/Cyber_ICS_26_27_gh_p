@@ -226,6 +226,7 @@ h4:target{color:var(--udc)}
 (function(){
 "use strict";
 var D = window.DATA;
+function pubU(id){return !(D.publicadas&&D.publicadas.length)||D.publicadas.indexOf(id)>=0;}
 var $ = function(s){return document.querySelector(s);};
 function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;}
 var ICON={
@@ -361,6 +362,7 @@ function iaSection(){var s=el('section');s.id='ia';s.setAttribute('data-ia','1')
 
 function solBlock(html){return '<div class="sol profe-only"><div class="solh">'+ICON.fix+'Solución <span class="pbadge">profe</span></div>'+html+'</div>';}
 function activityCard(a,color,uid){var d=el('details','act');d.id='act-'+a.n.replace('.','-');d.style.setProperty('--udc',color);
+ if(!pubU(uid)){d.innerHTML='<summary><span class="anum">'+a.n+'</span><span class="stit"><span class="t">'+a.t+'</span><span class="ca">'+a.ca+'</span></span><span class="chev">'+ICON.chev+'</span></summary><div class="body"><div class="note">'+ICON.info+'<div>Contenido no publicado todav\u00eda; se desarrollar\u00e1 al trabajar esta unidad.</div></div></div>';return d;}
  var ia='';
  if(a.ia){ia+='<div class="ia"><div class="iah">'+ICON.ia+'Capa IA</div>';
   ia+='<span class="lbl" style="color:var(--ia)">Ruta de trabajo</span>'+list(a.ia.ruta);
@@ -393,6 +395,7 @@ function unitSection(u){var s=el('section');s.id=u.id;s.style.setProperty('--udc
  var tareas='';
  if(u.tareas){
   var ti=u.tareas.items.map(function(t){
+   if(!pubU(u.id))return '<div class="tarea" id="'+tarId(u,t)+'" style="--udc:'+u.color+'"><div class="tnum">'+t.n+'</div><div class="tbody"><div class="tt">'+t.t+'</div><p class="ten" style="color:var(--faint)">Contenido no publicado todav\u00eda.</p></div></div>';
    var peso=(t.peso&&t.peso!=='—')?' <span class="tpeso">'+t.peso+'</span>':'';
    var ts=(D.role==='profe'&&D.sols&&D.sols[u.id]&&D.sols[u.id].tar[t.n])?solBlock(D.sols[u.id].tar[t.n]):'';
    return '<div class="tarea" id="'+tarId(u,t)+'"><div class="tnum">'+t.n+'</div><div class="tbody"><div class="tt">'+t.t+peso+'</div><p class="ten">'+t.en+'</p><div class="tent"><b>Entregable ·</b> '+t.ent+'</div>'+ts+'</div></div>';

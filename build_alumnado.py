@@ -9,8 +9,9 @@ no solo oculta lo docente: lo ELIMINA del fichero (no queda en el código fuente
 Qué se elimina:
 - Datos: soluciones (sols), prácticas de aula de Moodle (prac), resumen operativo
   (resumen), «claves» de los resúmenes por unidad, correcciones (fixes) y notas
-  docentes (q) de las actividades, el desarrollo detallado y las tareas entregables de
-  las unidades no publicadas todavía (ver PUBLICADAS).
+  docentes (q) de las actividades, y el desarrollo detallado de las unidades no publicadas
+  (ver PUBLICADAS). Las actividades y tareas de esas unidades se listan en el menú
+  con enlace, pero su contenido se muestra como «no publicado».
 - Motor JS: todas las ramas D.role==='profe' (notas «profe», secciones «Uso
   indebido de la IA» y «Resumen operativo», enlaces del menú a ellas).
 - Cabecera: verja de contraseña, título y rótulos de profesorado.
@@ -115,9 +116,8 @@ for u in D["units"]:
     for a in u["acts"]:
         a.pop("fixes", None); a.pop("q", None)
 D["detalle"] = {k: v for k, v in D.get("detalle", {}).items() if k in PUBLICADAS}
-for u in D["units"]:                      # tareas entregables: solo las de unidades publicadas
-    if u["id"] not in PUBLICADAS:
-        u.pop("tareas", None)
+D["publicadas"] = PUBLICADAS              # el motor oculta el contenido de actividades/tareas
+                                          # de las unidades no publicadas (pero las deja listadas)
 
 # 3) motor
 eng, n = strip_profe(eng)
