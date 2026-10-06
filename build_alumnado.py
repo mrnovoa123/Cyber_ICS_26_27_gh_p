@@ -137,6 +137,28 @@ for u in D["units"]:
         if r and isinstance(r.get("teoria"), list) and len(r["teoria"]) == len(teo):
             r["teoria"] = [r["teoria"][i] for i in keep_idx]
 
+# 2b) quitar de alumnado el escenario de aula (Proxmox); se conserva solo el
+# escenario local VirtualBox + Vagrant. En profesorado se mantiene Proxmox.
+_f = D["lab"]["fuentes"][0]
+_old = " En aula: plantilla Proxmox clonada por alumno/a."
+assert _old in _f[1], "fuentes: no se halló la nota de Proxmox"
+_f[1] = _f[1].replace(_old, "")
+
+_vl_old = '<span class="c"># Casa: mismo plan de IPs que el aula (Proxmox). Red interna aislada.</span>'
+_vl_new = '<span class="c"># Laboratorio local aislado: VirtualBox + Vagrant, red interna 172.21.10.0/24.</span>'
+assert D["lab"]["vagrant"]["lines"].count(_vl_old) == 1, "vagrant.lines: comentario Proxmox no hallado"
+D["lab"]["vagrant"]["lines"] = D["lab"]["vagrant"]["lines"].replace(_vl_old, _vl_new)
+
+for _old, _new in [
+    ('<div><b>Aula: Proxmox VE</b> (un segmento aislado por alumno/a) · <b>casa: VirtualBox + Vagrant</b> · red interna aislada ',
+     '<div><b>Laboratorio: VirtualBox + Vagrant</b> · red interna aislada '),
+    ('El escenario de aula corre sobre un <b>servidor Proxmox VE</b> con un <b>segmento por alumno/a</b> (VLAN, plantillas y clones enlazados); en casa el alumnado puede montar lo mismo con <b>VirtualBox + Vagrant</b>. Ambos comparten el direccionamiento <span class="mono ip">172.21.10.0/24</span>, así que los apuntes valen en los dos.</p>',
+     'El escenario se monta con <b>VirtualBox + Vagrant</b> sobre una <b>red interna aislada</b> <span class="mono ip">172.21.10.0/24</span> que no sale al exterior, así que se puede reproducir en cualquier equipo.</p>'),
+    ('de VirtualBox/Proxmox llamada', 'de VirtualBox llamada'),
+]:
+    assert eng.count(_old) == 1, "motor: fragmento Proxmox no hallado: " + _old[:50]
+    eng = eng.replace(_old, _new)
+
 # 3) motor
 eng, n = strip_profe(eng)
 for f in ("usoSection", "resumenSection", "solBlock"):
@@ -150,6 +172,7 @@ for needle in ["D.role==='profe'", '"sols"', '"prac"', '"fixes"', '"claves"', "C
                "Casos y cifras para ampliar", "Uso indebido de la IA", "Prácticas de aula", "Armando"]:
     assert needle not in out, "queda en alumnado: " + needle
 assert "pbadge\">profe" not in out and "pbadge'>profe" not in out, "queda una marca 'profe'"
+assert "Proxmox" not in out, "queda Proxmox en alumnado"
 
 DST.write_text(out, encoding="utf-8")
 print(f"alumnado/index.html generado · {n} ramas de profesorado eliminadas · "
