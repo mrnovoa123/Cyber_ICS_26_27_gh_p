@@ -107,6 +107,14 @@ for old, new in [
 j = s.find("window.DATA=") + len("window.DATA=")
 D, end = json.JSONDecoder().raw_decode(s[j:])
 head, eng = s[:j], s[j + end:]
+
+# quitar de alumnado el bloque «Incidentes reales provocados por IA» (catálogo,
+# mapa por unidad y actividades sugeridas) del motor; en profesorado se conserva
+_a = eng.find('+"<h3 id=\\"incidentes-ia')
+_marker = '(repertorio para ampliar)</a>.</p>"'
+_b = eng.find(_marker)
+assert _a != -1 and _b != -1, "no se localizó el bloque incidentes-ia"
+eng = eng[:_a] + eng[_b + len(_marker):]        # conserva el ';' que cierra la sentencia
 D["role"] = "alumno"
 for k in ("sols", "prac", "resumen"):
     D.pop(k, None)
@@ -118,6 +126,16 @@ for u in D["units"]:
 D["detalle"] = {k: v for k, v in D.get("detalle", {}).items() if k in PUBLICADAS}
 D["publicadas"] = PUBLICADAS              # el motor oculta el contenido de actividades/tareas
                                           # de las unidades no publicadas (pero las deja listadas)
+
+# quitar de alumnado la teoría «Incidentes reales con IA» repartida por unidad
+for u in D["units"]:
+    teo = u.get("teoria", [])
+    keep_idx = [i for i, t in enumerate(teo) if "Incidentes reales con IA" not in t.get("h", "")]
+    if len(keep_idx) != len(teo):
+        u["teoria"] = [teo[i] for i in keep_idx]
+        r = D.get("resumenes", {}).get(u["id"])
+        if r and isinstance(r.get("teoria"), list) and len(r["teoria"]) == len(teo):
+            r["teoria"] = [r["teoria"][i] for i in keep_idx]
 
 # 3) motor
 eng, n = strip_profe(eng)
