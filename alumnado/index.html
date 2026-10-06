@@ -383,7 +383,7 @@ function unitSection(u){var s=el('section');s.id=u.id;s.style.setProperty('--udc
  var av=u.aviso?('<div class="note warn">'+ICON.warn+'<div>'+u.aviso+'</div></div>'):'';
  var teoria=u.teoria?('<span class="lbl">Teoría de la unidad</span>'+u.teoria.map(function(t,i){return '<h4 id="teo-'+u.id+'-'+(i+1)+'">'+t.h+'</h4>'+t.html;}).join('')):'';
  var tareas='';
- if(u.tareas){
+ if(u.tareas&&(D.role==='profe'||u.id==='ud1')){
   var ti=u.tareas.items.map(function(t){
    var peso=(t.peso&&t.peso!=='—')?' <span class="tpeso">'+t.peso+'</span>':'';
    var ts='';
@@ -455,7 +455,7 @@ function buildNav(){var h='<li class="grp">Entorno</li>'
  h+='<li class="grp">Unidades, actividades y tareas</li>';
  D.units.forEach(function(u){h+='<li><a href="#'+u.id+'" class="udh" style="--udc:'+u.color+'"><span class="n">'+u.tag+'</span>'+u.title+'</a></li>';
   u.acts.forEach(function(a){h+='<li class="sub"><a href="#act-'+a.n.replace('.','-')+'" class="subd" style="--udc:'+u.color+'"><span class="n">'+a.n+'</span>'+a.t+'</a></li>';});
-  ((u.tareas&&u.tareas.items)||[]).forEach(function(t){h+='<li class="sub"><a href="#'+tarId(u,t)+'" style="--udc:'+u.color+'"><span class="n">T'+t.n+'</span>'+t.t+'</a></li>';});});
+  if(D.role==='profe'||u.id==='ud1'){((u.tareas&&u.tareas.items)||[]).forEach(function(t){h+='<li class="sub"><a href="#'+tarId(u,t)+'" style="--udc:'+u.color+'"><span class="n">T'+t.n+'</span>'+t.t+'</a></li>';});}});
  h+='<li class="grp">Cierre</li>';
  
  h+='<li><a href="#eval" class="udh" style="--udc:var(--accent)"><span class="n">EVAL</span>Evaluación</a></li>';
