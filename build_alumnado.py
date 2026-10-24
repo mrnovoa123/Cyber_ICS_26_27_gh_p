@@ -22,6 +22,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 SRC, DST = ROOT / "index.html", ROOT / "alumnado" / "index.html"
 PUBLICADAS = ["ud1"]          # unidades cuyo desarrollo detallado ve el alumnado
+# Secciones de "detalle" (por título exacto, en cualquier unidad) que de momento
+# solo ve el profesorado: se eliminan del fichero de alumnado.
+OCULTAS_ALUMNADO = ["Fuentes y recursos — con ejemplos de la actividad 1.5"]
 ROLE = "D.role==='profe'"
 
 
@@ -124,6 +127,14 @@ for u in D["units"]:
     for a in u["acts"]:
         a.pop("fixes", None); a.pop("q", None)
 D["detalle"] = {k: v for k, v in D.get("detalle", {}).items() if k in PUBLICADAS}
+# quitar las secciones marcadas como solo-profesorado (por título exacto)
+_ocultas = 0
+for _u, _secs in D["detalle"].items():
+    _antes = len(_secs)
+    D["detalle"][_u] = [x for x in _secs if x.get("h") not in OCULTAS_ALUMNADO]
+    _ocultas += _antes - len(D["detalle"][_u])
+assert _ocultas == len(OCULTAS_ALUMNADO), \
+    f"ocultas_alumnado: eliminadas {_ocultas}, esperadas {len(OCULTAS_ALUMNADO)}"
 D["publicadas"] = PUBLICADAS              # el motor oculta el contenido de actividades/tareas
                                           # de las unidades no publicadas (pero las deja listadas)
 
