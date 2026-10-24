@@ -24,7 +24,9 @@ SRC, DST = ROOT / "index.html", ROOT / "alumnado" / "index.html"
 PUBLICADAS = ["ud1"]          # unidades cuyo desarrollo detallado ve el alumnado
 # Secciones de "detalle" (por título exacto, en cualquier unidad) que de momento
 # solo ve el profesorado: se eliminan del fichero de alumnado.
-OCULTAS_ALUMNADO = ["Fuentes y recursos — con ejemplos de la actividad 1.5"]
+# (Vacío = el alumnado ve todas las secciones de las unidades publicadas,
+#  incluida la de fuentes de la actividad 1.5, como el resto de actividades.)
+OCULTAS_ALUMNADO = []
 ROLE = "D.role==='profe'"
 
 
