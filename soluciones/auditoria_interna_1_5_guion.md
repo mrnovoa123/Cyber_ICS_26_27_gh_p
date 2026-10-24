@@ -29,35 +29,129 @@ con Vagrant, el plan es 10.10.10.x y el panel de Wazuh está en `https://192.168
 
 ---
 
-## 0. Punto de partida y comprobaciones previas
+## 0. Comprobaciones previas del laboratorio
 
-1. **Las VMs están encendidas y los agentes, conectados.** En el SIEM:
+Antes de auditar hay que confirmar que las máquinas están **arriba, conectadas y con una
+línea base que medir**. Todas estas comprobaciones son de **verificación (solo lectura)**. Se
+usa el plan del **aula (172.21.10.x)**; entre paréntesis, el equivalente de **casa**
+(10.10.10.x, panel en `192.168.56.10`).
 
-   ```bash
-   # En siem: lista de agentes y su estado (active / disconnected / never_connected)
-   sudo /var/ossec/bin/agent_control -l
-   ```
+### 0.1 SIEM (siem) — el recolector
 
-   Se espera ver `win10` y `srvweb` como **Active**. Si alguno está desconectado, arrancar
-   el servicio en la máquina correspondiente:
+```bash
+# Servicios del stack Wazuh arriba
+sudo systemctl is-active wazuh-manager wazuh-indexer wazuh-dashboard
+# Suricata operativo (para otras UD; en la 1.5 no es imprescindible)
+sudo systemctl is-active suricata
+# Agentes dados de alta y su estado (se esperan win10 y srvweb como 'Active')
+sudo /var/ossec/bin/agent_control -l
+```
 
-   ```bash
-   # En srvweb (Linux)
-   sudo systemctl status wazuh-agent && sudo systemctl restart wazuh-agent
-   ```
+- Panel accesible: `https://172.21.10.10` (casa: `https://192.168.56.10`), login `admin`;
+  contraseña en `labcyber/wazuh-passwords.txt` (Vagrant) o en `wazuh-install-files.tar`.
+- Si un agente sale `Disconnected` / `Never connected`, arréglalo en su VM (0.3) antes de auditar.
 
-   ```powershell
-   # En win10 (PowerShell como administrador)
-   Get-Service WazuhSvc ; Restart-Service WazuhSvc
-   ```
+### 0.2 Red del laboratorio — aislada y con visibilidad
 
-2. **Acceso al panel de Wazuh.** Aula: `https://172.21.10.10` (o el reenvío configurado).
-   Casa: `https://192.168.56.10`. Usuario `admin`; la contraseña está en
-   `labcyber/wazuh-passwords.txt` (entorno Vagrant) o en el `wazuh-install-files.tar`
-   que generó el instalador all-in-one.
+```bash
+# Desde siem: las dos víctimas responden
+ping -c2 172.21.10.20     # win10
+ping -c2 172.21.10.30     # srvweb
+# Confirmar aislamiento: NO debe haber salida a Internet desde el segmento
+ping -c2 8.8.8.8          # debe fallar (100% packet loss)
+```
 
-3. **Documento de referencia:** la **normativa del puesto** y el **decálogo** de la
-   actividad 1.2. De ahí salen las cláusulas que se auditan.
+Si win10 no responde al ping, revisa que su regla de firewall de laboratorio (ICMP entrante
+desde la LAN) esté activa.
+
+### 0.3 Agentes en las víctimas — conectados y reportando
+
+**srvweb (Linux):**
+
+```bash
+sudo systemctl is-active wazuh-agent                   # active
+sudo grep -E '<address>' /var/ossec/etc/ossec.conf     # apunta a 172.21.10.10 (casa: 10.10.10.10)
+sudo tail -n 5 /var/ossec/logs/ossec.log               # sin errores de conexión
+```
+
+**win10 (PowerShell como administrador):**
+
+```powershell
+Get-Service WazuhSvc              # Status Running
+Get-Content "C:\Program Files (x86)\ossec-agent\ossec.conf" | Select-String "<address>"
+```
+
+En el panel -> **Agents**, ambos deben verse **Active** y con *last keep alive* reciente.
+
+### 0.4 Módulo SCA — listo para dar el % de cumplimiento
+
+- En el panel -> **Security Configuration Assessment**, selecciona **win10** y **srvweb**.
+- Comprueba que **ya aparece un escaneo** (política del CIS Benchmark del SO correspondiente)
+  con su **Score** y el desglose Passed / Failed.
+- Si todavía no hay resultados, fuerza un escaneo reiniciando el agente y espera unos minutos:
+
+  ```bash
+  sudo systemctl restart wazuh-agent       # srvweb
+  ```
+
+  ```powershell
+  Restart-Service WazuhSvc                 # win10
+  ```
+
+### 0.5 Línea base auditable — que haya algo que medir
+
+La auditoría compara contra la **normativa de la actividad 1.2**, así que confirma que el puesto
+y el servidor tienen configuración que comprobar:
+
+**win10:**
+
+```powershell
+net accounts                 # política de contraseñas/bloqueo definida
+manage-bde -status C:        # estado de BitLocker (cifrado sí/no)
+```
+
+**srvweb:**
+
+```bash
+getent passwd empleado                       # existe el usuario de ejemplo
+systemctl is-enabled unattended-upgrades     # estado (enabled/disabled: dará hallazgo si procede)
+sudo sshd -T | grep -i passwordauthentication
+```
+
+> No hace falta que todo "cumpla": precisamente los incumplimientos son los hallazgos del
+> informe. Lo que importa es que los comandos **devuelvan datos** para poder evidenciarlos.
+
+### 0.6 Hora sincronizada (clave para correlacionar logs)
+
+```bash
+timedatectl | grep -Ei 'synchronized|time zone'   # en siem y srvweb
+```
+
+```powershell
+w32tm /query /status            # en win10
+```
+
+### 0.7 Red de seguridad antes de empezar
+
+Toma un **snapshot** de cada VM en estado limpio, para poder revertir si durante el ejercicio
+se cambia configuración:
+
+```bash
+# desde el host, entorno Vagrant
+vagrant snapshot save siem base-1-5
+vagrant snapshot save srvweb base-1-5
+vagrant snapshot save win10 base-1-5
+```
+
+### 0.8 Documento de referencia
+
+La **normativa del puesto** y el **decálogo** de la actividad 1.2: de ahí salen las cláusulas
+que se auditan.
+
+> **Resumen de "todo correcto":** stack Wazuh arriba y panel accesible · win10 y srvweb
+> **Active** en el panel · segmento aislado (sin Internet) y víctimas alcanzables desde siem ·
+> SCA con escaneo y Score por máquina · comandos de la línea base devolviendo datos · hora
+> sincronizada · snapshots hechos.
 
 ---
 
