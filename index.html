@@ -386,6 +386,7 @@ function activityCard(a,color,uid){var d=el('details','act');d.id='act-'+a.n.rep
  +(a.extra||'')
  +q+note+ia
  +((D.role==='profe'&&D.sols&&D.sols[uid]&&D.sols[uid].act[a.n])?solBlock(D.sols[uid].act[a.n]):'')
+ +(((D.detalle||{})[uid]||[]).some(function(b){return b.h.indexOf('actividad '+a.n)>=0;})?'<p class="amp"><a href="#fuentes-'+a.n.replace('.','-')+'">Fuentes y recursos de esta actividad →</a></p>':'')
  +'</div>';
  return d;}
 
@@ -415,7 +416,7 @@ function unitSection(u){var s=el('section');s.id=u.id;s.style.setProperty('--udc
 function tarId(u,t){return 'tar-'+u.id+'-'+t.n.replace('.','-');}
 function detalleUnit(u){var B=(D.detalle||{})[u.id];if(!B)return null;if(D.role!=='profe'&&u.id!=='ud1')return null;
  var s=el('section','det');s.id='det-'+u.id;s.style.setProperty('--udc',u.color);
- var body=B.map(function(b,i){return '<h3 id="det-'+u.id+'-'+(i+1)+'">'+b.h+'</h3>'+b.html;}).join('');
+ var body=B.map(function(b,i){var m=b.h.match(/actividad (\d+)\.(\d+)/);var sid=m?('fuentes-'+m[1]+'-'+m[2]):('det-'+u.id+'-'+(i+1));return '<h3 id="'+sid+'">'+b.h+'</h3>'+b.html;}).join('');
  var prac='';var PR=(D.prac||{})[u.id];
  if(PR&&D.role==='profe'){prac='<div class="pracbox profe-only"><span class="lbl" style="margin-top:14px">Prácticas de aula <span class="pbadge">profe</span> · curso en Moodle</span>'
   +PR.map(function(g){return '<div class="pg">'+g[0]+'</div><ul>'+g[1].map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';}).join('')
