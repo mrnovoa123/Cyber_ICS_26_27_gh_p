@@ -128,6 +128,12 @@ for r in D.get("resumenes", {}).values():
 for u in D["units"]:
     for a in u["acts"]:
         a.pop("fixes", None); a.pop("q", None)
+    # materiales del índice: quitar los marcados como solo-profesorado (p. ej. prácticas con soluciones)
+    if isinstance(u.get("materiales"), list):
+        u["materiales"] = [
+            {k: v for k, v in mt.items() if k != "profe"}
+            for mt in u["materiales"] if not mt.get("profe")
+        ]
 D["detalle"] = {k: v for k, v in D.get("detalle", {}).items() if k in PUBLICADAS}
 # quitar las secciones marcadas como solo-profesorado (por título exacto)
 _ocultas = 0
