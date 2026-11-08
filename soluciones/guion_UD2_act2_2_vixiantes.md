@@ -360,7 +360,7 @@ and alerts* sin esperar a la hora.
 
 **Enunciado real:** sobre logs de Apache: (1.1) peticiones que no sean GET ni POST; (1.2) errores 5xx con
 timestamp, URI y código; (1.3) lista de IP origen sin repetir; (1.4) peticiones cuya URI contenga «SQL», con
-timestamp, URI e IP; (2) ingerir el log público de `almhuette-raith.at/apache-log/access.log` y repetir,
+timestamp, URI e IP; (2) ingerir un log público (el original, `almhuette-raith.at`, ya no existe: ver alternativas) y repetir,
 buscando además inyección SQL.
 
 ### Generar tráfico variado (kali → srvweb)
@@ -414,10 +414,34 @@ index=main sourcetype=access_combined ("*SELECT*FROM*" OR "*UNION*" OR "*1=1*" O
 
 ### Log público (apartado 2)
 
-Descargar `http://www.almhuette-raith.at/apache-log/access.log` **fuera del aula** (son varios cientos de MB;
-basta con un trozo: `head -n 200000 access.log > almhuette.log`), subirlo con *Add Data → Upload*,
-*sourcetype* `access_combined`, índice `main` (o un índice `publico` para no mezclarlo con el del laboratorio:
-entonces cambiar `index=` en las búsquedas).
+> El log de `almhuette-raith.at` que citaba el enunciado original **ya no está publicado** (noviembre de 2026).
+> Se sustituye por cualquiera de estas opciones; todas en formato *combined* (`sourcetype=access_combined`).
+
+| Opción | Qué es | Para qué apartado |
+|---|---|---|
+| **A · Log de ejemplo de Elastic** (recomendada) | 10 000 líneas de un servidor web real | Apartado 2: métodos, 5xx, IP, búsqueda de SQLi (puede haber pocas o ninguna) |
+| **B · Log propio de srvweb con ataques** | `access.log` tras nikto y sqlmap desde Kali | Inyección SQL garantizada y correlación con Wazuh/Suricata |
+| **C · Log sintético con `flog`** | Generado sin Internet, tamaño a elegir | Plan B para practicar SPL (sin ataques) |
+
+```bash
+# A · fuera del aula (≈2 MB)
+wget -O elastic_apache.log "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs"
+
+# B · desde kali contra srvweb, y después copiar /var/log/apache2/access.log
+nikto -h http://172.21.10.30 -maxtime 120s
+sqlmap -u "http://172.21.10.30/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" --batch --level 2
+
+# C · log sintético (imagen descargada fuera del aula)
+docker run --rm mingrammer/flog -f apache_combined -n 20000 > flog_apache.log
+```
+
+Subir con *Settings → Add Data → Upload*, *sourcetype* `access_combined`, índice **`publico`** (crearlo antes:
+*Settings → Indexes → New Index*) para no mezclarlo con el log del laboratorio, y repetir las búsquedas del
+apartado 1 cambiando `index=main` por `index=publico`.
+
+> Ojo con las fechas: los logs A y C tienen marcas de tiempo antiguas o aleatorias. Buscad con el rango *All time*.
+> Con B, `sqlmap` deja además el *User-Agent* `sqlmap/…`: `index=main useragent="*sqlmap*"` es una pista
+> excelente para el informe.
 
 **Equivalentes en Wazuh** sobre `access.log` de srvweb: `rule.groups:web and rule.groups:attack`, y
 `data.protocol:PUT` / `data.id:5*` en las alertas web.
