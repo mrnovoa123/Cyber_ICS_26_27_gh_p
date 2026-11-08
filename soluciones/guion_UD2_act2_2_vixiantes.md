@@ -12,7 +12,7 @@ Kali, reglas propias y explotación de los datos con Splunk (SPL).
 
 | VM | Papel | Aula | Casa |
 |---|---|---|---|
-| siem | Wazuh (manager, indexer, dashboard) + Suricata + Splunk | 172.21.10.10 | 10.10.10.10 |
+| siem | Wazuh (manager, indexer, dashboard) + Suricata + Splunk 10.6 | 172.21.10.10 | 10.10.10.10 |
 | win10 | Víctima Windows (agente Wazuh + Sysmon) | 172.21.10.20 | 10.10.10.20 |
 | srvweb | Víctima Linux: Apache + DVWA + usuario débil `empleado` | 172.21.10.30 | 10.10.10.30 |
 | kali | Atacante (fuera de HOME_NET) | 172.21.10.100 | 10.10.10.100 |
@@ -199,53 +199,55 @@ sudo jq -c 'select(.event_type=="alert" and .alert.signature_id>=1000020 and .al
 
 ## 4. Splunk en el laboratorio
 
-Splunk no viene en el aprovisionamiento. Opción recomendada: **contenedor en el siem**, leyendo directamente
-`eve.json`, y Apache de srvweb enviado con un *Universal Forwarder* (o subido a mano).
+Splunk no viene en el aprovisionamiento. Se instala **Splunk Enterprise 10.6.1.1** (paquete `.deb`) directamente en el
+siem, leyendo `eve.json` en local, y el Apache de srvweb se envía con el **Universal Forwarder 10.6.1.1** (o se sube a mano).
 
+> **Versión:** 10.6 tiene soporte hasta el 30/09/2028; la 9.4 lo pierde el 16/12/2026. El forwarder, igual o anterior al indexador.
 > **RAM:** Wazuh + Splunk en la misma VM. Para la 2.2, subid la memoria del siem a 9–10 GB (el puesto tiene 32 GB).
 > **Licencia:** una instalación nueva arranca en **Enterprise Trial (60 días)**. Las **alertas no existen en
-> Splunk Free**: si caduca la prueba, reinstalar el contenedor o pedir una licencia de desarrollador.
+> Splunk Free**: si caduca la prueba, desinstalar y reinstalar (4.5).
+> **Descargas** (cuenta gratuita de splunk.com, fuera del aula): `splunk-10.6.1.1-b2ae2962645c-linux-amd64.deb` y
+> `splunkforwarder-10.6.1.1-…-linux-amd64.deb`.
 
-### 4.1 Splunk en el siem (Docker)
-
-Descargar la imagen fuera del aula (`docker pull splunk/splunk:<versión>`) y fijar la versión exacta.
+### 4.1 Splunk en el siem
 
 ```bash
-sudo docker run -d --name splunk --restart unless-stopped \
-  -p 172.21.10.10:8000:8000 -p 172.21.10.10:9997:9997 \
-  -e SPLUNK_START_ARGS=--accept-license \
-  -e SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com \
-  -e SPLUNK_PASSWORD='Cambia_Esta_2026' \
-  -v /var/log/suricata:/var/log/suricata:ro \
-  -v splunk_etc:/opt/splunk/etc -v splunk_var:/opt/splunk/var \
-  splunk/splunk:9.4
-sudo docker logs -f splunk | grep -m1 -i 'Ansible playbook complete'    # tarda unos minutos
+sudo dpkg -i splunk-10.6.1.1-b2ae2962645c-linux-amd64.deb       # /opt/splunk + usuario splunk
+sudo chown -R splunk:splunk /opt/splunk
+sudo -u splunk /opt/splunk/bin/splunk start --accept-license --accept-sgt-current-at-splunk-com \
+     --answer-yes --no-prompt --seed-passwd 'Cambia_Esta_2026'
+sudo -u splunk /opt/splunk/bin/splunk stop
+sudo /opt/splunk/bin/splunk enable boot-start -user splunk -systemd-managed 1
+sudo systemctl start Splunkd && systemctl is-active Splunkd
 ```
 
 Interfaz: `http://172.21.10.10:8000` (desde el anfitrión, reenvío NAT del puerto 8000), usuario `admin`.
+Si el primer arranque no reconoce `--accept-sgt-current-at-splunk-com`, quitarlo y aceptar los términos cuando los pida.
 
 ### 4.2 Índices, entrada de Suricata y recepción del forwarder
 
 ```bash
-S="sudo docker exec -u splunk splunk /opt/splunk/bin/splunk"
-$S add index suricata -auth admin:'Cambia_Esta_2026'
-$S add monitor /var/log/suricata/eve.json -index suricata -sourcetype _json -auth admin:'Cambia_Esta_2026'
-$S enable listen 9997 -auth admin:'Cambia_Esta_2026'
-# ¿puede leer el fichero el usuario del contenedor?
-sudo docker exec -u splunk splunk head -c 200 /var/log/suricata/eve.json || \
-  { sudo chmod 644 /var/log/suricata/eve.json; echo "Ajustar también 'create 644' en /etc/logrotate.d/suricata"; }
+S="sudo -u splunk /opt/splunk/bin/splunk"; A="-auth admin:Cambia_Esta_2026"
+$S add index suricata $A
+$S add monitor /var/log/suricata/eve.json -index suricata -sourcetype _json $A
+$S enable listen 9997 $A
+# lectura para el usuario splunk, también en los ficheros nuevos tras la rotación
+sudo setfacl -m u:splunk:rx /var/log/suricata
+sudo setfacl -d -m u:splunk:r /var/log/suricata
+sudo setfacl -m u:splunk:r /var/log/suricata/eve.json
+sudo -u splunk head -c 200 /var/log/suricata/eve.json
 ```
 
 Comprobación en Splunk: `index=suricata | head 5`.
 
 ### 4.3 Apache de srvweb → Splunk (índice main)
 
-**Opción A · Universal Forwarder** (paquete `.deb` descargado de splunk.com fuera del aula):
+**Opción A · Universal Forwarder 10.6.1.1** (paquete `.deb` descargado de splunk.com fuera del aula):
 
 ```bash
 # srvweb
-sudo dpkg -i splunkforwarder-*.deb
-sudo /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd 'Cambia_Esta_2026'
+sudo dpkg -i splunkforwarder-10.6.1.1-*-linux-amd64.deb
+sudo /opt/splunkforwarder/bin/splunk start --accept-license --accept-sgt-current-at-splunk-com --answer-yes --no-prompt --seed-passwd 'Cambia_Esta_2026'
 sudo usermod -aG adm splunkfwd          # el forwarder corre como splunkfwd y Apache escribe con grupo adm
 sudo /opt/splunkforwarder/bin/splunk add forward-server 172.21.10.10:9997 -auth admin:'Cambia_Esta_2026'
 sudo /opt/splunkforwarder/bin/splunk add monitor /var/log/apache2/access.log -index main -sourcetype access_combined -auth admin:'Cambia_Esta_2026'
@@ -260,6 +262,14 @@ y en Splunk *Settings → Add Data → Upload*, *sourcetype* `access_combined`, 
 *Settings → Server settings → Email settings*: *Mail host* `172.21.10.10:1025`, sin TLS ni autenticación,
 *Send emails as* `splunk@tecnomarina.local`. Las acciones de alerta *Send email* van a `soc@tecnomarina.local`
 y se ven en `http://172.21.10.10:8025`.
+
+### 4.5 Reiniciar la prueba de 60 días
+
+```bash
+sudo systemctl stop Splunkd
+sudo dpkg -P splunk && sudo rm -rf /opt/splunk
+# repetir 4.1 y 4.2 (las búsquedas y alertas guardadas se pierden: exportadlas antes si hacen falta)
+```
 
 ### Campos de `eve.json` en Splunk
 
@@ -464,7 +474,7 @@ No arrancar ELK y Wazuh completos a la vez.
 | Ataques de Kali sin alertas ET | Kali dentro de HOME_NET | `suricata-homenet.sh activos` |
 | Reglas 2.3 (2–4) no saltan | Tráfico saliendo por la NAT | Ruta temporal por la LAN o Kali como destino |
 | `suricata -T` falla | Comillas o `;` que faltan; sid repetido | Leer la línea que indica; sids 1000020–1000026 únicos |
-| Splunk no ve eve.json | Permisos para el usuario del contenedor | `chmod 644` + `create 644` en logrotate |
+| Splunk no ve eve.json | Permisos del usuario `splunk` | `setfacl` del bloque 4.2 |
 | `signature=` sin resultados | Campo anidado | `alert.signature=` |
 | Alertas de Splunk desactivadas | Licencia Free | Trial o licencia de desarrollador |
 | hping3 «unrecognized option» | Raya larga copiada (`—fast`) | Escribir `--icmp --fast` |
