@@ -72,7 +72,7 @@ Fuentes recomendadas (todas públicas):
 | RSIT (eCSIRT.net mkVI) | ENISA / comunidad CSIRT | Origen de la Guía Nacional; casi idénticas |
 | VERIS | Verizon (base del DBIR) | Clasifica por **acciones** (hacking, malware, social, misuse, physical, error, environmental) y actores, activos y atributos (modelo A4) |
 | NIST SP 800-61 | NIST | Gestión de incidentes; la rev. 2 clasificaba por **vector de ataque** (web, email, medios extraíbles, suplantación, uso indebido, pérdida o robo de equipo…). La rev. 3 (2025) se alinea con el CSF 2.0 |
-| MITRE ATT&CK | MITRE | No es una taxonomía de incidentes sino de **técnicas del atacante** (tácticas → técnicas); complementa a las demás |
+| MITRE ATT&CK (v19, 2026) | MITRE | No es una taxonomía de incidentes sino de **técnicas del atacante** (15 tácticas Enterprise → técnicas); complementa a las demás |
 | CCN-STIC 817 | CCN-CERT | Gestión de ciberincidentes en el ENS; usa la misma clasificación que la Guía Nacional y añade niveles de peligrosidad e impacto |
 
 **Tabla de comparación que se pide** (mínimo dos taxonomías frente a la de referencia):
@@ -131,7 +131,13 @@ a un ayuntamiento), a dos niveles (categoría → tipo), con un ejemplo de cada 
 
 ## 4. Mural de amenazas y ATT&CK Navigator
 
-1. Abrir <https://mitre-attack.github.io/attack-navigator/> → *Create New Layer* → *Enterprise*.
+> **ATT&CK v19 (28/04/2026):** *Defense Evasion* (TA0005) se dividió en **Stealth (TA0005)** y **Defense Impairment
+> (TA0112)**; Enterprise tiene ahora **15 tácticas** y la técnica **T1562 Impair Defenses ya no existe** (p. ej. pasa a
+> **T1685 Disable or Modify Tools**). El panel MITRE de Wazuh puede seguir mostrando la versión antigua: en los informes se usan
+> los nombres e ID de attack.mitre.org. Corregir como error cualquier entrega que use T1562 sin indicar versión.
+
+1. Abrir <https://mitre-attack.github.io/attack-navigator/> → *Create New Layer* → *Enterprise* (versión **v19 o posterior**:
+   si aparecen 14 tácticas con *Defense Evasion*, la capa es antigua).
 2. Marcar (color + puntuación) las técnicas de los ataques que se lanzarán en la 2.2 y la 2.5:
 
    | Ataque del laboratorio | Técnica |
@@ -144,8 +150,12 @@ a un ayuntamiento), a dos niveles (categoría → tipo), con un ejemplo de cada 
    | Exfiltración por HTTP | T1048 Exfiltration Over Alternative Protocol |
    | `hping3` inundación | T1498 Network Denial of Service |
 
-3. *Layer → Export → SVG/JSON* y pegarlo en el mural (draw.io) junto a la taxonomía propia.
-4. En el mural, cada amenaza lleva su impacto **C/I/D** (confidencialidad, integridad, disponibilidad).
+3. **Capa de cobertura** (ampliación): segunda capa con lo que el laboratorio detecta: verde = Wazuh/Suricata alertan,
+   amarillo = queda en el log sin alerta, gris = sin visibilidad. Las técnicas del incidente que caen en gris o amarillo son
+   las reglas que faltan. Respuesta orientativa: T1595, T1110.001 y T1059.001 en verde; T1078 (login con credencial válida)
+   en amarillo (solo 5715, nivel 3, salvo la regla 100210); T1048 en gris hasta añadir la regla de Suricata de la 2.5.
+4. *Layer → Export → SVG/JSON* y pegarlo en el mural (draw.io) junto a la taxonomía propia.
+5. En el mural, cada amenaza lleva su impacto **C/I/D** (confidencialidad, integridad, disponibilidad).
 
 ## 5. Capa de IA (control)
 
