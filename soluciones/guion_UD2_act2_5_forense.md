@@ -159,7 +159,24 @@ Plantilla:
 | 09:58:12 | MailHog | Correo «Revisión urgente de nóminas» | — | T1566 | Captura del correo |
 | 10:03:40 | Sysmon EID 1 (Wazuh, +0100) | `powershell -enc …` | win10 | T1059.001 | Alerta + commandLine |
 | 10:21:05 | sshd (Wazuh) | Login de `lpena` desde .100 | srvweb | T1078 | 5715 |
+| 10:23:50 | — (inferido) | `tar` de la configuración de DVWA | srvweb | T1560 / T1005 (Collection) | Fichero `/tmp/.b.tgz` en el POST |
 | 10:24:30 | Suricata | POST hacia .100 | srvweb | T1048 | sid 1000030 |
+| 10:25:10 | `.bash_history` vacío, `/tmp` limpio | Limpieza del atacante | srvweb | T1070.003 Clear Command History · T1070.004 File Deletion | `ls -la /tmp`, historial vacío |
+
+**Mapeo de la limpieza en ATT&CK v19** (error frecuente al corregir):
+
+| Lo que hace el atacante | Técnica v19 | Táctica |
+|---|---|---|
+| `history -c`, borrar `~/.bash_history` | **T1070.003** Clear Command History | Stealth |
+| `rm /tmp/.b.tgz` | **T1070.004** File Deletion | Stealth |
+| `unset HISTFILE`, `HISTFILE=/dev/null`, `set +o history` (que no se grabe) | **T1690** Prevent Command History Logging | Defense Impairment |
+| `wevtutil cl Security` → evento **1102** | **T1685.005** Clear Windows Event Logs | Defense Impairment |
+| Borrar `/var/log/auth.log` | **T1685.006** Clear Linux or Mac System Logs | Defense Impairment |
+| Parar el agente Wazuh o auditd | **T1685** Disable or Modify Tools (.001/.004 si es el registro) | Defense Impairment |
+
+Regla para recordarlo: **borrar rastros propios** (historial, ficheros) sigue en *Indicator Removal* (Stealth);
+**anular o vaciar los registros del sistema** pasa a *Defense Impairment*. En entregas con material anterior a v19
+aparecerá T1070.001 (Clear Windows Event Logs) o T1562.003 (Impair Command History Logging): aceptarlo solo si indican la versión.
 
 **Control (capa de IA):** si la IA ordena la línea, se verifican a mano la primera entrada, la última y tres al azar.
 Si una falla, se rehace completa. Error típico: mezclar hora local y UTC e invertir el orden causal.
