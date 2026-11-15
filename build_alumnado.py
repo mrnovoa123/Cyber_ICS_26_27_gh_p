@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC, DST = ROOT / "index.html", ROOT / "alumnado" / "index.html"
-PUBLICADAS = ["ud1"]          # unidades cuyo desarrollo detallado ve el alumnado
+PUBLICADAS = ["ud1", "ud2"]          # unidades cuyo desarrollo detallado ve el alumnado
 # Secciones de "detalle" (por título exacto, en cualquier unidad) que de momento
 # solo ve el profesorado: se eliminan del fichero de alumnado.
 # (Vacío = el alumnado ve todas las secciones de las unidades publicadas,

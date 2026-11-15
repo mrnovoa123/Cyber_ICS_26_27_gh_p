@@ -5,7 +5,7 @@ Web didáctica del módulo **MP5021 Incidentes de Ciberseguridade** (Curso de Es
 | Fichero | Versión | URL al desplegar |
 |---|---|---|
 | `index.html` | **Profesorado** — todo + correcciones, decisiones, soluciones, prácticas y resumen operativo (con verja de contraseña) | `/` |
-| `alumnado/index.html` | **Alumnado** — sin soluciones ni notas docentes; de momento solo la UD1 desarrollada | `/alumnado/` |
+| `alumnado/index.html` | **Alumnado** — sin soluciones ni notas docentes; UD1 y UD2 desarrolladas | `/alumnado/` |
 
 Ambas versiones salen de la **misma fuente** (`window.DATA` + motor JS). **Solo se edita `index.html`** (profesorado) y después se regenera la de alumnado:
 
@@ -13,7 +13,7 @@ Ambas versiones salen de la **misma fuente** (`window.DATA` + motor JS). **Solo 
 python3 build_alumnado.py
 ```
 
-El script **elimina del fichero** (no solo oculta) todo lo docente: soluciones, correcciones y notas de profesorado, prácticas de aula de Moodle, resumen operativo, la sección «Uso indebido de la IA», la verja de contraseña y el desarrollo detallado de las unidades no publicadas (hoy solo se publica la UD1; se cambia en `PUBLICADAS`). Si encuentra contenido docente que no sabe quitar, se detiene con un error en vez de generar el fichero.
+El script **elimina del fichero** (no solo oculta) todo lo docente: soluciones, correcciones y notas de profesorado, prácticas de aula de Moodle, resumen operativo, la sección «Uso indebido de la IA», la verja de contraseña y el desarrollo detallado de las unidades no publicadas (hoy se publican la UD1 y la UD2; se cambia en `PUBLICADAS`). Si encuentra contenido docente que no sabe quitar, se detiene con un error en vez de generar el fichero.
 
 Incluye laboratorio (Proxmox en aula + Vagrant en casa, red `172.21.10.0/24`, Debian 12), teoría por unidad, las 26 actividades con su capa de IA (ruta · riesgo · control) y la evaluación. Interruptor de "Capa IA" y tema claro/oscuro incorporados.
 
