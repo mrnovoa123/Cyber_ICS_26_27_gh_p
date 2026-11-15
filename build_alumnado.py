@@ -121,7 +121,7 @@ _b = eng.find(_marker)
 assert _a != -1 and _b != -1, "no se localizó el bloque incidentes-ia"
 eng = eng[:_a] + eng[_b + len(_marker):]        # conserva el ';' que cierra la sentencia
 D["role"] = "alumno"
-for k in ("sols", "prac", "resumen"):
+for k in ("sols", "prac", "resumen", "ampliacion"):
     D.pop(k, None)
 for r in D.get("resumenes", {}).values():
     r.pop("claves", None)
