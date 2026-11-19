@@ -2,7 +2,7 @@
 title: "Actividad 2.2 · Vixiantes dixitais — guion de resolución (profesorado)"
 modulo: "MP5021 Incidentes de Ciberseguridade · UD2 · CA2.2"
 tareas: "Tarea 2.3 (Reglas de Suricata) · Tarea 2.4 (Splunk y Suricata) · Tarea 2.5 (Splunk y Apache)"
-entorno: "labcyber · aula 172.21.10.0/24 · casa 10.10.10.0/24 (panel Wazuh en 192.168.56.10)"
+entorno: "labcyber · aula 172.21.10.0/24 · casa 10.10.10.0/24 (panel Wazuh: casa https://192.168.56.10 · aula reenvío NAT https://localhost:8443)"
 ---
 
 # Actividad 2.2 · Vixiantes dixitais
@@ -29,6 +29,8 @@ Los comandos usan la red del **aula**. En casa, cambiad `172.21.10.` por `10.10.
 | 5 | Búsquedas y alertas sobre Suricata | **Tarea 2.4** |
 | 6 | Búsquedas sobre Apache | **Tarea 2.5** |
 | 7 | Ampliación: regla de Wazuh, correo y ELK | Ampliación |
+| 8 | Problemas típicos | — |
+| 9 | Rúbrica rápida | — |
 
 ---
 
