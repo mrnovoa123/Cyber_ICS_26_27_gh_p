@@ -362,7 +362,7 @@ a derecha y se ve <strong>dónde se corta</strong>:</p>
 <tr class="even">
 <td>2 · Suricata (detalle)</td>
 <td><code>/var/log/suricata/eve.json</code></td>
-<td><code>sudo tail -f /var/log/suricata/eve.json \| jq -c 'select(.event_type=="alert") \| {timestamp, src_ip, dest_ip, dest_port, sig: .alert.signature}'</code></td>
+<td>Comando (a) bajo la tabla</td>
 <td>Firma, puertos, IP en JSON</td>
 </tr>
 <tr class="odd">
@@ -374,7 +374,7 @@ a derecha y se ve <strong>dónde se corta</strong>:</p>
 <tr class="even">
 <td>3 · Wazuh (filtrado)</td>
 <td><code>/var/ossec/logs/alerts/alerts.json</code></td>
-<td><code>sudo tail -f /var/ossec/logs/alerts/alerts.json \| jq -c '{t: .timestamp, ag: .agent.name, id: .rule.id, lvl: .rule.level, d: .rule.description, ip: (.data.srcip // .data.src_ip)}'</code></td>
+<td>Comando (b) bajo la tabla</td>
 <td>Una línea por alerta, fácil de leer</td>
 </tr>
 <tr class="odd">
@@ -385,6 +385,10 @@ a derecha y se ve <strong>dónde se corta</strong>:</p>
 </tr>
 </tbody>
 </table></div>
+<pre class="bash"><code># (a) alertas de Suricata, una por línea
+sudo tail -f /var/log/suricata/eve.json | jq -c &#39;select(.event_type==&quot;alert&quot;) | {timestamp, src_ip, dest_ip, dest_port, sig: .alert.signature}&#39;
+# (b) alertas de Wazuh, una por línea
+sudo tail -f /var/ossec/logs/alerts/alerts.json | jq -c &#39;{t: .timestamp, ag: .agent.name, id: .rule.id, lvl: .rule.level, d: .rule.description, ip: (.data.srcip // .data.src_ip)}&#39;</code></pre>
 <p><strong>En win10 en directo</strong> (PowerShell como administrador;
 actualiza cada 5 s):</p>
 <pre class="powershell"><code>while ($true) { Clear-Host; Get-WinEvent -FilterHashtable @{LogName=&#39;Security&#39;; Id=4624,4625} -MaxEvents 8 |
@@ -1015,9 +1019,9 @@ al actualizar Wazuh):</p>
 sudo nano /var/ossec/etc/rules/local_rules.xml</code></pre></li>
 <li><p>Ir al <strong>final</strong> del fichero y pegar. Rangos ya
 ocupados en el laboratorio: 100100–100120 (práctica purple),
-100150/100160 (web) y 100210 (ampliación 5.1: acceso desde la IP de
-kali). La 100200 generaliza esa idea: cualquier origen que no sea el de
-administración.</p>
+100150/100160 (otras prácticas) y 100210 (ampliación 5.1: acceso desde
+la IP de kali). La 100200 generaliza esa idea: cualquier origen que no
+sea el de administración.</p>
 <pre class="xml"><code>&lt;group name=&quot;local,sshd,authentication_success,&quot;&gt;
   &lt;rule id=&quot;100200&quot; level=&quot;10&quot;&gt;
     &lt;if_sid&gt;5715&lt;/if_sid&gt;
@@ -1914,22 +1918,22 @@ Equivalencias Wazuh (DQL) ↔︎ Splunk (SPL)</h2>
 <tr class="odd">
 <td>Contar por IP</td>
 <td>(visualización)</td>
-<td><code>\| stats count by ip</code></td>
+<td><code>stats count by ip</code></td>
 </tr>
 <tr class="even">
 <td>Evolución en el tiempo</td>
 <td>histograma de Discover</td>
-<td><code>\| timechart span=1m count</code></td>
+<td><code>timechart span=1m count</code></td>
 </tr>
 <tr class="odd">
 <td>Umbral</td>
 <td>regla con <code>frequency</code></td>
-<td><code>\| where fallos &gt;= 5</code></td>
+<td><code>where fallos &gt;= 5</code></td>
 </tr>
 <tr class="even">
 <td>Campo que no existe</td>
 <td>decoder</td>
-<td><code>\| rex "…(?&lt;campo&gt;…)"</code></td>
+<td><code>rex "…(?&lt;campo&gt;…)"</code></td>
 </tr>
 </tbody>
 </table></div>
@@ -2222,7 +2226,7 @@ dejar</strong>: se reutilizan en la 2.3 y la 2.5.</p>
 <hr />
 <h1>FASE 5 · Ampliaciones</h1>
 <h2>5.1 · Regla propia de Wazuh</h2>
-<pre class="xml"><code>&lt;!-- /var/ossec/etc/rules/local_rules.xml (siem) — 100100–100120 los usa la práctica purple y 100150/100160 la web; usar 1002xx --&gt;
+<pre class="xml"><code>&lt;!-- /var/ossec/etc/rules/local_rules.xml (siem) — 100100–100120 los usa la práctica purple y 100150/100160 otras prácticas; usar 1002xx --&gt;
 &lt;group name=&quot;local,sshd,&quot;&gt;
   &lt;rule id=&quot;100210&quot; level=&quot;13&quot;&gt;
     &lt;if_sid&gt;5715&lt;/if_sid&gt;
@@ -2235,13 +2239,14 @@ dejar</strong>: se reutilizan en la 2.3 y la 2.5.</p>
 sudo systemctl restart wazuh-manager</code></pre>
 <h2>5.2 · Alerta por correo
 (MailHog)</h2>
-<p>Ver la sección «Alertas por correo con MailHog» de la web (Wazuh →
-Postfix → MailHog, <code>email_alert_level</code> 10). La regla 100210
-(nivel 13) y la 5763 (nivel 10) llegan al buzón.</p>
+<p>Ver el capítulo «Alertas por correo con MailHog (Wazuh → Postfix →
+MailHog)» de este libro (Wazuh → Postfix → MailHog,
+<code>email_alert_level</code> 10). La regla 100210 (nivel 13) y la 5763
+(nivel 10) llegan al buzón.</p>
 <h2>5.3 · Práctica paralela ELK</h2>
 <p>Filebeat con el módulo <code>suricata</code> → Elasticsearch → Kibana
-(bloque «Práctica paralela» de la actividad en la web). Tabla KQL ↔︎ SPL
-de tres consultas equivalentes:</p>
+(ver el capítulo «Elastic Stack (ELK) como alternativa» de este libro).
+Tabla KQL ↔︎ SPL de tres consultas equivalentes:</p>
 <div style="overflow-x:auto"><table class="table table-bordered table-sm">
 
 <thead>
@@ -2264,7 +2269,8 @@ de tres consultas equivalentes:</p>
 </tr>
 <tr class="odd">
 <td>Top firmas</td>
-<td><code>… \| stats count by alert.signature</code></td>
+<td><code>stats count by alert.signature</code> (tras la búsqueda
+anterior)</td>
 <td>Visualización <em>Top values</em> de <code>rule.name</code></td>
 </tr>
 </tbody>
