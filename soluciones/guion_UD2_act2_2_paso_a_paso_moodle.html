@@ -1,18 +1,17 @@
-<p style="background:#eef4fb;border-left:4px solid #3a6ea5;padding:8px 12px"><b>Solo profesorado.</b> Resolución paso a paso de la actividad 2.2 (preparación, ataques desde Kali con el rastro por capas, reglas de Wazuh y Suricata, búsquedas y triaje, Splunk/SPL). Complementa al capítulo «A 2.2. Guión solución» (tareas 2.3–2.5). Descargas: <a href="https://github.com/mrnovoa123/Cyber_ICS_26_27_gh_p/raw/main/soluciones/guion_UD2_act2_2_paso_a_paso.docx" target="_blank">Word</a> · <a href="https://github.com/mrnovoa123/Cyber_ICS_26_27_gh_p/blob/main/soluciones/guion_UD2_act2_2_paso_a_paso.md" target="_blank">Markdown</a>.</p><h1>Actividad 2.2 · Vixiantes
+<p style="background:#eef4fb;border-left:4px solid #3a6ea5;padding:8px 12px"><b>Solo profesorado.</b> Guion de resolución completo de la actividad 2.2 y de las tareas 2.3, 2.4 y 2.5: preparación (con Sysmon), ataques desde Kali con el rastro por capas, reglas de Wazuh y Suricata, búsquedas y triaje, Splunk/SPL, informe y ampliaciones. Descarga: <a href="@@DOCX@@">guion_A2_2_resolucion_completa.docx</a> (Word).</p><h1>Actividad 2.2 · Vixiantes
 dixitais</h1>
 <blockquote>
-<p><strong>Relación con el otro guion de la 2.2.</strong> Este documento
-es la <strong>resolución paso a paso</strong> (rastro, reglas, triaje y
-SPL desde cero). Las <strong>tareas entregables 2.3, 2.4 y 2.5</strong>
-(reglas de Suricata del enunciado, Splunk con Suricata y Splunk con
-Apache), la instalación de Splunk y la ingesta de Sysmon están en
-<code>guion_UD2_act2_2_vixiantes.md</code>. Ambos usan las mismas
-convenciones del laboratorio: <code>empleado</code>/<code>123456</code>
+<p><strong>Guion único de la actividad 2.2.</strong> Integra la
+resolución paso a paso de la actividad (rastro, reglas, triaje y SPL
+desde cero) y la resolución de las <strong>tareas entregables 2.3, 2.4 y
+2.5</strong> (reglas de Suricata del enunciado, Splunk con Suricata y
+Splunk con Apache), con la instalación de Splunk y la ingesta de Sysmon.
+Convenciones del laboratorio: <code>empleado</code>/<code>123456</code>
 en srvweb, DVWA en <code>/dvwa/</code>, índices de Splunk
-<code>suricata</code> y <code>main</code>, reglas de Suricata en
-<code>/etc/suricata/rules/custom.rules</code> (sid 1000020–1000026 para
-las tareas; aquí 1000100–1000101) y reglas de Wazuh 1002xx (la 100210 es
-del guion base; aquí 100200–100203).</p>
+<code>suricata</code>, <code>main</code> y <code>wazuh</code>, reglas de
+Suricata en <code>/etc/suricata/rules/custom.rules</code> (sid
+1000020–1000026 para las tareas; 1000100–1000101 para las reglas
+propias) y reglas de Wazuh 1002xx (100200–100203 y 100210).</p>
 </blockquote>
 <p><strong>Qué se hace, en una frase:</strong> desde kali se lanzan
 ataques controlados contra las víctimas del laboratorio, se observa qué
@@ -37,21 +36,22 @@ interpretación de logs ou sinais</em>.</p>
 <tbody>
 <tr class="odd">
 <td>0</td>
-<td>Preparar y comprobar el laboratorio</td>
+<td>Preparar y comprobar el laboratorio (incluye Sysmon)</td>
 <td>1</td>
 <td>Capturas de comprobación</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td>Simular los ataques con kali</td>
+<td>Simular los ataques con kali siguiendo el rastro</td>
 <td>2</td>
 <td>Hoja de ataques (hora de inicio y fin)</td>
 </tr>
 <tr class="odd">
 <td>2</td>
-<td>Trabajar las reglas (ver, entender, crear, probar)</td>
+<td>Trabajar las reglas (ver, entender, crear, probar) y reglas del
+enunciado</td>
 <td>2</td>
-<td><strong>C</strong> · regla propia probada</td>
+<td><strong>C</strong> · regla propia · <strong>Tarea 2.3</strong></td>
 </tr>
 <tr class="even">
 <td>3</td>
@@ -62,18 +62,27 @@ contraste ciego</td>
 </tr>
 <tr class="odd">
 <td>3B</td>
-<td>Las mismas búsquedas en Splunk (SPL) y una alerta programada</td>
-<td>1</td>
-<td>Captura S</td>
+<td>Splunk: instalación, ingesta, SPL, alertas, tareas 2.4 y 2.5</td>
+<td>2</td>
+<td><strong>Tarea 2.4</strong> · <strong>Tarea 2.5</strong></td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>Informe y cierre</td>
 <td>1</td>
-<td><strong>D</strong> · informe breve</td>
+<td><strong>D</strong> · informe de interpretación</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Ampliaciones (Wazuh, correo, ELK)</td>
+<td>—</td>
+<td>Opcional</td>
 </tr>
 </tbody>
 </table></div>
+<p>Con 9 sesiones no da para todo con el mismo detalle: la fase 3B y las
+tareas 2.4–2.5 pueden repartirse como trabajo autónomo, y la fase 5
+queda para quien vaya más rápido.</p>
 <p>Mientras se ataca, el rastro se sigue en directo con el «puesto de
 vigilancia» del paso 1.1b.</p>
 <blockquote>
@@ -95,19 +104,20 @@ srvweb y kali.</p>
 <tbody>
 <tr class="odd">
 <td>siem</td>
-<td>Wazuh + Suricata. Aquí se miran las alertas</td>
+<td>Wazuh + Suricata + Splunk 10.6. Aquí se miran las alertas</td>
 <td>172.21.10.10</td>
 <td>10.10.10.10 (panel 192.168.56.10)</td>
 </tr>
 <tr class="even">
 <td>win10</td>
-<td>Víctima Windows (agente Wazuh)</td>
+<td>Víctima Windows (agente Wazuh + Sysmon)</td>
 <td>172.21.10.20</td>
 <td>10.10.10.20</td>
 </tr>
 <tr class="odd">
 <td>srvweb</td>
-<td>Víctima Linux (agente Wazuh, SSH y web)</td>
+<td>Víctima Linux: Apache + DVWA + usuario débil <code>empleado</code>
+(agente Wazuh, SSH)</td>
 <td>172.21.10.30</td>
 <td>10.10.10.30</td>
 </tr>
@@ -172,6 +182,9 @@ sudo systemctl restart suricata</code></pre>
 <p><strong>Debes ver</strong> al final de la prueba:
 <code>Configuration provided was successfully loaded</code>.</p></li>
 </ol>
+<p>Comprobar también que Suricata escucha en la interfaz de la LAN:</p>
+<pre class="bash"><code>ip -o -4 addr | grep 172.21.10.                              # interfaz de la LAN (p. ej. enp0s8)
+grep -E &#39;interface:&#39; /etc/suricata/suricata.yaml | head -3   # debe ser esa misma interfaz</code></pre>
 <p><strong>Atajo en el entorno Vagrant:</strong>
 <code>sudo bash /vagrant/provision/suricata-homenet.sh activos</code>
 hace lo mismo (y <code>… red</code> lo deshace). En la OVA del aula,
@@ -190,6 +203,12 @@ de <code>&lt;ossec_config&gt;</code> con
 &lt;/localfile&gt;</code></pre>
 <p>Si lo has añadido:
 <code>sudo systemctl restart wazuh-manager</code>.</p>
+<p>En Wazuh, las alertas de Suricata salen con la regla
+<strong>86601</strong> (<em>Suricata: Alert - …</em>), <strong>nivel
+3</strong> por defecto. Campos útiles en el panel:
+<code>data.alert.signature</code>, <code>data.src_ip</code>,
+<code>data.dest_ip</code> y <code>data.alert.severity</code> (1 = más
+grave).</p>
 <h2>Paso 0.5 · Preparar srvweb</h2>
 <ol type="1">
 <li><p><strong>¿Existe el log de autenticación?</strong> En Debian 12 no
@@ -228,11 +247,30 @@ and Failure). Si solo pone «Aciertos»:</p>
 <pre class="powershell"><code>auditpol /set /subcategory:&quot;Inicio de sesión&quot; /success:enable /failure:enable</code></pre>
 <p>Sin esto, Windows no registra los fallos de contraseña (evento 4625)
 y Wazuh no tiene nada que ver.</p>
+<h2>Paso 0.6b · Sysmon en win10 →
+Wazuh</h2>
+<p>El aprovisionamiento ya instala Sysmon (configuración de
+SwiftOnSecurity) y añade el canal. Comprobar:</p>
+<pre class="powershell"><code>Get-Service Sysmon64                                         # Running
+Get-WinEvent -LogName &quot;Microsoft-Windows-Sysmon/Operational&quot; -MaxEvents 3 | Format-List Id,Message
+Select-String &quot;Sysmon/Operational&quot; &quot;C:\Program Files (x86)\ossec-agent\ossec.conf&quot;</code></pre>
+<p>Si falta, añadir al <code>ossec.conf</code> del agente y
+reiniciar:</p>
+<pre class="xml"><code>&lt;localfile&gt;
+  &lt;location&gt;Microsoft-Windows-Sysmon/Operational&lt;/location&gt;
+  &lt;log_format&gt;eventchannel&lt;/log_format&gt;
+&lt;/localfile&gt;</code></pre>
+<pre class="powershell"><code>Restart-Service WazuhSvc</code></pre>
+<p>Prueba: abrir <code>notepad.exe</code> y
+<code>powershell -enc ...</code> en win10 → en el panel,
+<code>rule.groups:sysmon</code> y <code>data.win.system.eventID:1</code>
+(creación de proceso).</p>
 <h2>Paso 0.7 · Preparar kali</h2>
 <pre class="bash"><code>ip -4 addr show                  # debe aparecer 172.21.10.100
 ping -c 2 172.21.10.30           # srvweb debe responder
 ping -c 2 172.21.10.10           # siem debe responder
-which nmap hydra nikto curl      # deben salir las cuatro rutas</code></pre>
+which nmap hydra nikto curl hping3   # deben salir las cinco rutas
+ls /usr/share/wordlists/rockyou.txt   # si no está: sudo gunzip -k /usr/share/wordlists/rockyou.txt.gz</code></pre>
 <p>win10 puede no responder al ping (el cortafuegos de Windows lo
 bloquea): es normal.</p>
 <p>Si falta alguna herramienta:
@@ -542,6 +580,8 @@ supera el umbral de repeticiones</td>
 </tr>
 </tbody>
 </table></div>
+<p>Si el aprovisionamiento cargó <code>local.rules</code>, Suricata
+añade además <code>LAB intento de conexion SSH</code> (sid 1000002).</p>
 <p><strong>Lección:</strong> cada línea de <code>auth.log</code> es un
 evento; la 5763 aparece <strong>cuando se juntan muchos</strong>. Es la
 correlación en directo: se ve cómo los fallos se van acumulando hasta
@@ -559,8 +599,11 @@ del acierto:</p>
 date
 hydra -l empleado -P /tmp/mini.txt -t 4 ssh://172.21.10.30
 date</code></pre>
+<p>Variante realista con el diccionario completo (tarda más, pero
+<code>123456</code> está al principio de rockyou):</p>
+<pre class="bash"><code>hydra -l empleado -P /usr/share/wordlists/rockyou.txt -t 4 ssh://172.21.10.30</code></pre>
 <p><strong>En kali debes ver:</strong>
-<code>[22][ssh] host: 172.21.10.30   login: empleado   password: …</code>.</p>
+<code>[22][ssh] host: 172.21.10.30   login: empleado   password: 123456</code>.</p>
 <p><strong>En el siem debes ver:</strong></p>
 <ul>
 <li>Varias <code>Rule: 5760</code> (fallos).</li>
@@ -738,6 +781,43 @@ el detalle, <code>data.win.eventdata.logonType</code> y
 sesión</strong> y la <strong>IP de origen</strong> separan «alguien se
 equivoca delante del equipo» (NC) de «alguien ataca por la red»
 (VP).</p>
+<h2>Paso 1.7b · Ataque A7 · Ráfaga
+ICMP</h2>
+<p><strong>Qué simula:</strong> un volumen anómalo de ping
+(reconocimiento o inicio de una denegación de servicio).</p>
+<pre class="bash"><code>date
+sudo hping3 --icmp --fast -c 150 172.21.10.30      # dos guiones en --icmp y --fast
+date</code></pre>
+<p><strong>🔎 Rastro de A7:</strong></p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm">
+
+<thead>
+<tr class="header">
+<th>Capa</th>
+<th>Qué se ve</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 · srvweb</td>
+<td>Nada en los logs: el ping no lo registra ningún servicio</td>
+</tr>
+<tr class="even">
+<td>2 · Suricata</td>
+<td><code>LAB ICMP echo hacia la LAN</code> (sid 1000001, regla local
+del aprovisionamiento) o la regla de umbral ICMP de la tarea 2.3</td>
+</tr>
+<tr class="odd">
+<td>3 · Wazuh</td>
+<td><code>Rule: 86601</code> (Suricata)</td>
+</tr>
+<tr class="even">
+<td>4 · Panel</td>
+<td><code>rule.groups: "suricata" and data.alert.signature: *ICMP*</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Lección:</strong> como el escaneo, solo lo ve la red.</p>
 <h2>Paso 1.8 · Actividad legítima
 (ruido)</h2>
 <p><strong>La genera el profesorado sin avisar de cuándo.</strong> Sirve
@@ -935,8 +1015,8 @@ al actualizar Wazuh):</p>
 sudo nano /var/ossec/etc/rules/local_rules.xml</code></pre></li>
 <li><p>Ir al <strong>final</strong> del fichero y pegar. Rangos ya
 ocupados en el laboratorio: 100100–100120 (práctica purple),
-100150/100160 (web) y 100210 (guion base: acceso desde la IP de kali).
-La 100200 generaliza esa idea: cualquier origen que no sea el de
+100150/100160 (web) y 100210 (ampliación 5.1: acceso desde la IP de
+kali). La 100200 generaliza esa idea: cualquier origen que no sea el de
 administración.</p>
 <pre class="xml"><code>&lt;group name=&quot;local,sshd,authentication_success,&quot;&gt;
   &lt;rule id=&quot;100200&quot; level=&quot;10&quot;&gt;
@@ -994,8 +1074,8 @@ nada): el escaneo no lo cubre ninguna firma.</p>
 reglas propias van en <code>/etc/suricata/rules/custom.rules</code> (el
 mismo fichero de la tarea 2.3):</p>
 <pre class="bash"><code>sudo grep -n -A8 &#39;^rule-files&#39; /etc/suricata/suricata.yaml</code></pre>
-<p>Si <code>custom.rules</code> no aparece en la lista, añadirlo (como
-en el guion base, bloque 3):</p>
+<p>Si <code>custom.rules</code> no aparece en la lista, añadirlo (igual
+que en la tarea 2.3, paso 2.7):</p>
 <pre class="bash"><code>sudo sed -i &#39;s|^\(\s*\)- /etc/suricata/rules/local.rules|&amp;\n\1- /etc/suricata/rules/custom.rules|&#39; /etc/suricata/suricata.yaml</code></pre></li>
 <li><p>Añadir la regla al final de <code>custom.rules</code>:</p>
 <pre class="bash"><code>echo &#39;alert tcp $EXTERNAL_NET any -&gt; $HOME_NET any (msg:&quot;LAB posible escaneo SYN&quot;; flags:S,12; flow:stateless; detection_filter:track by_src, count 30, seconds 10; classtype:attempted-recon; sid:1000100; rev:1;)&#39; | sudo tee -a /etc/suricata/rules/custom.rules</code></pre>
@@ -1190,6 +1270,73 @@ espacios.</p>
 <p>Ciclo de trabajo en Suricata: <strong>editar →
 <code>suricata -T</code> → reiniciar → repetir el ataque →
 <code>fast.log</code></strong>.</p>
+<hr />
+<h2>Paso 2.7 ·
+Tarea 2.3 · Reglas de Suricata del enunciado</h2>
+<p><strong>Enunciado real:</strong> cuatro alertas: 1. <em>priority
+4</em> · SSH hacia la red interna. 2. <em>priority 1</em> · salida de la
+red interna hacia 85.91.64.65, 82.146.39.249, 5.196.213.99,
+212.118.8.147. 3. <em>priority 4</em> · UDP/53 hacia una red que no sea
+la interna. 4. <em>priority 2</em> · más de 100 ICMP por minuto de la
+red interna hacia el exterior.</p>
+<pre class="bash"><code>sudo nano /etc/suricata/rules/custom.rules</code></pre>
+<pre style="background:#f4f6f9;border:1px solid #d6dde8;border-radius:4px;padding:8px;white-space:pre-wrap;font-size:90%"><code>alert tcp $EXTERNAL_NET any -&gt; $HOME_NET 22 (msg:&quot;SSH hacia red interna&quot;; flow:to_server; flags:S; priority:4; sid:1000020; rev:1;)
+alert ip $HOME_NET any -&gt; [85.91.64.65,82.146.39.249,5.196.213.99,212.118.8.147] any (msg:&quot;Salida a IP marcada&quot;; priority:1; sid:1000021; rev:1;)
+alert udp $HOME_NET any -&gt; $EXTERNAL_NET 53 (msg:&quot;DNS a red externa&quot;; priority:4; sid:1000022; rev:1;)
+alert icmp $HOME_NET any -&gt; $EXTERNAL_NET any (msg:&quot;Exceso ICMP saliente&quot;; itype:8; threshold:type threshold, track by_src, count 100, seconds 60; priority:2; sid:1000023; rev:1;)</code></pre>
+<ul>
+<li><code>flags:S</code> en la 1 evita una alerta por cada paquete de la
+sesión: una por intento de conexión.</li>
+<li><code>threshold: type threshold</code> alerta <strong>cada
+vez</strong> que se cumplen 100 en 60 s; <code>type both</code>
+alertaría una sola vez por ventana.</li>
+<li>Alternativa a <code>priority</code>: <code>classtype:</code>
+(definido en <code>classification.config</code>, que ya fija una
+prioridad).</li>
+</ul>
+<p><strong>Validar y cargar:</strong></p>
+<pre class="bash"><code># validar SOLO este fichero (-S carga en exclusiva el fichero indicado)
+sudo suricata -T -c /etc/suricata/suricata.yaml -S /etc/suricata/rules/custom.rules -v
+# añadirlo a la configuración (rule-files) y validar todo
+sudo sed -i &#39;s|^\(\s*\)- /etc/suricata/rules/local.rules|&amp;\n\1- /etc/suricata/rules/custom.rules|&#39; /etc/suricata/suricata.yaml
+sudo suricata -T -c /etc/suricata/suricata.yaml &amp;&amp; sudo systemctl restart suricata
+grep -E &#39;custom.rules|rules loaded|error&#39; /var/log/suricata/suricata.log | tail</code></pre>
+<h3>Cómo probar
+cada regla en un laboratorio aislado</h3>
+<p>Suricata escucha solo la interfaz de <strong>labcyber</strong>. El
+tráfico de una VM hacia IP de Internet sale por su NAT (eth0) y
+<strong>Suricata no lo ve</strong>. Para las pruebas 2–4 hay dos
+opciones:</p>
+<ul>
+<li><strong>Kali como «exterior»:</strong> con HOME_NET correcto, Kali
+ya es <code>$EXTERNAL_NET</code>.</li>
+<li><strong>Ruta temporal por labcyber:</strong> forzar que el paquete a
+una IP «externa» salga por la LAN hacia el siem (el siem no reenvía: no
+sale nada del laboratorio).</li>
+</ul>
+<pre class="bash"><code># srvweb · averiguar la interfaz de la LAN
+LANIF=$(ip -o -4 addr | awk &#39;/172\.21\.10\./{print $2; exit}&#39;)
+
+# Regla 1 · SSH hacia la red interna (desde kali)
+ssh empleado@172.21.10.30                       # kali → srvweb:22
+
+# Regla 2 · IP marcadas (srvweb), con ruta temporal
+sudo ip route add 85.91.64.65/32 via 172.21.10.10 dev &quot;$LANIF&quot;
+ping -c 3 85.91.64.65 ; nc -zv -w2 85.91.64.65 443
+sudo ip route del 85.91.64.65/32
+
+# Regla 3 · DNS a red externa (srvweb → kali como DNS)
+dig @172.21.10.100 example.com +tries=1 +time=1
+
+# Regla 4 · más de 100 ICMP/min hacia el exterior (srvweb → kali)
+sudo apt-get install -y hping3     # si no está (instalar fuera del aula)
+sudo hping3 --icmp --fast -c 150 172.21.10.100</code></pre>
+<pre class="bash"><code># siem · comprobar
+sudo grep -E &#39;sid:?10000(20|21|22|23)|SSH hacia red interna|IP marcada|DNS a red externa|Exceso ICMP&#39; /var/log/suricata/fast.log | tail
+sudo jq -c &#39;select(.event_type==&quot;alert&quot; and .alert.signature_id&gt;=1000020 and .alert.signature_id&lt;=1000023) | [.timestamp,.src_ip,.dest_ip,.alert.signature,.alert.severity]&#39; /var/log/suricata/eve.json | tail</code></pre>
+<p><strong>Entrega:</strong> <code>custom.rules</code> + captura de
+<code>suricata -T</code> sin errores + una línea de
+<code>fast.log</code> por regla.</p>
 <hr />
 <h1>FASE 3 · Búsquedas en el
 panel y triaje</h1>
@@ -1428,37 +1575,109 @@ acertó.</li>
 </tbody>
 </table></div>
 <hr />
-<h1>FASE 3B · Las mismas
-búsquedas en Splunk (SPL)</h1>
+<h1>FASE
+3B · Splunk: instalación, búsquedas SPL y tareas 2.4–2.5</h1>
 <p>Splunk se usa para practicar <strong>SPL</strong>, el lenguaje de
 búsqueda del examen. Montaje del aula: <strong>Splunk Enterprise
 10.6.1.1</strong> en el <strong>siem</strong> (.deb, sin Docker) y
 <strong>Universal Forwarder 10.6.1.1</strong> en
-<strong>srvweb</strong>. La <strong>instalación</strong> (licencia de
-prueba, arranque, puerto 8000) y la ingesta de <code>eve.json</code> y
-<code>access.log</code> están en el guion base
-(<code>guion_UD2_act2_2_vixiantes.md</code>, bloques 4.1–4.3). Aquí se
-parte de ese montaje y se añaden dos fuentes: <code>auth.log</code> de
-srvweb y las alertas de Wazuh.</p>
+<strong>srvweb</strong>.</p>
 <pre class="text"><code>srvweb ── UF ──► 9997 ──► siem: Splunk Enterprise
-  access.log  → índice main     (sourcetype access_combined)   [guion base 4.3]
-  auth.log    → índice main     (sourcetype linux_secure)      [nuevo, S3]
+  access.log  → índice main     (sourcetype access_combined)   [S1.3]
+  auth.log    → índice main     (sourcetype linux_secure)      [S3]
 siem (lectura local):
-  eve.json    → índice suricata (sourcetype _json)             [guion base 4.2]
-  alerts.json → índice wazuh    (sourcetype _json)             [nuevo, S2 · incluye win10]</code></pre>
-<p>En todos los comandos:
+  eve.json    → índice suricata (sourcetype _json)             [S1.2]
+  alerts.json → índice wazuh    (sourcetype _json)             [S2 · incluye win10]</code></pre>
+<p>En los comandos:
 <code>S="sudo -u splunk /opt/splunk/bin/splunk"; A="-auth admin:Cambia_Esta_2026"</code>
 (cambiar por la contraseña real de vuestra instalación).</p>
-<h2>Paso S1 · Comprobar el
-montaje base</h2>
-<pre class="bash"><code>systemctl is-active Splunkd                     # active
-sudo ss -tlnp | grep -E &#39;:8000|:9997&#39;           # web y recepción del forwarder escuchando</code></pre>
-<p>En Splunk Web (<code>http://172.21.10.10:8000</code>, reenvío NAT del
-8000 en el aula), rango <em>Last 24 hours</em>:</p>
+<h2>Paso S1 · Instalar
+Splunk y la ingesta base</h2>
+<p>Splunk no viene en el aprovisionamiento. Se instala <strong>Splunk
+Enterprise 10.6.1.1</strong> (paquete <code>.deb</code>) directamente en
+el siem, leyendo <code>eve.json</code> en local, y el Apache de srvweb
+se envía con el <strong>Universal Forwarder 10.6.1.1</strong> (o se sube
+a mano).</p>
+<blockquote>
+<p><strong>Versión:</strong> 10.6 tiene soporte hasta el 30/09/2028; la
+9.4 lo pierde el 16/12/2026. El forwarder, igual o anterior al
+indexador. <strong>RAM:</strong> Wazuh + Splunk en la misma VM. Para la
+2.2, subid la memoria del siem a 9–10 GB (el puesto tiene 32 GB).
+<strong>Licencia:</strong> una instalación nueva arranca en
+<strong>Enterprise Trial (60 días)</strong>. Las <strong>alertas no
+existen en Splunk Free</strong>: si caduca la prueba, desinstalar y
+reinstalar (S1.5). <strong>Descargas</strong> (cuenta gratuita de
+splunk.com, fuera del aula):
+<code>splunk-10.6.1.1-b2ae2962645c-linux-amd64.deb</code> y
+<code>splunkforwarder-10.6.1.1-…-linux-amd64.deb</code>.</p>
+</blockquote>
+<h3>S1.1 · Splunk en el siem</h3>
+<pre class="bash"><code>sudo dpkg -i splunk-10.6.1.1-b2ae2962645c-linux-amd64.deb       # /opt/splunk + usuario splunk
+sudo chown -R splunk:splunk /opt/splunk
+sudo -u splunk /opt/splunk/bin/splunk start --accept-license --accept-sgt-current-at-splunk-com \
+     --answer-yes --no-prompt --seed-passwd &#39;Cambia_Esta_2026&#39;
+sudo -u splunk /opt/splunk/bin/splunk stop
+sudo /opt/splunk/bin/splunk enable boot-start -user splunk -systemd-managed 1
+sudo systemctl start Splunkd &amp;&amp; systemctl is-active Splunkd</code></pre>
+<p>Interfaz: <code>http://172.21.10.10:8000</code> (desde el anfitrión,
+reenvío NAT del puerto 8000), usuario <code>admin</code>. Si el primer
+arranque no reconoce <code>--accept-sgt-current-at-splunk-com</code>,
+quitarlo y aceptar los términos cuando los pida.</p>
+<h3>S1.2
+· Índices, entrada de Suricata y recepción del forwarder</h3>
+<pre class="bash"><code>S=&quot;sudo -u splunk /opt/splunk/bin/splunk&quot;; A=&quot;-auth admin:Cambia_Esta_2026&quot;
+$S add index suricata $A
+$S add monitor /var/log/suricata/eve.json -index suricata -sourcetype _json $A
+$S enable listen 9997 $A
+# lectura para el usuario splunk, también en los ficheros nuevos tras la rotación
+sudo setfacl -m u:splunk:rx /var/log/suricata
+sudo setfacl -d -m u:splunk:r /var/log/suricata
+sudo setfacl -m u:splunk:r /var/log/suricata/eve.json
+sudo -u splunk head -c 200 /var/log/suricata/eve.json</code></pre>
+<p>Comprobación en Splunk: <code>index=suricata | head 5</code>.</p>
+<h3>S1.3 · Apache de
+srvweb → Splunk (índice main)</h3>
+<p><strong>Opción A · Universal Forwarder 10.6.1.1</strong> (paquete
+<code>.deb</code> descargado de splunk.com fuera del aula):</p>
+<pre class="bash"><code># srvweb
+sudo dpkg -i splunkforwarder-10.6.1.1-*-linux-amd64.deb
+sudo /opt/splunkforwarder/bin/splunk start --accept-license --accept-sgt-current-at-splunk-com --answer-yes --no-prompt --seed-passwd &#39;Cambia_Esta_2026&#39;
+sudo usermod -aG adm splunkfwd          # el forwarder corre como splunkfwd y Apache escribe con grupo adm
+sudo /opt/splunkforwarder/bin/splunk add forward-server 172.21.10.10:9997 -auth admin:&#39;Cambia_Esta_2026&#39;
+sudo /opt/splunkforwarder/bin/splunk add monitor /var/log/apache2/access.log -index main -sourcetype access_combined -auth admin:&#39;Cambia_Esta_2026&#39;
+sudo /opt/splunkforwarder/bin/splunk restart</code></pre>
+<p><strong>Opción B · subir el fichero:</strong> copiar
+<code>access.log</code>
+(<code>scp vagrant@172.21.10.30:/var/log/apache2/access.log .</code>) y
+en Splunk <em>Settings → Add Data → Upload</em>, <em>sourcetype</em>
+<code>access_combined</code>, índice <code>main</code>.</p>
+<h3>S1.4 · Correo de
+las alertas de Splunk a MailHog</h3>
+<p><em>Settings → Server settings → Email settings</em>: <em>Mail
+host</em> <code>172.21.10.10:1025</code>, sin TLS ni autenticación,
+<em>Send emails as</em> <code>splunk@tecnomarina.local</code>. Las
+acciones de alerta <em>Send email</em> van a
+<code>soc@tecnomarina.local</code> y se ven en
+<code>http://172.21.10.10:8025</code>.</p>
+<h3>S1.5 · Reiniciar la prueba
+de 60 días</h3>
+<pre class="bash"><code>sudo systemctl stop Splunkd
+sudo dpkg -P splunk &amp;&amp; sudo rm -rf /opt/splunk
+# repetir S1.1 y S1.2 (las búsquedas y alertas guardadas se pierden: exportadlas antes si hacen falta)</code></pre>
+<h3>S1.6 · Campos de
+<code>eve.json</code> en Splunk</h3>
+<p>Con <code>sourcetype=_json</code> los campos anidados llevan prefijo:
+<strong><code>alert.signature</code></strong>,
+<strong><code>alert.category</code></strong>,
+<code>alert.severity</code>, <code>alert.signature_id</code>. Las
+búsquedas que escriben <code>signature=</code> o <code>category=</code>
+sin prefijo <strong>no devuelven nada</strong> (solo funcionan con el
+add-on de Suricata para Splunk, que renombra campos).</p>
+<p><strong>Comprobación del montaje base</strong> (Splunk Web, rango
+<em>Last 24 hours</em>):</p>
 <pre class="spl"><code>index=suricata OR index=main | stats count by index, sourcetype</code></pre>
 <p><strong>Debes ver</strong> <code>suricata/_json</code> y
-<code>main/access_combined</code>. Si falta alguno, completar antes el
-guion base (bloques 4.2 y 4.3).</p>
+<code>main/access_combined</code>.</p>
 <h2>Paso S2 · Añadir
 las alertas de Wazuh (en el siem)</h2>
 <pre class="bash"><code>S=&quot;sudo -u splunk /opt/splunk/bin/splunk&quot;; A=&quot;-auth admin:Cambia_Esta_2026&quot;
@@ -1473,7 +1692,7 @@ $S add monitor /var/ossec/logs/alerts/alerts.json -index wazuh -sourcetype _json
 también llegan a Splunk, a través de Wazuh.</p>
 <h2>Paso S3 · Añadir
 auth.log de srvweb al forwarder</h2>
-<pre class="bash"><code># srvweb (el UF ya envía access.log desde el guion base)
+<pre class="bash"><code># srvweb (el UF ya envía access.log desde S1.3)
 sudo usermod -aG adm splunkfwd                 # auth.log es del grupo adm
 sudo /opt/splunkforwarder/bin/splunk add monitor /var/log/auth.log -index main -sourcetype linux_secure -auth admin:&#39;Cambia_Esta_2026&#39;
 sudo /opt/splunkforwarder/bin/splunk restart
@@ -1721,9 +1940,249 @@ mismo razonamiento en dos herramientas.</p>
 <p>📸 <strong>Captura S:</strong> búsqueda de A3 con resultado + alerta
 disparada en <em>Triggered Alerts</em>.</p>
 <hr />
+<h2>Paso S10 · Tarea 2.4 ·
+Splunk y Suricata</h2>
+<p><strong>Enunciado real:</strong> (1.1) eventos con
+<code>src_ip</code> = tu IP, rango <em>All time</em>; (1.2) eventos de
+estadísticas de Suricata; (1.3) ataque DoS en los últimos 5 minutos con
+IP y puerto origen; (2) alerta programada si hay más de 100 «Outbound
+ICMP detected» en 24 h, ejecutada cada hora, una sola vez; (3) alerta en
+tiempo real de salida hacia 89.45.235.21 y su regla de Suricata.</p>
+<h3>Reglas de
+Suricata que necesitan las búsquedas</h3>
+<pre style="background:#f4f6f9;border:1px solid #d6dde8;border-radius:4px;padding:8px;white-space:pre-wrap;font-size:90%"><code># /etc/suricata/rules/custom.rules (añadir)
+alert icmp $HOME_NET any -&gt; $EXTERNAL_NET any (msg:&quot;Outbound ICMP detected&quot;; itype:8; classtype:misc-activity; sid:1000025; rev:1;)
+alert tcp $EXTERNAL_NET any -&gt; $HOME_NET 80 (msg:&quot;LAB posible inundacion SYN&quot;; flags:S; flow:to_server; threshold:type both, track by_dst, count 500, seconds 5; classtype:attempted-dos; sid:1000026; rev:1;)
+alert ip $HOME_NET any -&gt; 89.45.235.21 any (msg:&quot;Salida a IP sospechosa 89.45.235.21&quot;; priority:1; sid:1000024; rev:1;)</code></pre>
+<p><code>classtype:attempted-dos</code> hace que
+<code>alert.category</code> sea «Attempted Denial of Service», que es lo
+que busca el apartado 1.3.
+<code>sudo suricata -T -c /etc/suricata/suricata.yaml &amp;&amp; sudo systemctl restart suricata</code>.</p>
+<p><strong>Generar los eventos:</strong></p>
+<pre class="bash"><code># srvweb → kali: &gt;100 ICMP salientes (para la alerta programada)
+sudo hping3 --icmp --fast -c 150 172.21.10.100
+# kali → srvweb: inundación SYN de 20 s (solo en labcyber)
+sudo timeout 20 hping3 -S -p 80 --flood 172.21.10.30
+# srvweb → 89.45.235.21 por la LAN (ruta temporal, ver paso 2.7)
+LANIF=$(ip -o -4 addr | awk &#39;/172\.21\.10\./{print $2; exit}&#39;)
+sudo ip route add 89.45.235.21/32 via 172.21.10.10 dev &quot;$LANIF&quot;; ping -c 3 89.45.235.21; sudo ip route del 89.45.235.21/32</code></pre>
+<h3>Búsquedas SPL</h3>
+<pre class="spl"><code># 1.1 · eventos con origen en mi IP (rango: All time)
+index=suricata src_ip=&quot;172.21.10.30&quot;
+
+# 1.2 · estadísticas de Suricata
+index=suricata event_type=stats
+| table _time stats.capture.kernel_packets stats.capture.kernel_drops stats.decoder.pkts
+
+# 1.3 · DoS en los últimos 5 minutos (rango: Last 5 minutes) con IP y puerto origen
+index=suricata event_type=alert alert.category=&quot;Attempted Denial of Service&quot;
+| table _time src_ip src_port dest_ip dest_port alert.signature
+
+# 2 · base de la alerta programada
+index=suricata event_type=alert alert.signature=&quot;Outbound ICMP detected&quot;
+
+# 3 · base de la alerta en tiempo real
+index=suricata event_type=alert dest_ip=&quot;89.45.235.21&quot;</code></pre>
+<blockquote>
+<p>En 1.1, «tu IP» es la de la máquina que hace de origen en vuestras
+pruebas (srvweb o win10). Con la inundación SYN, <code>src_port</code>
+varía en cada paquete: la tabla muestra uno por alerta.</p>
+</blockquote>
+<h3>Crear las alertas (<em>Save As
+→ Alert</em>)</h3>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm">
+
+<thead>
+<tr class="header">
+<th></th>
+<th>Alerta programada (apartado 2)</th>
+<th>Alerta en tiempo real (apartado 3)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Título</td>
+<td><code>ICMP saliente masivo</code></td>
+<td><code>Salida a 89.45.235.21</code></td>
+</tr>
+<tr class="even">
+<td>Alert type</td>
+<td><em>Scheduled</em> · <em>Run on Cron Schedule</em>
+<code>0 * * * *</code> (cada hora)</td>
+<td><em>Real-time</em></td>
+</tr>
+<tr class="odd">
+<td>Time range</td>
+<td><em>Last 24 hours</em></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Trigger</td>
+<td><em>Number of Results</em> · <em>is greater than</em>
+<code>100</code></td>
+<td><em>Per-Result</em></td>
+</tr>
+<tr class="odd">
+<td>Trigger …</td>
+<td><em>Once</em></td>
+<td><em>Throttle</em> 60 s (no inundar)</td>
+</tr>
+<tr class="even">
+<td>Acción</td>
+<td><em>Add to Triggered Alerts</em> (+ <em>Send email</em> a
+MailHog)</td>
+<td><em>Add to Triggered Alerts</em> (+ correo)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Comprobar en <em>Activity → Triggered Alerts</em>. La programada se
+puede forzar con <em>Run</em> desde <em>Searches, reports and
+alerts</em> sin esperar a la hora.</p>
+<p><strong>Equivalentes en Wazuh</strong> (para comparar SPL con el
+panel): <code>rule.groups:suricata and data.src_ip:172.21.10.30</code> ·
+<code>data.alert.category:"Attempted Denial of Service"</code> ·
+<code>data.dest_ip:89.45.235.21</code>.</p>
+<p><strong>Entrega:</strong> PDF con captura de cada búsqueda (con el
+rango visible) y de la configuración y disparo de las dos alertas.</p>
+<h2>Paso S11 · Tarea 2.5 ·
+Splunk y Apache</h2>
+<p><strong>Enunciado real:</strong> sobre logs de Apache: (1.1)
+peticiones que no sean GET ni POST; (1.2) errores 5xx con timestamp, URI
+y código; (1.3) lista de IP origen sin repetir; (1.4) peticiones cuya
+URI contenga «SQL», con timestamp, URI e IP; (2) ingerir un log público
+(el original, <code>almhuette-raith.at</code>, ya no existe: ver
+alternativas) y repetir, buscando además inyección SQL.</p>
+<h3>Generar tráfico variado
+(kali → srvweb)</h3>
+<pre class="bash"><code>for m in PUT DELETE OPTIONS PATCH; do curl -s -o /dev/null -X $m http://172.21.10.30/; done
+curl -sI http://172.21.10.30/                                         # HEAD
+curl -s &quot;http://172.21.10.30/dvwa/vulnerabilities/sqli/?id=1&#39;+OR+&#39;1&#39;=&#39;1&amp;Submit=Submit&quot; -o /dev/null
+curl -s &quot;http://172.21.10.30/dvwa/vulnerabilities/sqli/?id=1&#39;+UNION+SELECT+user,password+FROM+users--+&amp;Submit=Submit&quot; -o /dev/null
+nikto -h http://172.21.10.30 -maxtime 60s                             # ruido realista</code></pre>
+<p>Las URI quedan en el log aunque DVWA redirija al login (302): para
+esta tarea no hace falta iniciar sesión. Para tener <strong>5xx</strong>
+reales, una página de error en srvweb:</p>
+<pre class="bash"><code># srvweb
+echo &#39;&lt;?php http_response_code(500); echo &quot;error de prueba&quot;;&#39; | sudo tee /var/www/html/error500.php
+curl -s -o /dev/null -w &#39;%{http_code}\n&#39; http://172.21.10.30/error500.php     # 500</code></pre>
+<h3>Búsquedas SPL
+(sourcetype <code>access_combined</code>)</h3>
+<pre class="spl"><code># 1.1 · ni GET ni POST
+index=main sourcetype=access_combined NOT method IN (GET, POST)
+| stats count by method
+
+# 1.2 · errores 5xx
+index=main sourcetype=access_combined status&gt;=500 status&lt;=599
+| table _time uri status
+
+# 1.3 · IP de origen sin repetir
+index=main sourcetype=access_combined
+| dedup clientip | table clientip
+
+# 1.4 · URI que contiene &quot;SQL&quot; (la búsqueda de valores no distingue mayúsculas: casa con /sqli/)
+index=main sourcetype=access_combined uri=&quot;*SQL*&quot;
+| table _time uri clientip
+
+# 2 · inyección SQL en el log público (y en el propio)
+index=main sourcetype=access_combined (&quot;*SELECT*FROM*&quot; OR &quot;*UNION*&quot; OR &quot;*1=1*&quot; OR &quot;*DROP*&quot;)
+| table _time clientip method uri status</code></pre>
+<ul>
+<li><code>method!=GET method!=POST</code> también funciona, pero
+descarta los eventos sin campo <code>method</code>;
+<code>NOT method IN (…)</code> es más explícito.</li>
+<li>Las cadenas pueden ir <strong>codificadas</strong>
+(<code>%27</code>, <code>%20</code>, <code>+</code>). Versión más
+robusta para el apartado 2:
+<code>| regex uri="(?i)(union(\+|%20|\s)+select|select.+from|%27|'\s*or\s*'?1'?\s*=\s*'?1|drop(\+|%20)table)"</code>.</li>
+<li>Lo enviado por <strong>POST</strong> no queda en
+<code>access.log</code>: una inyección por formulario POST no se ve aquí
+(sí en Suricata si inspecciona el cuerpo). Buen punto para el
+informe.</li>
+</ul>
+<h3>Log público (apartado 2)</h3>
+<blockquote>
+<p>El log de <code>almhuette-raith.at</code> que citaba el enunciado
+original <strong>ya no está publicado</strong> (noviembre de 2026). Se
+sustituye por cualquiera de estas opciones; todas en formato
+<em>combined</em> (<code>sourcetype=access_combined</code>).</p>
+</blockquote>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm">
+
+<thead>
+<tr class="header">
+<th>Opción</th>
+<th>Qué es</th>
+<th>Para qué apartado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A · Log de ejemplo de Elastic</strong> (recomendada)</td>
+<td>10 000 líneas de un servidor web real</td>
+<td>Apartado 2: métodos, 5xx, IP, búsqueda de SQLi (puede haber pocas o
+ninguna)</td>
+</tr>
+<tr class="even">
+<td><strong>B · Log propio de srvweb con ataques</strong></td>
+<td><code>access.log</code> tras nikto y sqlmap desde Kali</td>
+<td>Inyección SQL garantizada y correlación con Wazuh/Suricata</td>
+</tr>
+<tr class="odd">
+<td><strong>C · Log sintético con <code>flog</code></strong></td>
+<td>Generado sin Internet, tamaño a elegir</td>
+<td>Plan B para practicar SPL (sin ataques)</td>
+</tr>
+</tbody>
+</table></div>
+<pre class="bash"><code># A · fuera del aula (≈2 MB)
+wget -O elastic_apache.log &quot;https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs&quot;
+
+# B · desde kali contra srvweb, y después copiar /var/log/apache2/access.log
+nikto -h http://172.21.10.30 -maxtime 120s
+sqlmap -u &quot;http://172.21.10.30/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit&quot; --batch --level 2
+
+# C · log sintético (imagen descargada fuera del aula)
+docker run --rm mingrammer/flog -f apache_combined -n 20000 &gt; flog_apache.log</code></pre>
+<p>Subir con <em>Settings → Add Data → Upload</em>, <em>sourcetype</em>
+<code>access_combined</code>, índice
+<strong><code>publico</code></strong> (crearlo antes: <em>Settings →
+Indexes → New Index</em>) para no mezclarlo con el log del laboratorio,
+y repetir las búsquedas del apartado 1 cambiando <code>index=main</code>
+por <code>index=publico</code>.</p>
+<blockquote>
+<p>Ojo con las fechas: los logs A y C tienen marcas de tiempo antiguas o
+aleatorias. Buscad con el rango <em>All time</em>. Con B,
+<code>sqlmap</code> deja además el <em>User-Agent</em>
+<code>sqlmap/…</code>: <code>index=main useragent="*sqlmap*"</code> es
+una pista excelente para el informe.</p>
+</blockquote>
+<p><strong>Equivalentes en Wazuh</strong> sobre <code>access.log</code>
+de srvweb: <code>rule.groups:web and rule.groups:attack</code>, y
+<code>data.protocol:PUT</code> / <code>data.id:5*</code> en las alertas
+web.</p>
+<p><strong>Entrega:</strong> PDF con una captura por apartado (búsqueda
++ resultados).</p>
+<hr />
 <h1>FASE 4 · Informe, IA y cierre</h1>
-<h2>Paso 4.1 ·
-Informe breve · Entregable D (1–2 páginas)</h2>
+<h2>Paso
+4.1 · Informe de interpretación · Entregable D (1–2 páginas)</h2>
+<p>Modelo de redacción para cada alerta comentada (3–4 alertas como
+mínimo):</p>
+<p>Para cada alerta: <strong>qué regla</strong> (ID y descripción),
+<strong>qué evento</strong> la produjo (línea de log original),
+<strong>origen → destino</strong>, <strong>veredicto</strong> (VP / FP /
+necesita contexto) y <strong>qué dato adicional</strong> pedirías.
+Ejemplo:</p>
+<blockquote>
+<p><strong>Alerta 5763 · nivel 10 · 08/11 10:12:31 UTC</strong> — sshd:
+fuerza bruta contra <code>empleado</code> en srvweb desde 172.21.10.100.
+Se apoya en 8 eventos 5760 en 2 minutos. <strong>VP</strong>: la IP es
+externa a los activos y a los 40 s hay un 5715 (login correcto) del
+mismo origen. Siguiente paso: revisar
+<code>last</code>/<code>auth.log</code> en srvweb y abrir caso
+(2.4).</p>
+</blockquote>
+<p>Estructura del informe:</p>
 <ol type="1">
 <li>Qué controles hay en el laboratorio y qué ve cada uno (Suricata =
 red; Wazuh = equipos y correlación).</li>
@@ -1760,6 +2219,58 @@ sudo cp /etc/suricata/suricata.yaml.bak-2.2 /etc/suricata/suricata.yaml &amp;&am
 sudo sed -i &#39;s/^PasswordAuthentication yes/PasswordAuthentication no/&#39; /etc/ssh/sshd_config &amp;&amp; sudo systemctl restart ssh</code></pre>
 <p>Las reglas propias (100200 y 1000100) <strong>se pueden
 dejar</strong>: se reutilizan en la 2.3 y la 2.5.</p>
+<hr />
+<h1>FASE 5 · Ampliaciones</h1>
+<h2>5.1 · Regla propia de Wazuh</h2>
+<pre class="xml"><code>&lt;!-- /var/ossec/etc/rules/local_rules.xml (siem) — 100100–100120 los usa la práctica purple y 100150/100160 la web; usar 1002xx --&gt;
+&lt;group name=&quot;local,sshd,&quot;&gt;
+  &lt;rule id=&quot;100210&quot; level=&quot;13&quot;&gt;
+    &lt;if_sid&gt;5715&lt;/if_sid&gt;
+    &lt;srcip&gt;172.21.10.100&lt;/srcip&gt;
+    &lt;description&gt;Login SSH correcto desde el equipo atacante del laboratorio ($(srcip)) — posible compromiso&lt;/description&gt;
+    &lt;mitre&gt;&lt;id&gt;T1078&lt;/id&gt;&lt;/mitre&gt;
+  &lt;/rule&gt;
+&lt;/group&gt;</code></pre>
+<pre class="bash"><code>sudo /var/ossec/bin/wazuh-logtest      # pegar una línea &quot;Accepted password for empleado from 172.21.10.100 ...&quot;
+sudo systemctl restart wazuh-manager</code></pre>
+<h2>5.2 · Alerta por correo
+(MailHog)</h2>
+<p>Ver la sección «Alertas por correo con MailHog» de la web (Wazuh →
+Postfix → MailHog, <code>email_alert_level</code> 10). La regla 100210
+(nivel 13) y la 5763 (nivel 10) llegan al buzón.</p>
+<h2>5.3 · Práctica paralela ELK</h2>
+<p>Filebeat con el módulo <code>suricata</code> → Elasticsearch → Kibana
+(bloque «Práctica paralela» de la actividad en la web). Tabla KQL ↔︎ SPL
+de tres consultas equivalentes:</p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm">
+
+<thead>
+<tr class="header">
+<th>Consulta</th>
+<th>SPL</th>
+<th>KQL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Alertas de Kali</td>
+<td><code>index=suricata event_type=alert src_ip=172.21.10.100</code></td>
+<td><code>suricata.eve.event_type:alert and source.ip:"172.21.10.100"</code></td>
+</tr>
+<tr class="even">
+<td>SSH</td>
+<td><code>index=suricata dest_port=22</code></td>
+<td><code>destination.port:22</code></td>
+</tr>
+<tr class="odd">
+<td>Top firmas</td>
+<td><code>… \| stats count by alert.signature</code></td>
+<td>Visualización <em>Top values</em> de <code>rule.name</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>No arrancar ELK y Wazuh completos a la vez.</p>
+<hr />
 <hr />
 <h1>Solución orientativa del
 triaje</h1>
@@ -1918,6 +2429,40 @@ y 2)</td>
 </tbody>
 </table></div>
 <hr />
+<h2>Rúbrica de las tareas 2.3,
+2.4 y 2.5</h2>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm">
+
+<thead>
+<tr class="header">
+<th>Entregable</th>
+<th>Se valora</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tarea 2.3</td>
+<td>4 reglas correctas (prioridad, direcciones, umbral),
+<code>suricata -T</code> limpio, evidencia de cada disparo</td>
+</tr>
+<tr class="even">
+<td>Tarea 2.4</td>
+<td>Búsquedas con rango correcto, campos con prefijo
+<code>alert.</code>, dos alertas configuradas y disparadas</td>
+</tr>
+<tr class="odd">
+<td>Tarea 2.5</td>
+<td>Cinco búsquedas con resultados, <code>dedup</code>, detección de
+SQLi codificada, comentario sobre POST</td>
+</tr>
+<tr class="even">
+<td>Informe de alertas</td>
+<td>3–4 alertas con regla, evento, veredicto justificado y siguiente
+paso</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
 <h1>Problemas frecuentes</h1>
 <div style="overflow-x:auto"><table class="table table-bordered table-sm">
 
@@ -1999,6 +2544,46 @@ y 2)</td>
 <td>La expresión no coincide con la línea</td>
 <td>Probar con una sola línea; revisar espacios y
 <code>invalid user</code></td>
+</tr>
+<tr class="odd">
+<td>Ataques de Kali sin alertas ET</td>
+<td>Kali dentro de HOME_NET</td>
+<td><code>suricata-homenet.sh activos</code></td>
+</tr>
+<tr class="even">
+<td>Reglas 2.3 (2–4) no saltan</td>
+<td>Tráfico saliendo por la NAT</td>
+<td>Ruta temporal por la LAN o Kali como destino</td>
+</tr>
+<tr class="odd">
+<td><code>suricata -T</code> falla</td>
+<td>Comillas o <code>;</code> que faltan; sid repetido</td>
+<td>Leer la línea que indica; sids 1000020–1000026 únicos</td>
+</tr>
+<tr class="even">
+<td>Splunk no ve eve.json</td>
+<td>Permisos del usuario <code>splunk</code></td>
+<td><code>setfacl</code> del paso S1.2</td>
+</tr>
+<tr class="odd">
+<td><code>signature=</code> sin resultados</td>
+<td>Campo anidado</td>
+<td><code>alert.signature=</code></td>
+</tr>
+<tr class="even">
+<td>Alertas de Splunk desactivadas</td>
+<td>Licencia Free</td>
+<td>Trial o licencia de desarrollador</td>
+</tr>
+<tr class="odd">
+<td>hping3 «unrecognized option»</td>
+<td>Raya larga copiada (<code>—fast</code>)</td>
+<td>Escribir <code>--icmp --fast</code></td>
+</tr>
+<tr class="even">
+<td>hydra no encuentra rockyou</td>
+<td>Comprimido</td>
+<td><code>sudo gunzip -k /usr/share/wordlists/rockyou.txt.gz</code></td>
 </tr>
 </tbody>
 </table></div>
