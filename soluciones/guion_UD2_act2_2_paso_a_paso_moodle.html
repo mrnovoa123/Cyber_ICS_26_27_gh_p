@@ -136,6 +136,12 @@ cambiar por 10.10.10.x.</p>
 laboratorio</h1>
 <p>Se hace una sola vez. Cada paso dice <strong>qué debes ver</strong>.
 Si no lo ves, no sigas: arréglalo primero.</p>
+<h2>Paso 0.0 · Instantáneas
+antes de empezar</h2>
+<p>Desde el anfitrión:
+<code>vagrant snapshot save &lt;vm&gt; base-2-2</code> (entorno Vagrant)
+o <em>Máquina → Tomar instantánea</em> en VirtualBox, para siem, win10,
+srvweb y kali.</p>
 <h2>Paso 0.1 · Encender las VM en
 orden</h2>
 <ol type="1">
@@ -156,6 +162,9 @@ sudo systemctl status &lt;servicio&gt; --no-pager</code></pre>
 <p><strong>Debes ver</strong> <code>win10</code> y <code>srvweb</code>
 con <code>Active</code>. Si alguna sale <code>Disconnected</code>, ve al
 paso 0.5 o 0.6 y reinicia allí el agente.</p>
+<p>Comprobar también la hora (imprescindible para correlacionar eventos
+de varias máquinas):</p>
+<pre class="bash"><code>timedatectl | grep -E &#39;synchronized|Time zone&#39;</code></pre>
 <h2
 id="paso-0.3-hacer-que-suricata-vea-a-kali-como-externo-home_net">Paso
 0.3 · Hacer que Suricata «vea» a kali como externo (HOME_NET)</h2>

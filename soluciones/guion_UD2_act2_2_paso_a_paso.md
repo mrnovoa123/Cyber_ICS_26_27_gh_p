@@ -59,6 +59,11 @@ En todo el guion se usa el plan del aula (172.21.10.x). En casa, cambiar por 10.
 
 Se hace una sola vez. Cada paso dice **qué debes ver**. Si no lo ves, no sigas: arréglalo primero.
 
+## Paso 0.0 · Instantáneas antes de empezar
+
+Desde el anfitrión: `vagrant snapshot save <vm> base-2-2` (entorno Vagrant) o *Máquina → Tomar instantánea*
+en VirtualBox, para siem, win10, srvweb y kali.
+
 ## Paso 0.1 · Encender las VM en orden
 
 1. **siem** primero. Esperar 2–3 minutos: el indexador de Wazuh tarda en arrancar.
@@ -88,6 +93,12 @@ sudo /var/ossec/bin/agent_control -l
 
 **Debes ver** `win10` y `srvweb` con `Active`. Si alguna sale `Disconnected`, ve al paso 0.5 o 0.6
 y reinicia allí el agente.
+
+Comprobar también la hora (imprescindible para correlacionar eventos de varias máquinas):
+
+```bash
+timedatectl | grep -E 'synchronized|Time zone'
+```
 
 ## Paso 0.3 · Hacer que Suricata «vea» a kali como externo (HOME_NET)
 
