@@ -1907,10 +1907,10 @@ o desde .10). Es lo que tienen que descubrir.
 
 # Referencias
 
-- Wazuh · Sintaxis de reglas: https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html
-- Wazuh · Reglas personalizadas: https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html
-- Suricata · Thresholding (threshold / detection_filter): https://docs.suricata.io/en/latest/rules/thresholding.html
-- Suricata · Global thresholds (suppress): https://docs.suricata.io/en/latest/configuration/global-thresholds.html
-- Splunk · Configurar el Universal Forwarder: https://help.splunk.com/en/data-management/onboard-data-to-splunk-enterprise/forwarding-and-receiving-data/9.4/configure-forwarders
-- Splunk · Activar un receptor (9997): https://docs.splunk.com/Documentation/Forwarder/9.3.4/Forwarder/Enableareceiver
-- Splunk · *Exploring Splunk* (manual de SPL): https://www.splunk.com/pdfs/exploring-splunk.pdf
+- [Wazuh · Sintaxis de reglas](https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html)
+- [Wazuh · Reglas personalizadas](https://documentation.wazuh.com/current/user-manual/ruleset/rules/custom.html)
+- [Suricata · Thresholding (threshold / detection_filter)](https://docs.suricata.io/en/latest/rules/thresholding.html)
+- [Suricata · Global thresholds (suppress)](https://docs.suricata.io/en/latest/configuration/global-thresholds.html)
+- [Splunk · Configurar el Universal Forwarder](https://help.splunk.com/en/data-management/onboard-data-to-splunk-enterprise/forwarding-and-receiving-data/9.4/configure-forwarders)
+- [Splunk · Activar un receptor (9997)](https://docs.splunk.com/Documentation/Forwarder/9.3.4/Forwarder/Enableareceiver)
+- [Splunk · *Exploring Splunk* (manual de SPL)](https://www.splunk.com/pdfs/exploring-splunk.pdf)
