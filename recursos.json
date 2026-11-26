@@ -494,6 +494,18 @@
      ],
      "d": "Recogida forense y caza de amenazas en muchos equipos a la vez.",
      "alta": "2026-11-26"
+    },
+    {
+     "n": "Canarytokens",
+     "u": "https://canarytokens.org/generate",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Trampas gratuitas (documento, URL, credencial, token AWS…) que avisan por correo cuando alguien las abre: detección temprana de intrusos con coste cero.",
+     "alta": "2026-11-26"
     }
    ]
   },
@@ -605,6 +617,50 @@
       "UD3"
      ],
      "d": "Imágenes forenses de práctica con casos documentados."
+    },
+    {
+     "n": "MVT · Mobile Verification Toolkit",
+     "u": "https://github.com/mvt-project/mvt",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Busca indicadores de spyware tipo Pegasus en copias de iOS y Android (Amnistía Internacional).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Stegseek",
+     "u": "https://github.com/RickdeJager/stegseek",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Prueba diccionarios contra datos ocultos con steghide en una imagen; habitual en retos forenses.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "nwipe",
+     "u": "https://github.com/martijnvanbrummelen/nwipe",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Borrado seguro de discos (motor de ShredOS) para retirar soportes tras un incidente.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "usbkill y BusKill (antiforense)",
+     "u": "https://github.com/hephaest0s/usbkill",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Apagan o bloquean el equipo si cambia un USB o se tira del cable. El analista debe conocerlas: recomiendan una adquisición en caliente sin tocar los puertos. BusKill: buskill.in.",
+     "alta": "2026-11-26"
     }
    ]
   },
@@ -764,9 +820,227 @@
      ],
      "d": "Comprueba si un correo aparece en filtraciones conocidas.",
      "alta": "2026-11-26"
+    },
+    {
+     "n": "waybackurls",
+     "u": "https://github.com/tomnomnom/waybackurls",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Extrae del archivo histórico (Wayback Machine) URL olvidadas de un dominio propio; alternativa: gau.",
+     "alta": "2026-11-26"
     }
    ],
    "origen": "Incluye el tema de un reel de cyberwithjohann («5 search engines hackers use instead of Google, and what they show about your own network»); selección propia, no la lista del vídeo."
+  },
+  {
+   "id": "privacidad",
+   "h": "Privacidad, OPSEC y protección personal",
+   "d": "Herramientas defensivas para proteger datos, comunicaciones e identidad. Sirven para las actividades de concienciación (UD1) y para que el analista entienda qué rastro deja o no deja cada una.",
+   "origen": "Seleccionado del reto de herramientas Hackavis (privacidad, OPSEC y anti-vigilancia).",
+   "items": [
+    {
+     "n": "KeePassXC",
+     "u": "https://github.com/keepassxreboot/keepassxc",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Gestor de contraseñas local y libre: bóveda cifrada en un fichero propio, generador de contraseñas y TOTP.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "VeraCrypt",
+     "u": "https://www.veracrypt.fr/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD4"
+     ],
+     "d": "Cifrado de discos, particiones y contenedores, con volúmenes ocultos. Base de la protección de datos en reposo.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Signal",
+     "u": "https://signal.org/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Mensajería cifrada de extremo a extremo por defecto y con mínimos metadatos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Tails",
+     "u": "https://tails.net/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Sistema operativo en vivo y amnésico desde USB; toda la conexión sale por Tor.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Mullvad VPN",
+     "u": "https://mullvad.net/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "VPN sin cuentas personales, con auditorías públicas.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "OnionShare",
+     "u": "https://onionshare.org/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Compartir ficheros o alojar una web de forma anónima sobre Tor, sin servidores de terceros.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "GrapheneOS",
+     "u": "https://grapheneos.org/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Android endurecido para móviles Pixel: permisos granulares y sandbox reforzado.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "ExifTool",
+     "u": "https://exiftool.org/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD3"
+     ],
+     "d": "Lee y borra metadatos (autor, GPS, dispositivo). También sirve al forense para extraerlos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "mat2",
+     "u": "https://0xacab.org/jvoisin/mat2",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Limpia metadatos de imágenes, PDF y documentos antes de publicarlos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Image Scrubber",
+     "u": "https://everestpipkin.github.io/image-scrubber/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Difumina caras y borra metadatos de una foto en el propio navegador, sin subirla.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Fawkes",
+     "u": "https://sandlab.cs.uchicago.edu/fawkes/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Altera imperceptiblemente tus fotos para dificultar el reconocimiento facial (Universidad de Chicago).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Pi-hole",
+     "u": "https://pi-hole.net/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD4"
+     ],
+     "d": "Bloqueo de anuncios, rastreadores y dominios maliciosos por DNS para toda la red; sus logs ayudan a detectar equipos que contactan con dominios sospechosos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "uBlock Origin",
+     "u": "https://ublockorigin.com/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Bloqueador de anuncios, pop-ups y dominios de malware en el navegador; reduce el riesgo de malvertising.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "EFF Cover Your Tracks",
+     "u": "https://coveryourtracks.eff.org/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Test de cuánto te exponen los rastreadores y la huella (fingerprinting) del navegador.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "SimpleLogin",
+     "u": "https://simplelogin.io/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Alias de correo desechables y libres para no dar el correo real al registrarte.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "croc",
+     "u": "https://github.com/schollz/croc",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [],
+     "d": "Envía un fichero con un código corto y cifrado de extremo a extremo (alternativa: magic-wormhole).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "AirGuard",
+     "u": "https://github.com/seemoo-lab/AirGuard",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "App Android (TU Darmstadt) que detecta AirTags y otros rastreadores Bluetooth que puedan seguirte.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "The Hitchhiker's Guide to Online Anonymity",
+     "u": "https://anonymousplanet.org/guide.html",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Guía extensa y práctica para reducir el rastro en Internet.",
+     "alta": "2026-11-26"
+    }
+   ]
   },
   {
    "id": "vuln",
