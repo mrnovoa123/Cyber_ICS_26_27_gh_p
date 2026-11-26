@@ -334,7 +334,7 @@
      "ud": [
       "UD3"
      ],
-     "d": "Los diez riesgos principales de aplicaciones web."
+     "d": "Los diez riesgos principales de aplicaciones web (edición 2025, con A09 «fallos de registro y alertas»)."
     },
     {
      "n": "OWASP Top 10 para aplicaciones LLM",
@@ -1018,6 +1018,40 @@
      "alta": "2026-11-26"
     },
     {
+     "n": "Hacksplaining · Prompt Injection in LLM Apps",
+     "u": "https://www.hacksplaining.com/lessons/ai-prompt-injection",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Lección interactiva gratuita: inyección de instrucciones en aplicaciones con LLM.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Hacksplaining · Sensitive Information Disclosure in LLMs",
+     "u": "https://www.hacksplaining.com/lessons/ai-data-extraction-attacks",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD5"
+     ],
+     "d": "Fuga de datos confidenciales a través de un modelo.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Hacksplaining · Misinformation and Model Poisoning",
+     "u": "https://www.hacksplaining.com/lessons/ai-bias-and-unreliability",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Envenenamiento del modelo y respuestas poco fiables.",
+     "alta": "2026-11-26"
+    },
+    {
      "n": "OWASP GenAI Security Project",
      "u": "https://genai.owasp.org/",
      "t": "web",
@@ -1136,6 +1170,223 @@
       "UD2"
      ],
      "d": "Vagrantfile y scripts de aprovisionamiento del escenario de prácticas."
+    }
+   ]
+  },
+  {
+   "id": "web",
+   "h": "Vulnerabilidades web y desarrollo seguro (Hacksplaining)",
+   "d": "Hacksplaining: lecciones interactivas en las que se ejecuta el ataque en el navegador y después se aprende cómo corregirlo. Cada una dura de 15 a 30 minutos y termina con un pequeño test; son gratuitas para uso personal y están en inglés. Recomendadas antes de atacar DVWA o Juice Shop en el servidor víctima: así el alumnado sabe qué huella debe buscar después en Wazuh y Suricata.",
+   "items": [
+    {
+     "n": "Hacksplaining · catálogo de lecciones",
+     "u": "https://www.hacksplaining.com/lessons",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "45 lecciones interactivas gratuitas, con filtros por LLM, OWASP Top 10 y PCI DSS.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Hacksplaining · OWASP Top 10:2025",
+     "u": "https://www.hacksplaining.com/owasp",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Resumen de cada riesgo de la edición 2025, cambios respecto a 2021 y lecciones asociadas a cada categoría.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Hacksplaining · glosario",
+     "u": "https://www.hacksplaining.com/glossary",
+     "t": "web",
+     "l": "EN",
+     "ud": [],
+     "d": "Glosario de términos de seguridad web; útil para el glosario del aula virtual.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Hacksplaining · PCI DSS",
+     "u": "https://www.hacksplaining.com/pci",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Requisitos de desarrollo seguro de la norma de pagos con tarjeta y lecciones relacionadas.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "SQL Injection",
+     "u": "https://www.hacksplaining.com/lessons/sql-injection",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "La inyección clásica contra la base de datos; se reproduce en DVWA del servidor víctima.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Cross-Site Scripting (almacenado, reflejado y DOM)",
+     "u": "https://www.hacksplaining.com/lessons/xss-stored",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Tres lecciones sobre XSS; ver también xss-reflected y xss-dom.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Command Execution",
+     "u": "https://www.hacksplaining.com/lessons/command-execution",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Inyección de comandos del sistema desde un formulario web.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Directory Traversal",
+     "u": "https://www.hacksplaining.com/lessons/directory-traversal",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Leer ficheros fuera de la raíz web con ../; deja rastro claro en el access.log.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "File Upload Vulnerabilities",
+     "u": "https://www.hacksplaining.com/lessons/file-upload",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Subida de una webshell; relación directa con la FIM de Wazuh.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Cross-Site Request Forgery",
+     "u": "https://www.hacksplaining.com/lessons/csrf",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Forzar acciones de un usuario autenticado.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Password Mismanagement",
+     "u": "https://www.hacksplaining.com/lessons/password-mismanagement",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD2"
+     ],
+     "d": "Almacenamiento y políticas de contraseñas; complementa la fuerza bruta de la actividad 2.2.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "User Enumeration",
+     "u": "https://www.hacksplaining.com/lessons/user-enumeration",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Cómo un atacante descubre usuarios válidos antes de lanzar hydra.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Privilege Escalation",
+     "u": "https://www.hacksplaining.com/lessons/privilege-escalation",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "De usuario normal a administrador: qué buscar en los logs.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Logging and Monitoring",
+     "u": "https://www.hacksplaining.com/lessons/logging-and-monitoring",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Categoría A09 del OWASP: qué registrar y vigilar. El corazón de la UD2.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Email Spoofing",
+     "u": "https://www.hacksplaining.com/lessons/email-spoofing",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Suplantación de remitente; base técnica del phishing (SPF, DKIM, DMARC).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "DNS Poisoning",
+     "u": "https://www.hacksplaining.com/lessons/dns-poisoning",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Envenenamiento de caché DNS y cómo se mitiga.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Denial of Service Attacks",
+     "u": "https://www.hacksplaining.com/lessons/denial-of-service-attacks",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Ataques de denegación de servicio; enlaza con el hping3 del laboratorio.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Toxic Dependencies",
+     "u": "https://www.hacksplaining.com/lessons/toxic-dependencies",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Librerías vulnerables: cadena de suministro y gestión de parches.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Slopsquatting (LLM Supply Chain)",
+     "u": "https://www.hacksplaining.com/lessons/slop-squatting",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Paquetes falsos con nombres que «alucinan» los asistentes de IA al programar.",
+     "alta": "2026-11-26"
     }
    ]
   },
