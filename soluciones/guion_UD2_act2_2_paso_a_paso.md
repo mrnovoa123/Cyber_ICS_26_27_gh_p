@@ -15,7 +15,7 @@ orden: "Preparar → simular ataques con kali (siguiendo el rastro) → reglas �
 > Suricata del enunciado, Splunk con Suricata y Splunk con Apache), con la instalación de Splunk y la
 > ingesta de Sysmon. Convenciones del laboratorio: `empleado`/`123456` en srvweb, DVWA en `/dvwa/`,
 > índices de Splunk `suricata`, `main` y `wazuh`, reglas de Suricata en `/etc/suricata/rules/custom.rules`
-> (sid 1000020–1000026 para las tareas; 1000100–1000101 para las reglas propias) y reglas de Wazuh
+> (sid 1000020–1000026 para las tareas; 1000100–1000102 para las reglas propias) y reglas de Wazuh
 > 1002xx (100200–100203 y 100210).
 
 **Qué se hace, en una frase:** desde kali se lanzan ataques controlados contra las víctimas del
@@ -599,9 +599,36 @@ delante del equipo» (NC) de «alguien ataca por la red» (VP).
 
 **Qué simula:** un volumen anómalo de ping (reconocimiento o inicio de una denegación de servicio).
 
+> **Importante:** un ping no deja rastro en ningún log de srvweb, y **ninguna regla ET ni de Wazuh
+> avisa por pings sueltos**. Además, la regla ICMP de la tarea 2.3 vigila la **salida** de la red
+> interna (`$HOME_NET -> $EXTERNAL_NET`), mientras que este ataque **entra** (kali → srvweb), así que
+> tampoco salta. Para que este ataque se vea hay que **añadir antes una regla propia**.
+
+**1. Antes de atacar, en el siem**, añadir la regla y reiniciar Suricata:
+
+```bash
+echo 'alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg:"LAB rafaga ICMP entrante"; itype:8; threshold: type both, track by_src, count 50, seconds 10; classtype:attempted-dos; sid:1000102; rev:1;)' | sudo tee -a /etc/suricata/rules/custom.rules
+sudo suricata -T -c /etc/suricata/suricata.yaml | tail -1
+sudo systemctl restart suricata
+```
+
+Qué dice: pings (`itype:8`) que **entran** desde fuera hacia los activos; avisa cuando una misma IP
+supera **50 en 10 segundos**, y como mucho una vez por periodo (`type both`), para no inundar el log.
+Requiere `HOME_NET` solo con los activos (paso 0.3) y `custom.rules` en `rule-files` (paso 2.5).
+
+**2. Comprobar que el siem ve el ping** (si no, el problema es el modo promiscuo, ver «Problemas
+frecuentes»):
+
+```bash
+# siem (cambiar enp0s8 por la interfaz de la LAN)
+sudo tcpdump -ni enp0s8 icmp and host 172.21.10.100 -c 5
+```
+
+**3. Lanzar el ataque desde kali:**
+
 ```bash
 date
-sudo hping3 --icmp --fast -c 150 172.21.10.30      # dos guiones en --icmp y --fast
+sudo hping3 --icmp --fast -c 150 172.21.10.30      # --fast = 10 paquetes/s → unos 15 s
 date
 ```
 
@@ -609,12 +636,20 @@ date
 
 | Capa | Qué se ve |
 |---|---|
-| 1 · srvweb | Nada en los logs: el ping no lo registra ningún servicio |
-| 2 · Suricata | `LAB ICMP echo hacia la LAN` (sid 1000001, regla local del aprovisionamiento) o la regla de umbral ICMP de la tarea 2.3 |
-| 3 · Wazuh | `Rule: 86601` (Suricata) |
-| 4 · Panel | `rule.groups: "suricata" and data.alert.signature: *ICMP*` |
+| 1 · srvweb | **Nada** en los logs: ningún servicio registra el ping. Es lo esperado |
+| 2 · Suricata | `fast.log`: `[1:1000102:1] LAB rafaga ICMP entrante [**] [Classification: Attempted Denial of Service] … {ICMP} 172.21.10.100:8 -> 172.21.10.30:0` |
+| 3 · Wazuh | `Rule: 86601 (level 3) -> 'Suricata: Alert - LAB rafaga ICMP entrante'` |
+| 4 · Panel | `data.alert.signature_id: 1000102` o `data.alert.signature: "LAB rafaga ICMP entrante"` |
 
-**Lección:** como el escaneo, solo lo ve la red.
+**Si sigue sin aparecer nada**, por orden:
+- `tcpdump` del punto 2 no muestra paquetes → modo promiscuo del adaptador del siem («Permitir todo»).
+- `sudo grep 1000102 /var/log/suricata/suricata.log` o `suricata -T` da error → la regla no se cargó
+  (`custom.rules` no está en `rule-files`).
+- Sale en `fast.log` pero no en Wazuh → Wazuh no lee `eve.json` (paso 0.4).
+- Con `-c 150` y sin `--fast` (1 ping/s) no se alcanza el umbral: usar `--fast` o bajar `count`.
+
+**Lección:** como el escaneo, solo lo ve la red, y **solo si alguien ha escrito la regla**: la
+detección no viene de serie, se construye.
 
 ## Paso 1.8 · Actividad legítima (ruido)
 
@@ -1881,6 +1916,8 @@ o desde .10). Es lo que tienen que descubrir.
 | Síntoma | Causa probable | Solución |
 |---|---|---|
 | Suricata no muestra nada con nmap | HOME_NET incluye a kali | Paso 0.3 |
+| Ni nmap ni ping aparecen en `fast.log` | El siem no ve el tráfico entre kali y srvweb | VirtualBox: adaptador del siem en modo promiscuo «Permitir todo»; comprobar con `tcpdump` |
+| El ping (A7) no deja rastro | No hay regla que lo detecte | Regla 1000102 del paso 1.7b |
 | Suricata alerta, pero no aparece en Wazuh | Wazuh no lee `eve.json` | Paso 0.4 |
 | No hay alertas SSH en Wazuh | Debian 12 sin `auth.log` (falta rsyslog) | Paso 0.5.1 |
 | hydra dice que el servidor no acepta contraseñas | `PasswordAuthentication no` | Paso 0.5.3 |
