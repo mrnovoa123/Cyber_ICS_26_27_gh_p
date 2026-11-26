@@ -868,56 +868,93 @@ en <code>fast.log</code> pero no en Wazuh → Wazuh no lee
 <code>eve.json</code> (paso 0.4). - Con <code>-c 150</code> y sin
 <code>--fast</code> (1 ping/s) no se alcanza el umbral: usar
 <code>--fast</code> o bajar <code>count</code>.</p>
+<p><strong>Evidencia de que está bien hecho</strong> (no hay log en
+srvweb: la evidencia está en la red):</p>
+<ol type="1">
+<li>En kali, la salida de <code>hping3</code>:
+<code>150 packets transmitted</code> y las respuestas recibidas.</li>
+<li>En el siem, el <code>tcpdump</code> del punto 2 mostrando
+<code>ICMP echo request</code> de .100 a .30.</li>
+<li>En <code>fast.log</code>, la línea con <code>1000102</code> y la
+hora dentro de la ventana anotada.</li>
+<li>En Wazuh, la alerta 86601 con
+<code>data.alert.signature_id: 1000102</code>.</li>
+</ol>
 <p><strong>Lección:</strong> como el escaneo, solo lo ve la red, y
 <strong>solo si alguien ha escrito la regla</strong>: la detección no
 viene de serie, se construye.</p>
 <h2>Paso 1.8 · Actividad legítima
 (ruido)</h2>
 <p><strong>La genera el profesorado sin avisar de cuándo.</strong> Sirve
-para que en el triaje haya alertas que <strong>no</strong> son
-ataques.</p>
+para que en el triaje haya alertas que <strong>no</strong> son ataques:
+el mismo tipo de evento que en A3, pero autorizado.</p>
+<blockquote>
+<p><strong>Dos avisos.</strong> La red <code>labcyber</code> no tiene
+salida a Internet, así que <code>apt-get install</code> <strong>no puede
+descargar nada</strong> y no sirve como ruido. Y <code>empleado</code>
+es un usuario sin privilegios: para <code>sudo</code> hay que entrar con
+la <strong>cuenta de administración</strong> de srvweb
+(<code>vagrant</code> en el entorno Vagrant, o la que se creó al montar
+la OVA). En los comandos aparece como <code>&lt;admin&gt;</code>.</p>
+</blockquote>
 <p>Desde el <strong>siem</strong> (la IP de administración):</p>
-<pre class="bash"><code>ssh empleado@172.21.10.30
-sudo apt-get install -y tree
-sudo systemctl restart apache2
-exit</code></pre>
+<pre class="bash"><code>date
+ssh &lt;admin&gt;@172.21.10.30                      # acceso correcto desde .10
+sudo systemctl restart apache2                 # uso de sudo (mantenimiento)
+sudo useradd -m -c &quot;Becario TecnoMariña&quot; becario   # alta de usuario (cambio autorizado)
+sudo userdel -r becario                        # y baja
+exit
+date</code></pre>
 <p>Y en win10, cerrar sesión y volver a entrar con la contraseña
 correcta.</p>
-<p><strong>En el siem se verá:</strong> <code>5715</code> (SSH correcto,
-pero <strong>desde 172.21.10.10</strong>), <code>5402</code> (uso de
-sudo), <code>2902</code> (paquete instalado) y eventos de inicio de
-sesión de Windows.</p>
 <p><strong>🔎 Rastro del ruido:</strong></p>
 <div style="overflow-x:auto"><table class="table table-bordered table-sm">
 
 <thead>
 <tr class="header">
 <th>Capa</th>
+<th>Dónde</th>
 <th>Qué se ve</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1 · srvweb <code>auth.log</code></td>
-<td><code>Accepted password for empleado from 172.21.10.10</code> ·
-<code>sudo: empleado : … COMMAND=/usr/bin/apt-get install -y tree</code></td>
+<td>1 · srvweb</td>
+<td><code>auth.log</code> (comando a)</td>
+<td><code>Accepted password for &lt;admin&gt; from 172.21.10.10</code> ·
+<code>sudo: &lt;admin&gt; : … COMMAND=/usr/bin/systemctl restart apache2</code>
+· <code>useradd[…]: new user: name=becario</code> ·
+<code>userdel[…]: delete user 'becario'</code></td>
 </tr>
 <tr class="even">
-<td>1 · srvweb <code>/var/log/dpkg.log</code></td>
-<td><code>status installed tree:amd64 …</code></td>
+<td>3 · Wazuh</td>
+<td><code>alerts.log</code> del siem (comando b)</td>
+<td><code>5715</code> (SSH correcto), <code>5402</code> (sudo a root),
+<code>5902</code> (usuario nuevo) y la regla de borrado de usuario</td>
 </tr>
 <tr class="odd">
-<td>3 · Wazuh</td>
-<td><code>5715</code>, <code>5402</code>, <code>2902</code> desde el
-agente srvweb, origen .10</td>
-</tr>
-<tr class="even">
 <td>4 · Panel</td>
-<td><code>data.srcip: "172.21.10.10"</code> o
-<code>rule.id: (5402 or 2902)</code></td>
+<td><code>agent.name: "srvweb" and data.srcip: "172.21.10.10"</code> ·
+<code>rule.groups: "sudo"</code> ·
+<code>rule.groups: "adduser"</code></td>
+<td>Las mismas alertas, con origen .10</td>
 </tr>
 </tbody>
 </table></div>
+<pre class="bash"><code># (a) en srvweb
+sudo grep -E &#39;Accepted|sudo:|useradd|userdel&#39; /var/log/auth.log | tail
+# (b) en el siem
+sudo grep -A3 &#39;(srvweb)&#39; /var/ossec/logs/alerts/alerts.log | grep &#39;Rule:&#39; | tail</code></pre>
+<p><strong>Si en srvweb sí aparecen las líneas pero en Wazuh
+no:</strong> el agente no lee <code>auth.log</code> (paso 0.5).
+<strong>Si en srvweb no existe <code>auth.log</code>:</strong> falta
+rsyslog (paso 0.5); si no se puede instalar porque no hay Internet, el
+agente puede leer el diario de systemd directamente (ver «Problemas
+frecuentes»).</p>
+<p><strong>Evidencia de que está bien hecho:</strong> captura de las
+líneas de <code>auth.log</code> en srvweb <strong>y</strong> de las
+alertas 5715/5402/5902 en el siem con origen 172.21.10.10, con la hora
+dentro de la ventana anotada.</p>
 <p><strong>Lección:</strong> la cadena es igual que en un ataque; lo que
 cambia es el <strong>contexto</strong> (quién, desde dónde, si estaba
 previsto).</p>
@@ -2385,8 +2422,8 @@ delante</td>
 <td>IP de administración, cambio previsto</td>
 </tr>
 <tr class="even">
-<td>Ruido: sudo / paquete</td>
-<td>5402, 2902</td>
+<td>Ruido: sudo / alta y baja de usuario</td>
+<td>5402, 5902</td>
 <td>FP o NC</td>
 <td>FP si hay «ticket» de cambio; NC si nadie lo justifica</td>
 </tr>
@@ -2544,6 +2581,20 @@ comprobar con <code>tcpdump</code></td>
 <td>El ping (A7) no deja rastro</td>
 <td>No hay regla que lo detecte</td>
 <td>Regla 1000102 del paso 1.7b</td>
+</tr>
+<tr class="even">
+<td>srvweb sin <code>auth.log</code> y sin Internet para instalar
+rsyslog</td>
+<td>Debian 12 solo guarda en el diario de systemd</td>
+<td>En el <code>ossec.conf</code> del agente de srvweb:
+<code>&lt;localfile&gt;&lt;log_format&gt;journald&lt;/log_format&gt;&lt;location&gt;journald&lt;/location&gt;&lt;/localfile&gt;</code>
+(Wazuh 4.8 o posterior) y reiniciar el agente</td>
+</tr>
+<tr class="odd">
+<td><code>sudo</code> falla en srvweb con <code>empleado</code></td>
+<td>Usuario sin privilegios</td>
+<td>Usar la cuenta de administración (<code>vagrant</code> u otra con
+sudo)</td>
 </tr>
 <tr class="even">
 <td>Suricata alerta, pero no aparece en Wazuh</td>

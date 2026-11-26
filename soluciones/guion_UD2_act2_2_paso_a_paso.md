@@ -648,36 +648,61 @@ date
 - Sale en `fast.log` pero no en Wazuh → Wazuh no lee `eve.json` (paso 0.4).
 - Con `-c 150` y sin `--fast` (1 ping/s) no se alcanza el umbral: usar `--fast` o bajar `count`.
 
+**Evidencia de que está bien hecho** (no hay log en srvweb: la evidencia está en la red):
+
+1. En kali, la salida de `hping3`: `150 packets transmitted` y las respuestas recibidas.
+2. En el siem, el `tcpdump` del punto 2 mostrando `ICMP echo request` de .100 a .30.
+3. En `fast.log`, la línea con `1000102` y la hora dentro de la ventana anotada.
+4. En Wazuh, la alerta 86601 con `data.alert.signature_id: 1000102`.
+
 **Lección:** como el escaneo, solo lo ve la red, y **solo si alguien ha escrito la regla**: la
 detección no viene de serie, se construye.
 
 ## Paso 1.8 · Actividad legítima (ruido)
 
 **La genera el profesorado sin avisar de cuándo.** Sirve para que en el triaje haya alertas que
-**no** son ataques.
+**no** son ataques: el mismo tipo de evento que en A3, pero autorizado.
+
+> **Dos avisos.** La red `labcyber` no tiene salida a Internet, así que `apt-get install` **no puede
+> descargar nada** y no sirve como ruido. Y `empleado` es un usuario sin privilegios: para `sudo` hay
+> que entrar con la **cuenta de administración** de srvweb (`vagrant` en el entorno Vagrant, o la que
+> se creó al montar la OVA). En los comandos aparece como `<admin>`.
 
 Desde el **siem** (la IP de administración):
 
 ```bash
-ssh empleado@172.21.10.30
-sudo apt-get install -y tree
-sudo systemctl restart apache2
+date
+ssh <admin>@172.21.10.30                      # acceso correcto desde .10
+sudo systemctl restart apache2                 # uso de sudo (mantenimiento)
+sudo useradd -m -c "Becario TecnoMariña" becario   # alta de usuario (cambio autorizado)
+sudo userdel -r becario                        # y baja
 exit
+date
 ```
 
 Y en win10, cerrar sesión y volver a entrar con la contraseña correcta.
 
-**En el siem se verá:** `5715` (SSH correcto, pero **desde 172.21.10.10**), `5402` (uso de sudo),
-`2902` (paquete instalado) y eventos de inicio de sesión de Windows.
-
 **🔎 Rastro del ruido:**
 
-| Capa | Qué se ve |
-|---|---|
-| 1 · srvweb `auth.log` | `Accepted password for empleado from 172.21.10.10` · `sudo: empleado : … COMMAND=/usr/bin/apt-get install -y tree` |
-| 1 · srvweb `/var/log/dpkg.log` | `status installed tree:amd64 …` |
-| 3 · Wazuh | `5715`, `5402`, `2902` desde el agente srvweb, origen .10 |
-| 4 · Panel | `data.srcip: "172.21.10.10"` o `rule.id: (5402 or 2902)` |
+| Capa | Dónde | Qué se ve |
+|---|---|---|
+| 1 · srvweb | `auth.log` (comando a) | `Accepted password for <admin> from 172.21.10.10` · `sudo: <admin> : … COMMAND=/usr/bin/systemctl restart apache2` · `useradd[…]: new user: name=becario` · `userdel[…]: delete user 'becario'` |
+| 3 · Wazuh | `alerts.log` del siem (comando b) | `5715` (SSH correcto), `5402` (sudo a root), `5902` (usuario nuevo) y la regla de borrado de usuario |
+| 4 · Panel | `agent.name: "srvweb" and data.srcip: "172.21.10.10"` · `rule.groups: "sudo"` · `rule.groups: "adduser"` | Las mismas alertas, con origen .10 |
+
+```bash
+# (a) en srvweb
+sudo grep -E 'Accepted|sudo:|useradd|userdel' /var/log/auth.log | tail
+# (b) en el siem
+sudo grep -A3 '(srvweb)' /var/ossec/logs/alerts/alerts.log | grep 'Rule:' | tail
+```
+
+**Si en srvweb sí aparecen las líneas pero en Wazuh no:** el agente no lee `auth.log` (paso 0.5).
+**Si en srvweb no existe `auth.log`:** falta rsyslog (paso 0.5); si no se puede instalar porque no hay
+Internet, el agente puede leer el diario de systemd directamente (ver «Problemas frecuentes»).
+
+**Evidencia de que está bien hecho:** captura de las líneas de `auth.log` en srvweb **y** de las
+alertas 5715/5402/5902 en el siem con origen 172.21.10.10, con la hora dentro de la ventana anotada.
 
 **Lección:** la cadena es igual que en un ataque; lo que cambia es el **contexto** (quién, desde
 dónde, si estaba previsto).
@@ -1868,7 +1893,7 @@ No arrancar ELK y Wazuh completos a la vez.
 | A5 desde kali | 60122, 60204 | VP | Origen externo, varios usuarios o contraseñas |
 | A5 en local (runas) | 60122 | **NC** | Puede ser un usuario equivocándose: falta saber quién estaba delante |
 | Ruido: SSH desde .10 | 5715 | FP | IP de administración, cambio previsto |
-| Ruido: sudo / paquete | 5402, 2902 | FP o NC | FP si hay «ticket» de cambio; NC si nadie lo justifica |
+| Ruido: sudo / alta y baja de usuario | 5402, 5902 | FP o NC | FP si hay «ticket» de cambio; NC si nadie lo justifica |
 | A6 User-Agent con instrucciones | 31103 | VP | El texto metido en el log no cambia lo que pasó |
 
 **Idea clave a corregir:** la **misma regla** (5715) es VP o FP según el **contexto** (desde .100
@@ -1918,6 +1943,8 @@ o desde .10). Es lo que tienen que descubrir.
 | Suricata no muestra nada con nmap | HOME_NET incluye a kali | Paso 0.3 |
 | Ni nmap ni ping aparecen en `fast.log` | El siem no ve el tráfico entre kali y srvweb | VirtualBox: adaptador del siem en modo promiscuo «Permitir todo»; comprobar con `tcpdump` |
 | El ping (A7) no deja rastro | No hay regla que lo detecte | Regla 1000102 del paso 1.7b |
+| srvweb sin `auth.log` y sin Internet para instalar rsyslog | Debian 12 solo guarda en el diario de systemd | En el `ossec.conf` del agente de srvweb: `<localfile><log_format>journald</log_format><location>journald</location></localfile>` (Wazuh 4.8 o posterior) y reiniciar el agente |
+| `sudo` falla en srvweb con `empleado` | Usuario sin privilegios | Usar la cuenta de administración (`vagrant` u otra con sudo) |
 | Suricata alerta, pero no aparece en Wazuh | Wazuh no lee `eve.json` | Paso 0.4 |
 | No hay alertas SSH en Wazuh | Debian 12 sin `auth.log` (falta rsyslog) | Paso 0.5.1 |
 | hydra dice que el servidor no acepta contraseñas | `PasswordAuthentication no` | Paso 0.5.3 |
