@@ -1039,6 +1039,297 @@
      ],
      "d": "Guía extensa y práctica para reducir el rastro en Internet.",
      "alta": "2026-11-26"
+    },
+    {
+     "n": "vopono",
+     "u": "https://github.com/jamesmcm/vopono",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [],
+     "d": "Ejecuta solo ciertas aplicaciones a través de una VPN usando espacios de red de Linux; el resto de la conexión no cambia.",
+     "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "osint-profe",
+   "profe": true,
+   "h": "OSINT sobre personas, vigilancia y herramientas sin verificar (solo profesorado)",
+   "d": "Recursos del reto Hackavis que no se publican para el alumnado: localizan o identifican a personas, exponen sistemas o ficheros de terceros, o no están verificados. Sirven para explicar riesgos, el RGPD y la ética del OSINT; no se usan sobre personas reales sin base legal.",
+   "origen": "Seleccionado del reto de herramientas Hackavis (privacidad, OPSEC y anti-vigilancia).",
+   "items": [
+    {
+     "n": "FaceCheck.ID",
+     "u": "https://facecheck.id/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Búsqueda por reconocimiento facial: dónde aparece una cara en Internet (alternativa: PimEyes). No son de código abierto. Ejemplo de riesgo para la privacidad. ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Epieos",
+     "u": "https://epieos.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "A partir de un correo, cuentas asociadas, nombre, foto y filtraciones.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "PhoneInfoga",
+     "u": "https://github.com/sundowndev/phoneinfoga",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Información pública asociada a un número de teléfono.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "DGT · informe de vehículo",
+     "u": "https://www.dgt.es/nuestros-servicios/tu-vehiculo/tus-vehiculos/informe-de-un-vehiculo/",
+     "t": "web",
+     "l": "ES",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Por matrícula: informe reducido gratis; el completo (8,67 €) incluye titulares, ITV con km y cargas.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "SUNARP · consulta vehicular (Perú)",
+     "u": "https://consultavehicular.sunarp.gob.pe/consulta-vehicular",
+     "t": "web",
+     "l": "ES",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Consulta gratuita por placa con propietario, marca, modelo y VIN.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Blue Hydra",
+     "u": "https://github.com/pwnieexpress/blue_hydra",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Captura Bluetooth y lista los dispositivos rastreables del entorno. ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Arctic Shift",
+     "u": "https://arctic-shift.photon-reddit.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Recupera publicaciones y comentarios borrados de Reddit.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Reveddit",
+     "u": "https://www.reveddit.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Muestra comentarios de Reddit eliminados por moderadores.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "GeoAxis",
+     "u": "https://geoaxis.ai/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Deduce dónde se tomó una foto (alternativa abierta a GeoSpy). ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "JStylo",
+     "u": "https://github.com/psal/jstylo",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Estilometría: atribución de autoría por la forma de escribir. ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Argis",
+     "u": "https://pypi.org/project/argis/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Busca un usuario y su foto de perfil en cientos de webs. ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Insecam",
+     "u": "http://www.insecam.org/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Directorio de cámaras sin proteger. Solo como ejemplo en clase de dispositivos expuestos por contraseñas por defecto; no acceder a ellas.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Grayhat Warfare",
+     "u": "https://buckets.grayhatwarfare.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD4"
+     ],
+     "d": "Buscador de buckets en la nube abiertos. Uso legítimo: comprobar la exposición de la propia organización.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "ADS-B Exchange",
+     "u": "https://globe.adsbexchange.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [],
+     "d": "Seguimiento de vuelos sin filtrar (militares, jets privados).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "MarineTraffic",
+     "u": "https://www.marinetraffic.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [],
+     "d": "Seguimiento de barcos en tiempo real por AIS (alternativa: VesselFinder).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Global Fishing Watch",
+     "u": "https://globalfishingwatch.org/",
+     "t": "web",
+     "l": "EN",
+     "ud": [],
+     "d": "Detecta barcos «fantasma» y suplantación de AIS. ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Plataforma de Contratación del Sector Público",
+     "u": "https://contrataciondelestado.es/",
+     "t": "web",
+     "l": "ES",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Contratos públicos: p. ej., buscar «drones» para ver qué compra cada administración y por cuánto.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Caso · drones Policía Local de Sant Josep (Ibiza)",
+     "u": "https://ted.europa.eu/es/notice/147332-2026/pdf",
+     "t": "web",
+     "l": "ES",
+     "ud": [],
+     "d": "Anuncio en el TED: contrato de drones por 314.600 €.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Caso · drones Policía Local de Santander",
+     "u": "https://www.elfaradio.com/2026/05/24/el-ayuntamiento-incorporara-drones-para-vigilar-los-vertederos-de-la-costa-norte-y-formara-a-la-policia-local-en-su-uso/",
+     "t": "noticias",
+     "l": "ES",
+     "ud": [],
+     "d": "Cuatro drones por 31.485 €.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Caso · drones Policía Municipal de Madrid",
+     "u": "https://www.madrid.es/portales/munimadrid/es/Inicio/Actualidad/Noticias/La-Junta-de-Gobierno-ratifica-la-compra-de-diverso-material-por-parte-de-la-Policia-Municipal",
+     "t": "noticias",
+     "l": "ES",
+     "ud": [],
+     "d": "Quince drones por 1,2 M€ (nota oficial).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "ABIS · reconocimiento facial de la Policía Nacional",
+     "u": "https://www.xataka.com/privacidad/policia-espanola-esta-probando-su-nuevo-sistema-reconocimiento-facial-cinco-millones-rostros",
+     "t": "noticias",
+     "l": "ES",
+     "ud": [
+      "UD5"
+     ],
+     "d": "Contexto: sistema con millones de rostros; útil para debatir RGPD y vigilancia.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Skopia",
+     "u": "https://github.com/NOLAM-CH/skopia",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Unas 20 herramientas OSINT reunidas en una sola página web.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "OpenPlanter",
+     "u": "https://github.com/shinmegamiboson/openplanter",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Agentes de IA que construyen un grafo de relaciones de una empresa. ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "TorBot",
+     "u": "https://github.com/DedSecInside/TorBot",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Rastrea una web .onion y genera un archivo consultable (alternativa: OnionSearch). ⚠️ Pendiente de verificar antes de usarla en clase.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "OSINT Hub",
+     "u": "https://pypi.org/project/osinthub/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Una veintena de búsquedas OSINT desde terminal. ⚠️ Pendiente de verificar antes de usarla en clase. Paquete de pip: revisar que no sea typosquatting.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "DarkFly",
+     "u": "https://github.com/Ranginang67/DarkFly-Tool",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [],
+     "d": "Instalador masivo de cientos de herramientas. ⚠️ Pendiente de verificar antes de usarla en clase. No ejecutar fuera de una VM desechable: instala código de terceros sin revisar.",
+     "alta": "2026-11-26"
     }
    ]
   },

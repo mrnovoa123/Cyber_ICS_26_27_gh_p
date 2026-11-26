@@ -37,3 +37,4 @@ python3 sync_recursos.py                                   # profesorado (index.
 python3 build_alumnado.py                                  # regenera alumnado (la sección se conserva)
 python3 sync_recursos.py ../ciber_cdm_ic_apuntes/index.html  # réplica de mrnovoa-dev
 ```
+Para que un recurso (o un grupo entero) sea **solo de profesorado**, añade `"profe": true` a la ficha o a la categoría: se ve en la web de profesorado y desaparece del build de alumnado y de la réplica de mrnovoa-dev.

@@ -42,6 +42,7 @@ CSS = """
 .rc-cd{font-size:13.5px;color:var(--muted);margin:0 0 8px}
 .stars{color:var(--udc);letter-spacing:1px;white-space:nowrap}
 .rec-hide{display:none!important}
+.rec-profe{border-left-color:var(--attack)!important}
 .ab-h .cnt{color:var(--muted);font-weight:500;font-size:.8em;margin-left:4px}
 """
 
@@ -59,7 +60,7 @@ ENGINE_FN = r"""function recursosSection(){var R=D.recursos,s=el('section','unit
  var total=R.cats.reduce(function(a,c){return a+c.items.length;},0);
  var chips='<button type="button" class="rcf on" data-f="">Todos</button>'+Object.keys(TL).filter(function(k){return tipos[k];}).map(function(k){return '<button type="button" class="rcf" data-f="'+k+'">'+TL[k]+' <span class="cnt">'+tipos[k]+'</span></button>';}).join('');
  var blocks=R.cats.map(function(c){var body=(c.d?'<p class="rc-cd">'+c.d+'</p>':'')+(c.origen?'<p class="rc-or">'+esc(c.origen)+'</p>':'')+(c.tabla?tabla(c):'<div class="rcgrid">'+c.items.map(card).join('')+'</div>');
-  return '<details class="ampblk" id="recursos-'+c.id+'"><summary><span class="ab-h">'+c.h+' <span class="cnt">'+c.items.length+'</span></span><span class="chev">'+ICON.chev+'</span></summary><div class="ab-body">'+body+'</div></details>';}).join('');
+  return '<details class="ampblk'+(c.profe?' rec-profe':'')+'" id="recursos-'+c.id+'"><summary><span class="ab-h">'+c.h+' <span class="cnt">'+c.items.length+'</span></span><span class="chev">'+ICON.chev+'</span></summary><div class="ab-body">'+body+'</div></details>';}).join('');
  s.innerHTML='<div class="uhead"><div class="sec-head"><span class="tag" style="background:var(--defend)">REC</span><h2>Recursos de ciberseguridad</h2></div><p class="lead">'+R.intro+'</p><p class="sec-meta amp-src"><b>'+total+' recursos</b> en '+R.cats.length+' grupos · actualizado '+R.actualizado.split('-').reverse().join('/')+'</p>'
   +'<div class="recctl"><input id="recQ" type="search" placeholder="Buscar: wazuh, forense, gratis, UD3…" aria-label="Buscar recursos"><span class="rec-cnt" id="recCnt"></span><button type="button" class="ampall" data-act="open">Abrir todo</button><button type="button" class="ampall" data-act="close">Cerrar todo</button></div>'
   +'<div class="rcfs">'+chips+'</div><p class="rec-warn">'+R.aviso+'</p></div>'+blocks;
@@ -84,9 +85,25 @@ s = target.read_text(encoding="utf-8")
 j = s.find("window.DATA=") + len("window.DATA=")
 D, end = json.JSONDecoder().raw_decode(s[j:])
 head, eng = s[:j], s[j + end:]
-D["recursos"] = R
+def publico(R):
+    """Quita lo marcado como solo-profesorado (categorías o fichas con "profe": true)."""
+    R = json.loads(json.dumps(R))
+    cats = []
+    for c in R["cats"]:
+        if c.get("profe"):
+            continue
+        c["items"] = [it for it in c["items"] if not it.get("profe")]
+        if c["items"]:
+            cats.append(c)
+    R["cats"] = cats
+    return R
 
-if MARK not in eng:
+D["recursos"] = R if D.get("role") == "profe" else publico(R)
+
+if MARK in eng:   # actualiza la función si ya existía
+    k = eng.index(MARK); e = eng.index(" return s;}\n", k) + len(" return s;}\n")
+    eng = eng[:k] + ENGINE_FN + eng[e:]
+else:
     k = eng.index("function evalSection(")
     eng = eng[:k] + ENGINE_FN + eng[k:]
     assert eng.count(NAV_OLD) == 1, "menú: no se halló el grupo Cierre"
@@ -100,5 +117,5 @@ if MARK not in eng:
 
 out = head + json.dumps(D, ensure_ascii=False) + eng
 target.write_text(out, encoding="utf-8")
-n = sum(len(c["items"]) for c in R["cats"])
-print(f"{target.name}: {n} recursos en {len(R['cats'])} grupos")
+n = sum(len(c["items"]) for c in D["recursos"]["cats"])
+print(f"{target.name}: {n} recursos en {len(D["recursos"]["cats"])} grupos")

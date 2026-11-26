@@ -134,6 +134,12 @@ for u in D["units"]:
             {k: v for k, v in mt.items() if k != "profe"}
             for mt in u["materiales"] if not mt.get("profe")
         ]
+if D.get("recursos"):   # recursos: fuera lo marcado como solo-profesorado
+    D["recursos"]["cats"] = [
+        dict(c, items=[i for i in c["items"] if not i.get("profe")])
+        for c in D["recursos"]["cats"] if not c.get("profe")
+    ]
+    D["recursos"]["cats"] = [c for c in D["recursos"]["cats"] if c["items"]]
 D["detalle"] = {k: v for k, v in D.get("detalle", {}).items() if k in PUBLICADAS}
 # quitar las secciones marcadas como solo-profesorado (por título exacto)
 _ocultas = 0
@@ -192,6 +198,7 @@ for needle in ["D.role==='profe'", '"sols"', '"prac"', '"fixes"', '"claves"', "C
     assert needle not in out, "queda en alumnado: " + needle
 assert "pbadge\">profe" not in out and "pbadge'>profe" not in out, "queda una marca 'profe'"
 assert "Proxmox" not in out, "queda Proxmox en alumnado"
+assert "solo profesorado)" not in json.dumps(D.get("recursos", {}), ensure_ascii=False), "quedan recursos de profesorado"
 
 DST.write_text(out, encoding="utf-8")
 print(f"alumnado/index.html generado · {n} ramas de profesorado eliminadas · "
