@@ -28,3 +28,12 @@ Incluye laboratorio (Proxmox en aula + Vagrant en casa, red `172.21.10.0/24`, De
 3. Cada `git push` vuelve a desplegar solo.
 
 > **Nota de privacidad:** la raíz (profesorado) lleva una verja de contraseña por JavaScript, que **no es seguridad real** (el contenido viaja en el HTML). Para proteger de verdad las soluciones y notas docentes: entregar al alumnado solo `alumnado/`, o publicar el profesorado en un sitio/repo aparte no enlazado, o usar contraseña de sitio de Netlify (plan de pago).
+
+## Recursos de ciberseguridad (sección pública)
+La sección **Recursos** (organismos, normativa, herramientas, plataformas, cursos, certificaciones, vídeos, noticias, empresas) sale de **`recursos.json`**. Para añadir recursos: editar ese fichero (con `"alta": "AAAA-MM-DD"` para que salga como «nuevo» 60 días) y ejecutar:
+
+```bash
+python3 sync_recursos.py                                   # profesorado (index.html)
+python3 build_alumnado.py                                  # regenera alumnado (la sección se conserva)
+python3 sync_recursos.py ../ciber_cdm_ic_apuntes/index.html  # réplica de mrnovoa-dev
+```

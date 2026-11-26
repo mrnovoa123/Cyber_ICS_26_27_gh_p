@@ -1,0 +1,1794 @@
+{
+ "actualizado": "2026-11-26",
+ "intro": "Catálogo vivo de recursos externos agrupados por temática: organismos, normativa, marcos, herramientas del laboratorio, plataformas de práctica, cursos, certificaciones, vídeos, noticias y empresas. Cada ficha indica el tipo, el idioma y las unidades del módulo con las que encaja. Se amplía a medida que aparecen recursos nuevos (marcados como <b>nuevo</b>). Usa el buscador o los filtros por tipo.",
+ "aviso": "Las herramientas ofensivas, los mapas de ataques y las plataformas de hacking se usan solo con fines formativos, en el laboratorio aislado o en plataformas que lo autorizan expresamente. Nunca contra sistemas de terceros.",
+ "cats": [
+  {
+   "id": "org",
+   "h": "Organismos, agencias y CERT",
+   "d": "Quién coordina la respuesta a incidentes en Galicia, España, Europa y EE. UU.",
+   "items": [
+    {
+     "n": "INCIBE",
+     "u": "https://www.incibe.es/",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD1",
+      "UD5"
+     ],
+     "d": "Instituto Nacional de Ciberseguridad: guías y recursos para ciudadanía, empresas y menores."
+    },
+    {
+     "n": "INCIBE-CERT",
+     "u": "https://www.incibe.es/incibe-cert",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD2",
+      "UD5"
+     ],
+     "d": "CERT de referencia para ciudadanía y sector privado: avisos, taxonomía y notificación de incidentes."
+    },
+    {
+     "n": "Línea 017 de ayuda en ciberseguridad",
+     "u": "https://www.incibe.es/linea-de-ayuda-en-ciberseguridad",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Servicio gratuito y confidencial de INCIBE (teléfono, WhatsApp, Telegram, formulario)."
+    },
+    {
+     "n": "CCN-CERT",
+     "u": "https://www.ccn-cert.cni.es/",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD1",
+      "UD5"
+     ],
+     "d": "CERT del sector público: guías CCN-STIC, ENS, informes de amenazas y Jornadas STIC."
+    },
+    {
+     "n": "AEPD",
+     "u": "https://www.aepd.es/",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD5"
+     ],
+     "d": "Agencia Española de Protección de Datos: notificación de brechas de datos personales (72 h)."
+    },
+    {
+     "n": "Ciberseguridade Galicia (CSIRT.gal · CIBER.gal)",
+     "u": "https://ciberseguridadegalicia.gal/",
+     "t": "agencia",
+     "l": "GL",
+     "ud": [
+      "UD5"
+     ],
+     "d": "Portal de la Xunta que reúne el CSIRT.gal (Amtega), el nodo CIBER.gal y los recursos de ciberseguridad en Galicia."
+    },
+    {
+     "n": "ENISA",
+     "u": "https://www.enisa.europa.eu/",
+     "t": "agencia",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD2"
+     ],
+     "d": "Agencia de la UE para la Ciberseguridad: Threat Landscape anual, NIS2 y buenas prácticas."
+    },
+    {
+     "n": "CISA (EE. UU.)",
+     "u": "https://www.cisa.gov/",
+     "t": "agencia",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD4"
+     ],
+     "d": "Agencia estadounidense: avisos, guías de respuesta y catálogo KEV de vulnerabilidades explotadas."
+    },
+    {
+     "n": "NIST CSRC",
+     "u": "https://csrc.nist.gov/",
+     "t": "agencia",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD4"
+     ],
+     "d": "Publicaciones del NIST: SP 800-61 (respuesta a incidentes), CSF 2.0, Zero Trust…"
+    },
+    {
+     "n": "FIRST",
+     "u": "https://www.first.org/",
+     "t": "agencia",
+     "l": "EN",
+     "ud": [
+      "UD5"
+     ],
+     "d": "Foro mundial de equipos de respuesta (CSIRT); mantiene CVSS, EPSS y el TLP."
+    },
+    {
+     "n": "ObservaCiber",
+     "u": "https://www.observaciber.es/",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Observatorio nacional de la ciberseguridad: indicadores y datos de España."
+    }
+   ]
+  },
+  {
+   "id": "norma",
+   "h": "Normativa, estándares y guías",
+   "d": "Textos legales y marcos de control que se citan en las actividades.",
+   "items": [
+    {
+     "n": "Esquema Nacional de Seguridad (RD 311/2022)",
+     "u": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-7191",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD1",
+      "UD4"
+     ],
+     "d": "Marco obligatorio del sector público: categorías, medidas (Anexo II) y gestión de incidentes."
+    },
+    {
+     "n": "RGPD (Reglamento UE 2016/679)",
+     "u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32016R0679",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD5"
+     ],
+     "d": "Protección de datos personales; arts. 33-34 sobre notificación de brechas."
+    },
+    {
+     "n": "Directiva NIS2 (UE 2022/2555)",
+     "u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32022L2555",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD5"
+     ],
+     "d": "Seguridad de redes y sistemas; plazos de notificación 24 h / 72 h / 1 mes."
+    },
+    {
+     "n": "Reglamento europeo de IA",
+     "u": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32024R1689",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Obligaciones de transparencia (art. 50) para contenido generado con IA."
+    },
+    {
+     "n": "Guía nacional de notificación y gestión de ciberincidentes",
+     "u": "https://www.incibe.es/incibe-cert/blog/conoces-guia-nacional-notificacion-y-gestion-ciberincidentes",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD2",
+      "UD5"
+     ],
+     "d": "Niveles de peligrosidad e impacto y a quién notificar."
+    },
+    {
+     "n": "Taxonomía de incidentes (INCIBE)",
+     "u": "https://www.incibe.es/incibe-cert/incidentes/taxonomia",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Clasificación oficial de ciberincidentes usada en la actividad de taxonomía."
+    },
+    {
+     "n": "MAGERIT v3",
+     "u": "https://administracionelectronica.gob.es/pae_Home/dam/jcr:36087a91-e215-44f9-8d43-cb0a8b5720d1/6_022.pdf",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Metodología española de análisis y gestión de riesgos."
+    },
+    {
+     "n": "ISO/IEC 27001",
+     "u": "https://www.iso.org/standard/27001",
+     "t": "norma",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Sistema de gestión de seguridad de la información (SGSI); controles en la 27002."
+    },
+    {
+     "n": "CIS Controls v8.1 (español)",
+     "u": "https://learn.cisecurity.org/controls-v8.1-spanish",
+     "t": "norma",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "18 controles priorizados; base de las listas de auditoría interna."
+    },
+    {
+     "n": "NIST Cybersecurity Framework 2.0",
+     "u": "https://www.nist.gov/cyberframework",
+     "t": "norma",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD4"
+     ],
+     "d": "Seis funciones: Gobernar, Identificar, Proteger, Detectar, Responder, Recuperar."
+    },
+    {
+     "n": "NIST SP 800-61 Rev. 3",
+     "u": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+     "t": "norma",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD4"
+     ],
+     "d": "Guía de respuesta a incidentes alineada con el CSF 2.0 (sustituye a la Rev. 2)."
+    },
+    {
+     "n": "NIST SP 800-207 · Zero Trust",
+     "u": "https://csrc.nist.gov/pubs/sp/800/207/final",
+     "t": "norma",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Arquitectura de confianza cero."
+    }
+   ]
+  },
+  {
+   "id": "marcos",
+   "h": "Marcos de ataque y detección",
+   "d": "Lenguaje común para describir qué hace el atacante y cómo detectarlo.",
+   "items": [
+    {
+     "n": "MITRE ATT&CK",
+     "u": "https://attack.mitre.org/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Matriz de tácticas y técnicas reales; Wazuh etiqueta sus alertas con ella."
+    },
+    {
+     "n": "ATT&CK Navigator",
+     "u": "https://mitre-attack.github.io/attack-navigator/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Colorea la matriz para ver cobertura de detección o la TTP de un caso."
+    },
+    {
+     "n": "MITRE D3FEND",
+     "u": "https://d3fend.mitre.org/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "La contraparte defensiva de ATT&CK: contramedidas por técnica."
+    },
+    {
+     "n": "MITRE ATLAS",
+     "u": "https://atlas.mitre.org/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Tácticas y técnicas contra sistemas de IA (estilo ATT&CK).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Cyber Kill Chain (Lockheed Martin)",
+     "u": "https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Las siete fases de una intrusión."
+    },
+    {
+     "n": "Sigma (SigmaHQ)",
+     "u": "https://github.com/SigmaHQ/sigma",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Reglas de detección genéricas convertibles a Splunk, Elastic, Wazuh…"
+    },
+    {
+     "n": "OWASP Top 10",
+     "u": "https://owasp.org/Top10/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Los diez riesgos principales de aplicaciones web."
+    },
+    {
+     "n": "OWASP Top 10 para aplicaciones LLM",
+     "u": "https://genai.owasp.org/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Riesgos de la IA generativa: prompt injection, fuga de datos, agentes…",
+     "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "siem",
+   "h": "Herramientas del laboratorio: SIEM, detección y respuesta",
+   "d": "Documentación oficial de lo que se instala en el escenario y alternativas para ampliar.",
+   "items": [
+    {
+     "n": "Wazuh · documentación",
+     "u": "https://documentation.wazuh.com/current/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3",
+      "UD4"
+     ],
+     "d": "SIEM/XDR principal del módulo: agentes, reglas, FIM, SCA y Active Response."
+    },
+    {
+     "n": "Suricata · User Guide",
+     "u": "https://docs.suricata.io/en/latest/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "IDS/IPS de red; escritura y gestión de reglas."
+    },
+    {
+     "n": "Sysmon (Microsoft Learn)",
+     "u": "https://learn.microsoft.com/es-es/sysinternals/downloads/sysmon",
+     "t": "herramienta",
+     "l": "ES",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Telemetría detallada de Windows (procesos, red, registro)."
+    },
+    {
+     "n": "sysmon-config (SwiftOnSecurity)",
+     "u": "https://github.com/SwiftOnSecurity/sysmon-config",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Configuración de referencia de Sysmon."
+    },
+    {
+     "n": "Splunk · Search Reference (SPL)",
+     "u": "https://docs.splunk.com/Documentation/Splunk/latest/SearchReference",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Referencia de comandos SPL para las búsquedas y el examen."
+    },
+    {
+     "n": "Elastic · documentación",
+     "u": "https://www.elastic.co/guide/index.html",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Elastic Stack / Elastic Security; esquema ECS."
+    },
+    {
+     "n": "TheHive 5",
+     "u": "https://docs.strangebee.com/thehive/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD4"
+     ],
+     "d": "Gestión de casos de incidentes; con Cortex para análisis automatizado."
+    },
+    {
+     "n": "MISP",
+     "u": "https://www.misp-project.org/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD5"
+     ],
+     "d": "Plataforma para compartir inteligencia de amenazas e IoC."
+    },
+    {
+     "n": "Prometheus",
+     "u": "https://prometheus.io/docs/introduction/overview/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Métricas de sistemas (ampliación UD2 junto al SIEM)."
+    },
+    {
+     "n": "Grafana",
+     "u": "https://grafana.com/docs/grafana/latest/datasources/prometheus/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Paneles sobre Prometheus o sobre el indexer de Wazuh."
+    },
+    {
+     "n": "Security Onion",
+     "u": "https://securityonionsolutions.com/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Distribución libre para monitorización de red y threat hunting (Suricata, Zeek, Elastic).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Zeek",
+     "u": "https://zeek.org/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Análisis de tráfico de red que genera logs de conexiones, DNS, HTTP…",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Velociraptor",
+     "u": "https://docs.velociraptor.app/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD4"
+     ],
+     "d": "Recogida forense y caza de amenazas en muchos equipos a la vez.",
+     "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "dfir",
+   "h": "Forense y análisis de malware",
+   "d": "Para las unidades de análisis, contención y erradicación.",
+   "items": [
+    {
+     "n": "Volatility 3",
+     "u": "https://github.com/volatilityfoundation/volatility3",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Análisis de volcados de memoria RAM."
+    },
+    {
+     "n": "Autopsy",
+     "u": "https://www.autopsy.com/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Análisis forense de discos con interfaz gráfica.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "CyberChef",
+     "u": "https://gchq.github.io/CyberChef/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Decodificar, descifrar y transformar datos (Base64, XOR, hashes…) en el navegador.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "YARA",
+     "u": "https://virustotal.github.io/yara/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Reglas para identificar malware por patrones."
+    },
+    {
+     "n": "VirusTotal",
+     "u": "https://www.virustotal.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Análisis de ficheros, URL y hashes con decenas de motores. Ojo: lo que se sube es público."
+    },
+    {
+     "n": "MalwareBazaar",
+     "u": "https://bazaar.abuse.ch/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Repositorio de muestras de malware y hashes (abuse.ch)."
+    },
+    {
+     "n": "URLhaus",
+     "u": "https://urlhaus.abuse.ch/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "URL de distribución de malware (abuse.ch).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Kaspersky OpenTIP",
+     "u": "https://opentip.kaspersky.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Reputación de ficheros, IP y dominios."
+    },
+    {
+     "n": "ANY.RUN",
+     "u": "https://any.run/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Sandbox interactiva de malware en la nube.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "NIST CFReDS",
+     "u": "https://cfreds.nist.gov/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Imágenes forenses de práctica con casos documentados."
+    }
+   ]
+  },
+  {
+   "id": "osint",
+   "h": "OSINT, buscadores de exposición e inteligencia",
+   "d": "Fuentes abiertas y reputación (siempre sobre objetivos propios o de prueba).",
+   "items": [
+    {
+     "n": "OSINT Framework",
+     "u": "https://osintframework.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Mapa de herramientas OSINT por categoría."
+    },
+    {
+     "n": "Shodan",
+     "u": "https://www.shodan.io/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Buscador de dispositivos y servicios expuestos en Internet."
+    },
+    {
+     "n": "Censys Search",
+     "u": "https://search.censys.io/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD4"
+     ],
+     "d": "Buscador de hosts y certificados expuestos; útil para ver la superficie de ataque propia.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "FOFA",
+     "u": "https://en.fofa.info/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Motor de búsqueda de activos expuestos en Internet, alternativa a Shodan.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "GreyNoise Visualizer",
+     "u": "https://viz.greynoise.io/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Distingue el «ruido» de escaneos masivos de los ataques dirigidos a una IP.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "crt.sh",
+     "u": "https://crt.sh/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Registros de Certificate Transparency: descubre subdominios de un dominio propio.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "urlscan.io",
+     "u": "https://urlscan.io/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD3"
+     ],
+     "d": "Analiza una URL sospechosa (capturas, peticiones, IOC) sin abrirla en tu equipo.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "theHarvester",
+     "u": "https://github.com/laramies/theHarvester",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Recopila correos, subdominios e IP de fuentes públicas."
+    },
+    {
+     "n": "SpiderFoot",
+     "u": "https://github.com/smicallef/spiderfoot",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Automatización de reconocimiento OSINT."
+    },
+    {
+     "n": "Recon-ng",
+     "u": "https://github.com/lanmaster53/recon-ng",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Framework modular de reconocimiento."
+    },
+    {
+     "n": "Maltego CE",
+     "u": "https://www.maltego.com/products/maltego-community-edition/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Análisis gráfico de relaciones entre entidades."
+    },
+    {
+     "n": "Google Hacking Database",
+     "u": "https://www.exploit-db.com/google-hacking-database",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Consultas (dorks) que revelan información expuesta."
+    },
+    {
+     "n": "AbuseIPDB",
+     "u": "https://www.abuseipdb.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Reputación de direcciones IP reportadas por la comunidad.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Have I Been Pwned",
+     "u": "https://haveibeenpwned.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD5"
+     ],
+     "d": "Comprueba si un correo aparece en filtraciones conocidas.",
+     "alta": "2026-11-26"
+    }
+   ],
+   "origen": "Incluye el tema de un reel de cyberwithjohann («5 search engines hackers use instead of Google, and what they show about your own network»); selección propia, no la lista del vídeo."
+  },
+  {
+   "id": "vuln",
+   "h": "Gestión de vulnerabilidades",
+   "d": "Priorizar qué parchear primero.",
+   "items": [
+    {
+     "n": "NVD (NIST)",
+     "u": "https://nvd.nist.gov/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Base de datos de CVE con puntuación CVSS."
+    },
+    {
+     "n": "FIRST · CVSS",
+     "u": "https://www.first.org/cvss/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Sistema de puntuación de la gravedad de vulnerabilidades."
+    },
+    {
+     "n": "FIRST · EPSS",
+     "u": "https://www.first.org/epss/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Probabilidad de explotación en los próximos 30 días."
+    },
+    {
+     "n": "CISA KEV",
+     "u": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Catálogo de vulnerabilidades explotadas activamente."
+    },
+    {
+     "n": "Exploit-DB",
+     "u": "https://www.exploit-db.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Archivo público de exploits (solo para verificar exposición en el laboratorio).",
+     "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "mapas",
+   "h": "Webs que muestran ciberataques en tiempo real",
+   "d": "Mapas y observatorios para motivar y comentar tendencias en clase. Son visualizaciones de cada fabricante, no estadísticas oficiales.",
+   "origen": "Tema sugerido por un reel de cyberwithjohann («5 websites that show cyber attacks happening right now»); selección propia, no la lista del vídeo.",
+   "items": [
+    {
+     "n": "Kaspersky Cyberthreat Map",
+     "u": "https://cybermap.kaspersky.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Mapa en 3D de detecciones por tipo de amenaza y país.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Check Point ThreatCloud Live Map",
+     "u": "https://threatmap.checkpoint.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Ataques del día por origen, destino y familia de malware.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Radware Live Threat Map",
+     "u": "https://livethreatmap.radware.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Ataques capturados por la red de sensores de Radware.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Fortinet FortiGuard Threat Map",
+     "u": "https://threatmap.fortiguard.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Actividad de amenazas detectada por FortiGuard Labs.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Cloudflare Radar",
+     "u": "https://radar.cloudflare.com/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD2"
+     ],
+     "d": "Tráfico, cortes y ataques DDoS a escala de Internet, con datos por país.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "ransomware.live",
+     "u": "https://www.ransomware.live/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD5"
+     ],
+     "d": "Seguimiento de víctimas publicadas en los sitios de filtración de grupos de ransomware.",
+     "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "cloud",
+   "h": "Seguridad en la nube",
+   "d": "Para ampliar hacia entornos cloud sin pagar un curso.",
+   "origen": "Tema sugerido por un reel de cyberwithjohann («5 resources to learn cloud security without buying an expensive course»); selección propia, no la lista del vídeo.",
+   "items": [
+    {
+     "n": "flAWS",
+     "u": "http://flaws.cloud/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Reto gratuito por niveles sobre errores comunes de configuración en AWS.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "flAWS 2",
+     "u": "http://flaws2.cloud/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD4"
+     ],
+     "d": "Continuación con camino de atacante y camino de defensor (análisis de logs de CloudTrail).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Hacking the Cloud",
+     "u": "https://hackingthe.cloud/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Enciclopedia abierta de técnicas de ataque y defensa en AWS, Azure y GCP.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "CloudGoat",
+     "u": "https://github.com/RhinoSecurityLabs/cloudgoat",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Escenarios AWS vulnerables por diseño para practicar (en cuenta propia).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Prowler",
+     "u": "https://github.com/prowler-cloud/prowler",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD4"
+     ],
+     "d": "Auditoría de configuración cloud frente a CIS, ENS y otros marcos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "AWS Security Incident Response Guide",
+     "u": "https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/welcome.html",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Cómo preparar, detectar y responder a incidentes en AWS.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Cloud Security Alliance",
+     "u": "https://cloudsecurityalliance.org/",
+     "t": "agencia",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Organización de referencia en buenas prácticas cloud (CCM, CCSK).",
+     "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "ia",
+   "h": "Seguridad de la IA (hackear IA de forma legal)",
+   "d": "Retos y guías para entender prompt injection y abusos de modelos.",
+   "origen": "Tema sugerido por un reel de cyberwithjohann («5 free websites to learn how to hack AI, legally»); selección propia, no la lista del vídeo.",
+   "items": [
+    {
+     "n": "Gandalf (Lakera)",
+     "u": "https://gandalf.lakera.ai/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Juego por niveles para sacar una contraseña a un LLM con prompt injection.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "PortSwigger · Web LLM attacks",
+     "u": "https://portswigger.net/web-security/llm-attacks",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Teoría y laboratorios gratuitos de ataques a aplicaciones web con LLM.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "OWASP GenAI Security Project",
+     "u": "https://genai.owasp.org/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Top 10 LLM, guías de agentes y red teaming de IA.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "MITRE ATLAS",
+     "u": "https://atlas.mitre.org/",
+     "t": "marco",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Casos reales y técnicas de ataque a sistemas de IA.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "AI Incident Database",
+     "u": "https://incidentdatabase.ai/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD5"
+     ],
+     "d": "Repertorio de incidentes reales provocados por sistemas de IA."
+    }
+   ]
+  },
+  {
+   "id": "repos",
+   "h": "Repositorios GitHub para aprender",
+   "d": "Listas curadas y laboratorios abiertos.",
+   "origen": "Los reels de cyberwithjohann sobre repositorios («5 GitHub repositories to learn cybersecurity for free») muestran, entre otros, meirwah/awesome-incident-response; el resto es selección propia.",
+   "items": [
+    {
+     "n": "awesome-incident-response",
+     "u": "https://github.com/meirwah/awesome-incident-response",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3",
+      "UD4"
+     ],
+     "d": "Lista curada de herramientas de respuesta a incidentes por fase: adquisición, triaje, memoria, timeline, playbooks.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "awesome-security",
+     "u": "https://github.com/sbilly/awesome-security",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Colección general de software, libros y recursos de seguridad.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "awesome-threat-intelligence",
+     "u": "https://github.com/hslatman/awesome-threat-intelligence",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD5"
+     ],
+     "d": "Fuentes, formatos y plataformas de inteligencia de amenazas.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "awesome-forensics",
+     "u": "https://github.com/cugu/awesome-forensics",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Herramientas y recursos de análisis forense.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Atomic Red Team",
+     "u": "https://github.com/redcanaryco/atomic-red-team",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Pruebas pequeñas mapeadas a ATT&CK para comprobar si el SIEM detecta (purple team).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "roadmap.sh · Cyber Security",
+     "u": "https://roadmap.sh/cyber-security",
+     "t": "web",
+     "l": "EN",
+     "ud": [],
+     "d": "Hoja de ruta interactiva de lo que hay que aprender, con enlaces gratuitos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "CE_ICS_lab_config (laboratorio del módulo)",
+     "u": "https://github.com/mrnovoa123/CE_ICS_lab_config",
+     "t": "repo",
+     "l": "ES",
+     "ud": [
+      "UD1",
+      "UD2"
+     ],
+     "d": "Vagrantfile y scripts de aprovisionamiento del escenario de prácticas."
+    }
+   ]
+  },
+  {
+   "id": "practica",
+   "h": "Plataformas de práctica, retos y bug bounty",
+   "d": "Laboratorios legales para entrenar detección (blue) y ataque (red).",
+   "origen": "Incluye el tema de un reel de cyberwithjohann («5 free websites to start bug bounty hunting»); selección propia.",
+   "items": [
+    {
+     "n": "TryHackMe",
+     "u": "https://tryhackme.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Rutas guiadas; la ruta SOC Level 1 prepara la certificación SAL1."
+    },
+    {
+     "n": "Hack The Box Academy",
+     "u": "https://academy.hackthebox.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Módulos por rol: SOC Analyst (CDSA) y Penetration Tester (CPTS)."
+    },
+    {
+     "n": "CyberDefenders",
+     "u": "https://cyberdefenders.org/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Laboratorios blue team de investigación (SIEM, forense, red); certificaciones CCDL1/CCDL2."
+    },
+    {
+     "n": "LetsDefend",
+     "u": "https://letsdefend.io/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Simulador de SOC con cola de alertas real.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Blue Team Labs Online",
+     "u": "https://blueteamlabs.online/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Retos defensivos de investigación y forense.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "PortSwigger Web Security Academy",
+     "u": "https://portswigger.net/web-security",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Laboratorios gratuitos de vulnerabilidades web."
+    },
+    {
+     "n": "Hacker101 (HackerOne)",
+     "u": "https://www.hacker101.com/",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Formación gratuita de bug bounty con retos CTF.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Intigriti",
+     "u": "https://www.intigriti.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [],
+     "d": "Plataforma europea de bug bounty; publica retos mensuales gratuitos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "YesWeHack",
+     "u": "https://www.yeswehack.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [],
+     "d": "Plataforma europea de bug bounty con programas y entorno de formación.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "picoCTF",
+     "u": "https://picoctf.org/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [],
+     "d": "CTF gratuito para iniciarse (Carnegie Mellon).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "OWASP Juice Shop",
+     "u": "https://owasp.org/www-project-juice-shop/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Tienda web vulnerable por diseño; se usa en el servidor víctima del laboratorio."
+    }
+   ]
+  },
+  {
+   "id": "cursos",
+   "h": "Cursos y formación",
+   "d": "Formación gratuita o de bajo coste relacionada con el módulo.",
+   "items": [
+    {
+     "n": "Respuesta a Incidentes y Análisis Forense (DFIR)",
+     "u": "https://cursosdeciberseguridad.com/curso/dfir-respuesta-a-incidentes/",
+     "t": "curso",
+     "l": "ES",
+     "ud": [
+      "UD2",
+      "UD3",
+      "UD4"
+     ],
+     "d": "Curso abierto en 12 módulos: PICERL, logging, ATT&CK, triaje, memoria, Windows, Linux, C2, hunting."
+    },
+    {
+     "n": "Hacking Web",
+     "u": "https://cursosdeciberseguridad.com/curso/hacking-web/",
+     "t": "curso",
+     "l": "ES",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Curso abierto sobre vulnerabilidades web, útil para entender la huella del ataque."
+    },
+    {
+     "n": "Gestión de vulnerabilidades",
+     "u": "https://cursosdeciberseguridad.com/curso/gestion-de-vulnerabilidades/",
+     "t": "curso",
+     "l": "ES",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Ciclo de gestión de vulnerabilidades y priorización."
+    },
+    {
+     "n": "Certificado de Ciberseguridad de Google",
+     "u": "https://www.coursera.org/professional-certificates/ciberseguridad-de-google",
+     "t": "curso",
+     "l": "ES",
+     "ud": [
+      "UD1",
+      "UD2"
+     ],
+     "d": "Programa de nivel inicial en Coursera (también en español): SIEM con Splunk y Chronicle, Linux, SQL, Python. Ver ficha en «Certificaciones».",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "CyberWithJohann · Break Into Cybersecurity",
+     "u": "https://cyberwithjohann.com/academy/learn/",
+     "t": "curso",
+     "l": "EN",
+     "ud": [],
+     "d": "Orientación profesional: los 3 primeros módulos son gratis (pide correo) y comparan 5 perfiles (SOC, GRC, pentesting, ingeniería, threat intel) para elegir uno con un plan de 90 días. El resto es de pago.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "INCIBE · Kit de concienciación",
+     "u": "https://www.incibe.es/empresas/formacion/kit-concienciacion",
+     "t": "curso",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Materiales listos para un plan de concienciación en la empresa."
+    },
+    {
+     "n": "INCIBE · Políticas de seguridad para la pyme",
+     "u": "https://www.incibe.es/empresas/herramientas/politicas",
+     "t": "curso",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Plantillas de políticas por ámbito (puesto, contraseñas, copias…)."
+    }
+   ]
+  },
+  {
+   "id": "videos",
+   "h": "Vídeos, canales y congresos",
+   "d": "Material audiovisual y eventos donde se publican charlas.",
+   "items": [
+    {
+     "n": "Wazuh SIEM: manager y agentes (lista completa)",
+     "u": "https://www.youtube.com/playlist?list=PLHjuPxrwcdsZub-nvo_yKgCu-KwSn2qTn",
+     "t": "video",
+     "l": "ES",
+     "ud": [
+      "UD2",
+      "UD3",
+      "UD4"
+     ],
+     "d": "30 vídeos en castellano: instalación, Suricata, FIM, YARA, Active Response, TheHive, Grafana, integraciones."
+    },
+    {
+     "n": "Videoteca del módulo · Instalar Wazuh (01)",
+     "u": "https://www.youtube.com/watch?v=jv3Z6zSq4gU&list=PLHjuPxrwcdsZub-nvo_yKgCu-KwSn2qTn&index=1",
+     "t": "video",
+     "l": "ES",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Punto de partida del montaje del SIEM en el laboratorio."
+    },
+    {
+     "n": "Wazuh → TheHive + Cortex + MISP",
+     "u": "https://www.youtube.com/watch?v=BlU-GgcrtXc&list=PLHjuPxrwcdsZub-nvo_yKgCu-KwSn2qTn&index=16",
+     "t": "video",
+     "l": "ES",
+     "ud": [
+      "UD3",
+      "UD4"
+     ],
+     "d": "Montaje de la gestión de casos con Docker."
+    },
+    {
+     "n": "Jornadas STIC (CCN-CERT)",
+     "u": "https://www.ccn-cert.cni.es/",
+     "t": "evento",
+     "l": "ES",
+     "ud": [
+      "UD1",
+      "UD5"
+     ],
+     "d": "Congreso anual del CCN-CERT; ponencias publicadas en su web."
+    },
+    {
+     "n": "RootedCON",
+     "u": "https://rootedcon.com/",
+     "t": "evento",
+     "l": "ES",
+     "ud": [],
+     "d": "Congreso de seguridad de referencia en España (Madrid).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Navaja Negra",
+     "u": "https://www.navajanegra.com/",
+     "t": "evento",
+     "l": "ES",
+     "ud": [],
+     "d": "Congreso de seguridad informática en Albacete.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Encontro Galego de Ciberseguridade (CIBER.gal)",
+     "u": "https://ciberseguridadegalicia.gal/",
+     "t": "evento",
+     "l": "GL",
+     "ud": [],
+     "d": "Encuentro anual del nodo gallego de ciberseguridad.",
+     "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "noticias",
+   "h": "Noticias, blogs e informes",
+   "d": "Para estar al día y buscar casos reales para clase.",
+   "items": [
+    {
+     "n": "Una al día (Hispasec)",
+     "u": "https://unaaldia.hispasec.com/",
+     "t": "noticias",
+     "l": "ES",
+     "ud": [],
+     "d": "Noticia diaria de seguridad en español desde 1998.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Blog de INCIBE",
+     "u": "https://www.incibe.es/empresas/blog",
+     "t": "noticias",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Artículos divulgativos para empresas (amenaza vs. vulnerabilidad, contraseñas, auditorías…)."
+    },
+    {
+     "n": "ENISA Threat Landscape",
+     "u": "https://www.enisa.europa.eu/topics/cyber-threats/threats-and-trends",
+     "t": "noticias",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD2"
+     ],
+     "d": "Informe europeo anual de amenazas y tendencias."
+    },
+    {
+     "n": "The Hacker News",
+     "u": "https://thehackernews.com/",
+     "t": "noticias",
+     "l": "EN",
+     "ud": [],
+     "d": "Actualidad de vulnerabilidades, campañas y brechas."
+    },
+    {
+     "n": "BleepingComputer",
+     "u": "https://www.bleepingcomputer.com/",
+     "t": "noticias",
+     "l": "EN",
+     "ud": [],
+     "d": "Noticias de ransomware y brechas con mucho detalle técnico.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Krebs on Security",
+     "u": "https://krebsonsecurity.com/",
+     "t": "noticias",
+     "l": "EN",
+     "ud": [],
+     "d": "Periodismo de investigación sobre ciberdelincuencia.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Dark Reading",
+     "u": "https://www.darkreading.com/",
+     "t": "noticias",
+     "l": "EN",
+     "ud": [],
+     "d": "Actualidad y análisis para profesionales."
+    },
+    {
+     "n": "SANS · white papers",
+     "u": "https://www.sans.org/white-papers/",
+     "t": "noticias",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Artículos técnicos, entre ellos la guía clásica de manejo de incidentes."
+    }
+   ]
+  },
+  {
+   "id": "empresas",
+   "h": "Empresas y fabricantes",
+   "d": "Ecosistema profesional: dónde se trabaja y quién hace las herramientas que usamos.",
+   "items": [
+    {
+     "n": "Gradiant",
+     "u": "https://www.gradiant.org/",
+     "t": "empresa",
+     "l": "ES",
+     "ud": [],
+     "d": "Centro tecnológico gallego de telecomunicaciones con área de ciberseguridad.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Hispasec",
+     "u": "https://hispasec.com/",
+     "t": "empresa",
+     "l": "ES",
+     "ud": [],
+     "d": "Empresa española de seguridad (creadora de VirusTotal en su origen y de Una al día).",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "S21sec",
+     "u": "https://www.s21sec.com/",
+     "t": "empresa",
+     "l": "ES",
+     "ud": [],
+     "d": "Proveedor de servicios gestionados de seguridad y SOC.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Telefónica Tech",
+     "u": "https://telefonicatech.com/",
+     "t": "empresa",
+     "l": "ES",
+     "ud": [],
+     "d": "Ciberseguridad y cloud del grupo Telefónica; SOC y respuesta a incidentes.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Wazuh",
+     "u": "https://wazuh.com/",
+     "t": "empresa",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Empresa detrás del SIEM/XDR libre del laboratorio."
+    },
+    {
+     "n": "Elastic",
+     "u": "https://www.elastic.co/",
+     "t": "empresa",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Elastic Stack y Elastic Security."
+    },
+    {
+     "n": "Splunk",
+     "u": "https://www.splunk.com/",
+     "t": "empresa",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "SIEM comercial; versión gratuita limitada para prácticas."
+    },
+    {
+     "n": "StrangeBee",
+     "u": "https://www.strangebee.com/",
+     "t": "empresa",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Desarrolladores de TheHive y Cortex."
+    },
+    {
+     "n": "Check Point · Cyber Hub",
+     "u": "https://www.checkpoint.com/es/cyber-hub/",
+     "t": "empresa",
+     "l": "ES",
+     "ud": [
+      "UD1"
+     ],
+     "d": "Artículos divulgativos en español (tríada CIA, defensa en profundidad…)."
+    }
+   ]
+  },
+  {
+   "id": "certs",
+   "h": "Certificaciones profesionales",
+   "d": "Análisis del «Top 10 cybersecurity certification» que circula en redes, ordenado aquí por su encaje con un analista de incidentes.",
+   "tabla": true,
+   "items": [
+    {
+     "n": "HTB CDSA · Certified Defensive Security Analyst",
+     "u": "https://academy.hackthebox.com/",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3",
+      "UD4"
+     ],
+     "foto": 2,
+     "emisor": "Hack The Box",
+     "enfoque": "SOC, análisis de seguridad y gestión de incidentes",
+     "nivel": "Intermedio",
+     "formato": "Examen práctico de 7 días + informe profesional; exige completar la ruta SOC Analyst de HTB Academy",
+     "precio": "Suscripción a Academy + voucher (ver web)",
+     "encaje": 5,
+     "nota": "La más alineada con MP5021: investigar, documentar y notificar incidentes.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "CyberDefenders CCDL1",
+     "u": "https://cyberdefenders.org/certifications/certified-cyberdefender-level1/",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "foto": 9,
+     "emisor": "CyberDefenders",
+     "enfoque": "Analista SOC de nivel inicial (blue team práctico)",
+     "nivel": "Inicial",
+     "formato": "70 preguntas: 25 de escenario y 45 de investigación práctica en laboratorio",
+     "precio": "349 $ solo examen · 499 $ con curso",
+     "encaje": 5,
+     "nota": "Muy práctica y asequible; buen primer objetivo tras el curso.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "CyberDefenders CCDL2 (antes CCD)",
+     "u": "https://cyberdefenders.org/blueteam-training/courses/certified-cyberdefender",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD3",
+      "UD4"
+     ],
+     "foto": 8,
+     "emisor": "CyberDefenders",
+     "enfoque": "Threat hunting y DFIR de nivel intermedio",
+     "nivel": "Intermedio",
+     "formato": "Examen práctico de 48 h, corregido a mano; validez 4 años",
+     "precio": "Desde 849 $ solo examen",
+     "encaje": 5,
+     "nota": "Continuación natural de CCDL1 hacia forense y caza de amenazas.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "TryHackMe SAL1 · Security Analyst Level 1",
+     "u": "https://tryhackme.com/certification/security-analyst-level-1",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "foto": 6,
+     "emisor": "TryHackMe",
+     "enfoque": "Analista SOC Tier 1: triaje de alertas, escalado e informes",
+     "nivel": "Inicial",
+     "formato": "Simulador de SOC con alertas reales e informes de incidentes calificados; 1 reintento gratis",
+     "precio": "349 $ (incluye 3 meses de Premium)",
+     "encaje": 5,
+     "nota": "Preparación con la ruta SOC Level 1; muy cercana a las prácticas de Wazuh y Splunk.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Google Cybersecurity Certificate",
+     "u": "https://www.coursera.org/professional-certificates/ciberseguridad-de-google",
+     "t": "cert",
+     "l": "ES",
+     "ud": [
+      "UD1",
+      "UD2"
+     ],
+     "foto": 10,
+     "emisor": "Google (Coursera)",
+     "enfoque": "Fundamentos: marcos, redes, Linux, SQL, SIEM (Splunk, Chronicle), Python",
+     "nivel": "Inicial",
+     "formato": "Programa en línea de 8 cursos (unos 6 meses a 7 h/semana); disponible en español",
+     "precio": "Suscripción a Coursera",
+     "encaje": 4,
+     "nota": "Buena puerta de entrada en castellano; según Google prepara para Security+.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "CompTIA Security+",
+     "u": "https://www.comptia.org/en-us/certifications/security/v8/",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD2",
+      "UD4"
+     ],
+     "foto": 7,
+     "emisor": "CompTIA",
+     "enfoque": "Fundamentos generales de ciberseguridad, muy reconocida por RR. HH.",
+     "nivel": "Inicial",
+     "formato": "Hasta 90 preguntas tipo test y de desempeño, 90 min. Nueva versión V8 (SY0-801) desde nov. 2026; la SY0-701 se retira en inglés el 11-jun-2027",
+     "precio": "Ver web de CompTIA",
+     "encaje": 4,
+     "nota": "Más teórica que las prácticas, pero abre muchas ofertas de trabajo.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "ISACA CISA",
+     "u": "https://www.isaca.org/credentialing/cisa",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD1"
+     ],
+     "foto": 5,
+     "emisor": "ISACA",
+     "enfoque": "Auditoría de sistemas de información y control",
+     "nivel": "Avanzado",
+     "formato": "150 preguntas, 4 h. Exige 5 años de experiencia (con convalidaciones), aunque el examen puede hacerse antes (CISA Associate)",
+     "precio": "Ver web de ISACA",
+     "encaje": 3,
+     "nota": "Encaja con la auditoría interna de la UD1; meta a medio plazo.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "GRC Mastery",
+     "u": "https://grcmastery.teachable.com/",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD1",
+      "UD5"
+     ],
+     "foto": 3,
+     "emisor": "Abed Hamdan (curso privado)",
+     "enfoque": "Gobierno, riesgo y cumplimiento (GRC) sin perfil técnico",
+     "nivel": "Inicial",
+     "formato": "Curso en vídeo con cuestionarios y proyecto final; da certificado del propio curso, no es una certificación acreditada",
+     "precio": "Ver web",
+     "encaje": 3,
+     "nota": "Interesante para el perfil de cumplimiento (UD1 y UD5); sustituible por ISO 27001, ENS y la propia CISA.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "HTB CPTS · Certified Penetration Testing Specialist",
+     "u": "https://academy.hackthebox.com/",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "foto": 1,
+     "emisor": "Hack The Box",
+     "enfoque": "Pentesting de redes corporativas y Active Directory",
+     "nivel": "Intermedio-avanzado",
+     "formato": "Examen práctico de 10 días (12 de 14 flags) + informe comercial; exige la ruta Penetration Tester",
+     "precio": "Suscripción a Academy + voucher (ver web)",
+     "encaje": 2,
+     "nota": "Ofensiva: útil para entender al atacante (purple team), no es el núcleo del módulo.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "AWS Certified Security – Specialty",
+     "u": "https://docs.aws.amazon.com/aws-certification/latest/examguides/security-specialty-03.html",
+     "t": "cert",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "foto": 4,
+     "emisor": "Amazon Web Services",
+     "enfoque": "Seguridad en AWS: identidades, cifrado, monitorización, respuesta en la nube",
+     "nivel": "Avanzado",
+     "formato": "Examen SCS-C03 (desde dic. 2025), 170 min, aprobado con 750/1000",
+     "precio": "300 $",
+     "encaje": 2,
+     "nota": "Solo si se apunta a entornos cloud; requiere experiencia previa con AWS.",
+     "alta": "2026-11-26"
+    }
+   ],
+   "ruta": "<p><b>Itinerario sugerido para el alumnado del curso de especialización:</b></p><ol><li><b>Base</b>: Certificado de Ciberseguridad de Google (en español) o la ruta SOC Level 1 de TryHackMe.</li><li><b>Primer certificado práctico</b>: <b>TryHackMe SAL1</b> o <b>CyberDefenders CCDL1</b>, los dos muy cercanos a lo que se hace con Wazuh y Splunk en el laboratorio.</li><li><b>Siguiente nivel</b>: <b>HTB CDSA</b> o <b>CCDL2</b> (investigación, forense y threat hunting).</li><li><b>Según el perfil</b>: Security+ para el CV generalista; CISA o formación GRC para auditoría y cumplimiento; CPTS para la rama ofensiva; AWS Security Specialty para la nube.</li></ol><p class=\"sec-meta\">Precios en dólares y condiciones consultados en noviembre de 2026; cambian a menudo, así que conviene comprobarlos en la web oficial antes de comprar. La columna «Foto» indica la posición en el ranking original (1 = la mejor según su autor).</p>"
+  }
+ ]
+}
