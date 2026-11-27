@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-26",
+ "actualizado": "2026-11-27",
  "intro": "Catálogo vivo de recursos externos agrupados por temática: organismos, normativa, marcos, herramientas del laboratorio, plataformas de práctica, cursos, certificaciones, vídeos, noticias y empresas. Cada ficha indica el tipo, el idioma y las unidades del módulo con las que encaja. Se amplía a medida que aparecen recursos nuevos (marcados como <b>nuevo</b>). Usa el buscador o los filtros por tipo.",
  "aviso": "Las herramientas ofensivas, los mapas de ataques y las plataformas de hacking se usan solo con fines formativos, en el laboratorio aislado o en plataformas que lo autorizan expresamente. Nunca contra sistemas de terceros.",
  "cats": [
@@ -459,6 +459,65 @@
       "UD2"
      ],
      "d": "Paneles sobre Prometheus o sobre el indexer de Wazuh."
+    },
+    {
+     "n": "Alertmanager",
+     "u": "https://prometheus.io/docs/alerting/latest/alertmanager/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Agrupa, deduplica y enruta las alertas de Prometheus: un incidente, un caso.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "Prometheus · histogramas y percentiles",
+     "u": "https://prometheus.io/docs/practices/histograms/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Cómo medir la latencia (p95, p99) sin que la media esconda la cola lenta.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "Prometheus · reglas de registro",
+     "u": "https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Precalcular tasa de error y p95 para tenerlos al instante durante un incidente.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "Prometheus · API HTTP (query_range)",
+     "u": "https://prometheus.io/docs/prometheus/latest/querying/api/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Extraer series por ventanas de tiempo (base, inicio, pico, recuperación) como evidencia.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "Google SRE · Monitoring Distributed Systems",
+     "u": "https://sre.google/sre-book/monitoring-distributed-systems/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2"
+     ],
+     "d": "Las cuatro señales doradas (latencia, tráfico, errores, saturación) y cómo diseñar alertas útiles.",
+     "alta": "2026-11-27"
     },
     {
      "n": "Security Onion",

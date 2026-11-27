@@ -1,0 +1,94 @@
+<!-- Capítulo para el libro UD2 (Moodle): pegar en el editor en modo HTML. Título: «Investigar con métricas e IA: método evidencia-primero» -->
+<p>La sección anterior monta Prometheus y Grafana. Esta explica <b>cómo investigar</b> con ellos: pasar de «el servidor va lento» a una causa demostrada, sin adivinar, y cómo un asistente de IA puede ayudar sin inventarse la conclusión. El método sirve igual para la UD3 (análisis) y la UD4 (respuesta).</p>
+<div style="background:#eef3f9;border-left:4px solid #4a6fa5;padding:8px 12px;margin:10px 0"><div><b>Idea central:</b> el mismo síntoma puede tener causas distintas. Si la instrumentación es pobre, tres fallos diferentes se ven idénticos («latencia alta y errores»). Se distinguen con las métricas adecuadas, no por intuición.</div></div>
+
+<p><b>1) Qué medir: RED para servicios, USE para recursos</b></p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>Señal</th><th>Pregunta</th><th>PromQL (ejemplo)</th></tr></thead><tbody>
+<tr><td><b>R</b>ate · tasa</td><td>¿Cuánto tráfico entra?</td><td><code>rate(node_netstat_Tcp_InSegs[1m])</code></td></tr>
+<tr><td><b>E</b>rrors · errores</td><td>¿Cuántas peticiones fallan?</td><td><code>rate(http_requests_total{status=~"5.."}[5m])</code> (si la aplicación exporta métricas)</td></tr>
+<tr><td><b>D</b>uration · duración</td><td>¿Cuánto tardan (p95)?</td><td><code>histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))</code></td></tr>
+<tr><td><b>Saturación</b></td><td>¿Qué recurso está al límite?</td><td>CPU, memoria, cola, conexiones: <code>node_load1</code>, memoria disponible, conexiones TCP</td></tr>
+</tbody></table></div>
+<p>node_exporter da sobre todo la parte de <b>recursos</b> (uso, saturación y errores del sistema). La de <b>servicio</b> (peticiones, errores HTTP, latencia) exige que la aplicación exporte sus métricas o un exportador específico (p. ej. de Apache o Nginx).</p>
+<ul>
+<li><b>Latencia con histogramas</b>, no con la media: la media esconde la cola lenta; los percentiles p95/p99 la muestran.</li>
+<li><b>Etiquetas de baja cardinalidad</b>: <code>servicio</code>, <code>ruta</code>, <code>método</code>, <code>estado</code>. Nunca <code>user_id</code>, <code>request_id</code> o un correo: disparan el número de series y, además, meten datos personales en la monitorización.</li>
+<li><b>Reglas de registro</b> (<i>recording rules</i>) para precalcular lo que se consulta siempre (tasa de error, p95) y tener la respuesta al instante durante el incidente.</li>
+</ul>
+
+<p><b>2) Mirar por ventanas de tiempo, no una foto fija</b></p>
+<p>Un valor suelto («latencia = 1,8 s») no dice nada. Hay que comparar cuatro ventanas: <b>línea base</b> (normalidad), <b>inicio</b> (empieza a subir), <b>pico</b> (lo peor) y <b>recuperación</b>. La API de Prometheus devuelve una serie en un intervalo; así se guarda la evidencia con sus horas:</p>
+<pre style="background:#f3f6fa;border:1px solid #d5dde8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45;white-space:pre"><code># CPU de srvweb entre las 10:00 y las 10:40, un punto cada 30 s (desde el siem)
+curl -s 'http://172.21.10.10:9090/api/v1/query_range' \
+  --data-urlencode 'query=100 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100' \
+  --data-urlencode 'start=2026-11-27T10:00:00Z' --data-urlencode 'end=2026-11-27T10:40:00Z' \
+  --data-urlencode 'step=30s' | jq '.data.result[0].values[:5]'</code></pre>
+<p>Al leerla hay que tener en cuenta: el <b>intervalo de recogida</b> (15 s en el laboratorio: lo que dura menos puede no verse), el <b>retraso de evaluación</b> de las alertas (saltan un poco después del cambio real), los <b>huecos</b> (un objetivo caído no envía nada) y los <b>reinicios de contadores</b> (por eso se usa <code>rate()</code> o <code>increase()</code>).</p>
+
+<p><b>3) Antes de concluir, comprobar que la telemetría no miente</b></p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>Comprobación</th><th>Qué detecta</th><th>PromQL</th></tr></thead><tbody>
+<tr><td>Objetivo caído</td><td>El exportador no responde</td><td><code>up == 0</code> · <code>absent(up{job="nodos"})</code></td></tr>
+<tr><td>Huecos</td><td>El objetivo ha ido y venido</td><td><code>changes(up{job="nodos"}[15m]) &gt; 0</code></td></tr>
+<tr><td>Serie congelada</td><td>Un contador que no avanza</td><td><code>increase(node_cpu_seconds_total[5m]) == 0</code></td></tr>
+<tr><td>Agregación engañosa</td><td>La media oculta un equipo en apuros</td><td>comparar <code>avg(...)</code> con <code>max(...)</code> y con <code>... by (instance)</code></td></tr>
+</tbody></table></div>
+<p>Cada conclusión lleva un <b>estado de la evidencia</b>: <i>completa</i> (datos válidos y recientes), <i>parcial</i> (falta algo o está degradado) o <i>incompleta</i> (falta lo crítico: no se concluye). Que falten datos <b>no</b> significa que todo vaya bien.</p>
+
+<p><b>4) De muchas alertas a un solo caso</b></p>
+<p>Una caída puede disparar decenas de alertas. Alertmanager (el componente de avisos de Prometheus) las <b>agrupa</b> por contexto común, <b>deduplica</b> por huella y las envía juntas a un <i>webhook</i>: un incidente, un caso, igual que ya hacemos con Wazuh → TheHive.</p>
+<pre style="background:#f3f6fa;border:1px solid #d5dde8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45;white-space:pre"><code># alertmanager.yml (esquema)
+route:
+  receiver: casos
+  group_by: [equipo, alertname]   # misma máquina y mismo síntoma = un grupo
+  group_wait: 30s                 # espera a que lleguen las alertas hermanas
+  group_interval: 5m
+receivers:
+  - name: casos
+    webhook_configs:
+      - url: http://172.21.10.10:9000/api/alertas   # p. ej. un conector hacia TheHive
+        send_resolved: true</code></pre>
+
+<p><b>5) Hipótesis en competencia y línea temporal</b></p>
+<ol>
+<li>Plantear <b>al menos dos hipótesis</b> que expliquen el síntoma.</li>
+<li>Ordenarlas por la evidencia que las apoya (y la que las contradice), con una <b>confianza</b> aproximada.</li>
+<li>Elegir la <b>siguiente consulta que mejor las separa</b>: la que daría resultados distintos según cuál sea cierta.</li>
+<li>Repetir hasta confirmar… o <b>parar y declarar «evidencia insuficiente»</b>. No se fabrica una causa.</li>
+</ol>
+<p>La <b>línea temporal</b> ordena alertas, cambios de métricas, despliegues y recuperación. Dos reglas: los relojes deben estar sincronizados (en el aula, NTP 192.168.0.9; si no, se corrige el desfase) y <b>correlación no es causa</b>: que un cambio coincida con el incidente es una pista, no una prueba. Hay que verificar que el cambio ocurrió <i>antes</i> de los primeros síntomas y que afectó al servicio dañado. En Grafana, las <b>anotaciones</b> marcan en el panel cuándo hubo un despliegue o un ataque.</p>
+
+<p><b>6) Tres casos de estudio con la misma trampa</b></p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>Caso</th><th>Lo que parece</th><th>Lo que es</th><th>La señal que lo destapa</th></tr></thead><tbody>
+<tr><td>Todas las peticiones de la API caducan</td><td>«La base de datos va lenta»</td><td>El <b>pool de conexiones</b> de la aplicación está agotado; la BD está sana e infrautilizada</td><td>Conexiones activas en el límite y espera por conexión creciente, con CPU y latencia de la BD normales</td></tr>
+<tr><td>Un fallo pequeño tumba el sistema</td><td>«Ha caído el servicio X»</td><td>Los <b>reintentos</b> en cascada (API y workers reintentan 3 veces cada uno) multiplican la carga hasta por 9</td><td>Intentos hacia la dependencia muy por encima de las peticiones originales; la tasa de error de la dependencia no cambia</td></tr>
+<tr><td>Kubernetes dice que todo está «Running/Ready»</td><td>«Los pods están sanos»</td><td>El contenedor está <b>limitado de CPU</b> (throttling) por un límite demasiado bajo</td><td>Tiempo de throttling alto con uso de CPU pegado al límite</td></tr>
+</tbody></table></div>
+<p>Lección común: <b>«vivo» no es «sano»</b>, y un componente sano no garantiza un sistema sano. Remedios típicos: dimensionar bien, reintentos acotados con espera exponencial y aleatoriedad (<i>jitter</i>), presupuestos de reintento, cortacircuitos y alertas sobre la propia saturación.</p>
+
+<p><b>7) La IA como asistente de investigación, con contrato</b></p>
+<p>Un modelo de lenguaje puede ordenar evidencias, proponer hipótesis y sugerir la siguiente consulta. Para que no «invente la causa raíz», se le imponen reglas:</p>
+<ul>
+<li><b>Solo lectura</b>: consulta métricas, metadatos del incidente e historial de cambios; nunca reinicia, escala ni cambia configuración. Las decisiones las toma una persona.</li>
+<li><b>Herramientas acotadas</b>: consultas aprobadas, tiempo máximo, tamaño máximo de respuesta, credenciales de mínimo privilegio fuera del <i>prompt</i>, sin ejecutar comandos ni llamar a sitios no autorizados.</li>
+<li><b>Salida estructurada</b>, separando hechos de suposiciones:</li>
+</ul>
+<pre style="background:#f3f6fa;border:1px solid #d5dde8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45;white-space:pre"><code>{
+  "incidente": "INC-2026-0042",
+  "ventana": {"inicio": "10:00Z", "fin": "10:40Z"},
+  "hechos":      [{"metrica": "cpu_srvweb_pct", "valor": 98, "hora": "10:12Z", "consulta": "…"}],
+  "hipotesis":   [{"id": "H1", "texto": "Proceso que satura la CPU (posible minero)", "confianza": 0.7}],
+  "contradicciones": ["Paquetes/s sin cambios: no encaja con una inundación de red"],
+  "estado_evidencia": "parcial",
+  "siguientes_comprobaciones": ["Procesos con más CPU en srvweb", "Alertas FIM/Wazuh de ese intervalo"]
+}</code></pre>
+<div style="background:#fbeee9;border-left:4px solid #c0563b;padding:8px 12px;margin:10px 0"><div><b>Protección de datos:</b> no se pegan en un asistente de IA externo logs con datos personales, IP internas reales ni credenciales. En el laboratorio se trabaja con los datos ficticios de TecnoMariña; en una empresa, solo con herramientas autorizadas por la organización.</div></div>
+
+<p><b>8) Ejercicio: tres causas, un mismo síntoma</b> (srvweb «va lento»)</p>
+<p>El profesorado (o un compañero) lanza <b>una</b> de estas causas sin decir cuál, durante 2 minutos. Requiere <code>stress-ng</code> en srvweb, instalado al construir la VM (<code>sudo apt-get install -y stress-ng</code>).</p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>Causa</th><th>Cómo se provoca (solo en labcyber)</th><th>Qué la delata</th></tr></thead><tbody>
+<tr><td>A · Inundación SYN</td><td>Kali: <code>sudo timeout 120 hping3 -S -p 80 --flood 172.21.10.30</code></td><td><code>rate(node_netstat_TcpExt_SyncookiesSent[1m])</code> y segmentos de entrada disparados; alerta de Suricata si existe la regla de umbral</td></tr>
+<tr><td>B · CPU al 100 % (simula un minero)</td><td>srvweb: <code>stress-ng --cpu 0 --timeout 120s</code></td><td>CPU y <code>node_load1</code> al máximo con tráfico de red normal; proceso nuevo en Wazuh si se audita</td></tr>
+<tr><td>C · Memoria agotada</td><td>srvweb: <code>stress-ng --vm 1 --vm-bytes 90% --timeout 120s</code></td><td>Memoria disponible por los suelos, uso de swap; CPU y red sin pico comparable</td></tr>
+</tbody></table></div>
+<p>Entrega: línea temporal (base, inicio, pico, recuperación), tabla de hipótesis con confianza, la consulta que las separó, estado de la evidencia y conclusión. Variante con IA: pasar al asistente solo los <b>valores agregados</b> (no logs completos) con el contrato del punto 7 y comparar su informe con el propio: ¿separó hechos e hipótesis?, ¿declaró la incertidumbre?, ¿acertó?</p>
+<p style="font-size:12px;color:#5b6676">Inspirado en la serie «Build an AI Incident Investigator Using Prometheus, Grafana, and Claude» publicada por Veriqta (Instagram, nov. 2026); contenido reelaborado y adaptado al laboratorio del módulo. Más en la documentación de <a href="https://prometheus.io/docs/practices/histograms/" target="_blank" rel="noopener">histogramas</a>, <a href="https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/" target="_blank" rel="noopener">reglas de registro</a>, <a href="https://prometheus.io/docs/prometheus/latest/querying/api/" target="_blank" rel="noopener">API HTTP</a> y <a href="https://prometheus.io/docs/alerting/latest/alertmanager/" target="_blank" rel="noopener">Alertmanager</a>, y en el capítulo <a href="https://sre.google/sre-book/monitoring-distributed-systems/" target="_blank" rel="noopener">Monitoring Distributed Systems</a> del libro de SRE de Google (las cuatro señales doradas).</p>

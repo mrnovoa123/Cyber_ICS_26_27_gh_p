@@ -38,3 +38,8 @@ python3 build_alumnado.py                                  # regenera alumnado (
 python3 sync_recursos.py ../ciber_cdm_ic_apuntes/index.html  # réplica de mrnovoa-dev
 ```
 Para que un recurso (o un grupo entero) sea **solo de profesorado**, añade `"profe": true` a la ficha o a la categoría: se ve en la web de profesorado y desaparece del build de alumnado y de la réplica de mrnovoa-dev.
+
+## Secciones de contenido en ficheros
+`contenidos/*.html` guarda secciones largas de teoría; se insertan en la web con
+`python3 insertar_seccion.py <index.html> ud2 "<título>" contenidos/<fichero>.html "<sección anterior>"`
+(también en la réplica de mrnovoa-dev). La versión lista para pegar en el libro de Moodle está en `moodle/`.
