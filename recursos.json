@@ -626,16 +626,6 @@
      "d": "Análisis de ficheros, URL y hashes con decenas de motores. Ojo: lo que se sube es público."
     },
     {
-     "n": "MalwareBazaar",
-     "u": "https://bazaar.abuse.ch/",
-     "t": "web",
-     "l": "EN",
-     "ud": [
-      "UD3"
-     ],
-     "d": "Repositorio de muestras de malware y hashes (abuse.ch)."
-    },
-    {
      "n": "URLhaus",
      "u": "https://urlhaus.abuse.ch/",
      "t": "web",
@@ -655,17 +645,6 @@
       "UD3"
      ],
      "d": "Reputación de ficheros, IP y dominios."
-    },
-    {
-     "n": "ANY.RUN",
-     "u": "https://any.run/",
-     "t": "web",
-     "l": "EN",
-     "ud": [
-      "UD3"
-     ],
-     "d": "Sandbox interactiva de malware en la nube.",
-     "alta": "2026-11-26"
     },
     {
      "n": "NIST CFReDS",
@@ -720,6 +699,124 @@
      ],
      "d": "Apagan o bloquean el equipo si cambia un USB o se tira del cable. El analista debe conocerlas: recomiendan una adquisición en caliente sin tocar los puertos. BusKill: buskill.in.",
      "alta": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "id": "malware",
+   "h": "Ruta de aprendizaje: análisis de malware",
+   "d": "Nueve recursos ordenados de principiante a avanzado. En el módulo el análisis es <b>estático por defecto</b> (UD3); el dinámico solo en una sandbox o en una VM aislada y revertible, nunca en el equipo del aula ni conectada a la red del centro.",
+   "origen": "Ruta compartida en redes («9 malware analysis resources, in learning order»), revisada enlace a enlace.",
+   "items": [
+    {
+     "n": "1 · Lenny Zeltser · Start learning malware analysis",
+     "u": "https://zeltser.com/start-learning-malware-analysis",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Guía gratuita de inicio: conecta lo que ya sabes con las fases del análisis y recomienda sandboxes, herramientas y vídeos libres (también anuncia su curso de pago de SANS).",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "2 · Practical Malware Analysis (libro)",
+     "u": "https://nostarch.com/malware",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "El libro clásico (Sikorski y Honig, No Starch Press): análisis estático, dinámico, ensamblador x86 y depuración. De pago; los laboratorios del libro son antiguos pero el método sigue vigente.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "3 · Malware Unicorn · Reverse Engineering 101",
+     "u": "https://malwareunicorn.org/workshops/re101.html",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Taller práctico de ingeniería inversa de malware en Windows: ensamblador x86, triaje y análisis estático y dinámico. Herramientas gratuitas (IDA Free, x64dbg) en VirtualBox: VM víctima Windows 10 y VM Lubuntu para capturar tráfico; pide 8 GB de RAM.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "4 · TCM Academy · Practical Malware Analysis & Triage (PMAT)",
+     "u": "https://academy.tcm-sec.com/p/practical-malware-analysis-triage",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Curso de pago muy práctico: manejo seguro, análisis estático y dinámico básico y avanzado, documentos maliciosos, scripts y redacción del informe.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "4b · PMAT-labs (muestras reales del curso)",
+     "u": "https://github.com/HuskyHacks/PMAT-labs",
+     "t": "repo",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Laboratorios gratuitos del curso PMAT: muestras de malware vivo (algunas reales) en zip con contraseña, retos con respuestas y plantilla de informe. Exigen FLARE-VM y un entorno que se pueda revertir; descargarlos implica aceptar su EULA. Solo con supervisión y en VM aislada sin red.",
+     "alta": "2026-11-27",
+     "profe": true
+    },
+    {
+     "n": "5 · Max Kersten · Binary Analysis Course",
+     "u": "https://maxkersten.nl/binary-analysis-course/",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Curso abierto paso a paso: ensamblador, tipos de binario, casos reales de malware y scripts de Ghidra, todo con software libre.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "6 · OpenSecurityTraining2 · Reverse Engineering & Malware Analysis",
+     "u": "https://ost2.fyi/Malware-Analysis.html",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Itinerario de clases gratuitas en línea (OST2) de ingeniería inversa y análisis de malware, con mapa de prerrequisitos.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "7 · REMnux",
+     "u": "https://remnux.org/",
+     "t": "herramienta",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Distribución Linux gratuita (GPL v3) con las herramientas de análisis de malware ya instaladas; se importa como máquina virtual, se instala sobre Ubuntu o se usa como contenedor Docker. Encaja con la Kali/Debian del laboratorio.",
+     "alta": "2026-11-27"
+    },
+    {
+     "n": "8 · ANY.RUN",
+     "u": "https://any.run/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Sandbox interactiva de malware en la nube.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "9 · MalwareBazaar",
+     "u": "https://bazaar.abuse.ch/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Repositorio de muestras de malware y hashes (abuse.ch)."
     }
    ]
   },
