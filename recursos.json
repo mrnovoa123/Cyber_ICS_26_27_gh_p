@@ -1943,6 +1943,17 @@
      "alta": "2026-11-26"
     },
     {
+     "n": "Stanford CS253 · Web Security",
+     "u": "https://web.stanford.edu/class/cs253/",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Curso universitario completo de seguridad web (Stanford): vulnerabilidades de aplicaciones, diseño seguro y defensas modernas. Diapositivas y materiales abiertos.",
+     "alta": "2026-11-27"
+    },
+    {
      "n": "SQL Injection",
      "u": "https://www.hacksplaining.com/lessons/sql-injection",
      "t": "curso",
@@ -2126,7 +2137,19 @@
       "UD2",
       "UD3"
      ],
-     "d": "Rutas guiadas; la ruta SOC Level 1 prepara la certificación SAL1."
+     "d": "Formación práctica en «salas» guiadas con máquinas virtuales en el navegador: fundamentos, herramientas, ataque y defensa paso a paso. Muchas salas son gratuitas; la ruta SOC Level 1 prepara la certificación SAL1."
+    },
+    {
+     "n": "Lista de salas gratuitas de TryHackMe",
+     "u": "https://skerritt.blog/free-rooms/",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD2",
+      "UD3"
+     ],
+     "d": "Recopilación de salas de TryHackMe que se pueden hacer sin suscripción, ordenadas por temática. Útil para preparar tareas sin que el alumnado tenga que pagar.",
+     "alta": "2026-11-27"
     },
     {
      "n": "Hack The Box Academy",
