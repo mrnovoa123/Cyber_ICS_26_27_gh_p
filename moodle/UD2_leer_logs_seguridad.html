@@ -1,0 +1,78 @@
+<p>Un log de seguridad es el registro estructurado de algo que pasó: quién hizo qué, cuándo, desde dónde y con qué resultado. Es la materia prima del SIEM y la evidencia del informe. Esta sección enseña a <b>leerlos</b> fuente por fuente, con ejemplos del laboratorio; las secciones siguientes profundizan en Windows y en Linux.</p>
+<div style="background:#eef3f9;border-left:4px solid #4a6fa5;padding:8px 12px;margin:10px 0"><div><b>Regla de oro:</b> nunca se juzga un campo suelto. Es la combinación (hora + origen + usuario + acción + resultado) y, sobre todo, el <b>patrón</b> (repetición, horario raro, origen desconocido) lo que convierte un evento normal en sospechoso.</div></div>
+
+<p><b>1) Anatomía de un evento</b></p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>Campo</th><th>Pregunta que responde</th><th>Ejemplo (laboratorio)</th></tr></thead><tbody>
+<tr><td>Marca de tiempo</td><td>¿Cuándo? (con zona horaria)</td><td><code>2026-11-27T09:16:07+01:00</code></td></tr>
+<tr><td>IP de origen</td><td>¿Desde dónde empezó?</td><td><code>172.21.10.100</code> (Kali)</td></tr>
+<tr><td>IP / sistema de destino</td><td>¿Contra qué?</td><td><code>172.21.10.30</code> (srvweb)</td></tr>
+<tr><td>Usuario</td><td>¿Qué cuenta?</td><td><code>admin</code></td></tr>
+<tr><td>Identificador de evento</td><td>¿Qué tipo de suceso?</td><td>4625 en Windows · regla 5760 en Wazuh</td></tr>
+<tr><td>Acción y resultado</td><td>¿Qué intentó y cómo acabó?</td><td>inicio de sesión → fallido</td></tr>
+<tr><td>Severidad</td><td>¿Cuánta atención merece?</td><td>INFO / WARN / ALERT · nivel 0–15 en Wazuh</td></tr>
+</tbody></table></div>
+<p>Normal: lo esperado y habitual (la docente entra desde su puesto en horario de clase). Sospechoso: lo inesperado o de alto riesgo (decenas de fallos seguidos, un acceso de madrugada, un origen desconocido, una cuenta nueva que nadie pidió).</p>
+
+<p><b>2) De dónde salen y a dónde van</b></p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>Fuente</th><th>Qué registra</th><th>En el laboratorio</th></tr></thead><tbody>
+<tr><td>Sistema operativo</td><td>Inicios de sesión, privilegios, procesos, servicios</td><td>Windows: visor de eventos + Sysmon (win10) · Linux: journald / auth.log (siem, srvweb)</td></tr>
+<tr><td>Cortafuegos</td><td>Conexiones permitidas y bloqueadas</td><td>nftables con <code>log prefix</code> (UD4)</td></tr>
+<tr><td>IDS de red</td><td>Tráfico que coincide con firmas</td><td>Suricata → <code>eve.json</code></td></tr>
+<tr><td>Aplicaciones y web</td><td>Peticiones, errores, accesos</td><td>Apache en srvweb: <code>/var/log/apache2/access.log</code></td></tr>
+<tr><td>Autenticación</td><td>Inicios correctos y fallidos, MFA, cambios de cuenta</td><td>sshd, Windows 4624/4625</td></tr>
+<tr><td>Nube</td><td>Llamadas a la API y cambios de recursos</td><td>(fuera del laboratorio) AWS CloudTrail, Azure Activity Log, Google Cloud Audit Logs</td></tr>
+<tr><td>Endpoint</td><td>Procesos, ficheros, detecciones</td><td>Agente Wazuh: FIM, SCA, Sysmon</td></tr>
+</tbody></table></div>
+<p>Todas convergen en el <b>SIEM</b> (Wazuh, Splunk), que correlaciona, alerta y permite investigar. Una sola fuente da una visión parcial; varias, la historia completa.</p>
+
+<p><b>3) Linux: autenticación</b></p>
+<p>En Debian/Ubuntu el fichero clásico es <code>/var/log/auth.log</code> (en RHEL, <code>/var/log/secure</code>). <b>Ojo:</b> Debian 12 sin <code>rsyslog</code> no lo crea; todo está en el diario de systemd y se lee con <code>journalctl</code>.</p>
+<pre style="background:#f3f6fa;border:1px solid #d5dde8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45;white-space:pre"><code>sudo grep "Failed password" /var/log/auth.log | tail -n 20      # fallos de SSH
+sudo grep "Accepted" /var/log/auth.log                          # accesos correctos
+sudo grep "sudo:" /var/log/auth.log                             # quién usó sudo y para qué
+sudo journalctl -u ssh --since "-1h"                            # lo mismo sin auth.log
+# ¿quién lo está intentando más?
+sudo journalctl -u ssh --since today | grep "Failed password" \
+  | grep -oE 'from [0-9.]+' | sort | uniq -c | sort -rn | head</code></pre>
+<p>Señales: muchos fallos seguidos desde la misma IP (fuerza bruta, como el <code>hydra</code> de la actividad 2.2), accesos desde IP desconocidas o a horas raras, usuarios que no deberían existir, <code>sudo</code> inesperado.</p>
+
+<p><b>4) Windows: Event IDs que hay que reconocer</b></p>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>ID</th><th>Significado</th><th>Qué mirar</th></tr></thead><tbody>
+<tr><td>4624</td><td>Inicio de sesión correcto</td><td>Usuario, <i>tipo de inicio</i> (2 local, 3 red, 10 escritorio remoto) e IP de origen</td></tr>
+<tr><td>4625</td><td>Inicio de sesión fallido</td><td>Repeticiones desde la misma IP</td></tr>
+<tr><td>4672</td><td>Sesión con privilegios especiales</td><td>Cuentas que no deberían ser administradoras</td></tr>
+<tr><td>4688</td><td>Creación de proceso</td><td>Procesos raros y su proceso padre (mejor aún: Sysmon 1)</td></tr>
+<tr><td>4720 / 4732</td><td>Cuenta creada / añadida a un grupo de seguridad</td><td>¿Estaba autorizado?</td></tr>
+<tr><td>7045</td><td>Servicio instalado</td><td>Persistencia</td></tr>
+<tr><td>1102</td><td>Registro de seguridad borrado</td><td>Casi siempre merece investigarse: es borrar huellas</td></tr>
+</tbody></table></div>
+<p>Se abren con <code>eventvwr.msc</code>; el detalle completo (auditoría, PowerShell, Sysmon) está en la sección de telemetría de Windows de esta unidad.</p>
+
+<p><b>5) Cortafuegos</b></p>
+<p>Cada línea dice qué conexión se <b>permitió</b> o se <b>denegó</b>, con origen, destino, puerto y protocolo. Señales: muchos rechazos desde la misma IP, intentos a puertos poco habituales (3389, 4444, 8080), ráfagas de conexiones en poco tiempo (escaneo). En el laboratorio, con nftables:</p>
+<pre style="background:#f3f6fa;border:1px solid #d5dde8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45;white-space:pre"><code># regla que registra y descarta (UD4); el aviso aparece en el diario del kernel
+nft add rule inet filtro entrada tcp dport 22 ip saddr != 172.21.10.0/24 log prefix "NFT-DROP-SSH " drop
+sudo journalctl -k | grep NFT-DROP</code></pre>
+
+<p><b>6) DNS</b></p>
+<p>Cada consulta registra el dominio pedido, el equipo que lo pidió, la hora y el <b>código de respuesta</b>: 0 = resuelto, 3 = NXDOMAIN (no existe), 5 = rechazada. Señales: dominios largos y aleatorios, muchos NXDOMAIN seguidos (malware probando dominios generados por algoritmo, DGA), dominios recién registrados y volúmenes anómalos desde un solo equipo (posible <b>túnel DNS</b> para sacar datos o controlar el equipo). En el laboratorio, Sysmon registra las consultas de win10 (evento 22) y Suricata las de la red.</p>
+
+<p><b>7) Servidor web</b></p>
+<p>Una línea de acceso de Apache (formato combinado) en srvweb:</p>
+<pre style="background:#f3f6fa;border:1px solid #d5dde8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45;white-space:pre"><code>172.21.10.100 - - [27/Nov/2026:10:14:32 +0100] "GET /dvwa/login.php HTTP/1.1" 200 1415 "-" "Mozilla/5.0"
+│ IP cliente      │ fecha y zona               │ método y ruta          │ código │ bytes │ referer │ agente</code></pre>
+<div style="overflow-x:auto"><table class="table table-bordered table-sm"><thead><tr><th>Patrón en la ruta</th><th>Posible ataque</th></tr></thead><tbody>
+<tr><td><code>/admin</code>, <code>/wp-admin</code>, <code>/login</code> repetidos</td><td>Búsqueda de paneles o fuerza bruta</td></tr>
+<tr><td><code>../</code>, <code>/etc/passwd</code></td><td>Recorrido de directorios</td></tr>
+<tr><td><code>' OR 1=1</code>, <code>UNION SELECT</code></td><td>Inyección SQL</td></tr>
+<tr><td><code>&lt;script&gt;</code></td><td>XSS</td></tr>
+<tr><td>Ráfagas de 401/403/404 desde una IP</td><td>Fuerza bruta o escáner automático (agente tipo <code>Nikto</code>, <code>sqlmap</code>, <code>curl</code>)</td></tr>
+</tbody></table></div>
+<pre style="background:#f3f6fa;border:1px solid #d5dde8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45;white-space:pre"><code>sudo awk '{print $9}' /var/log/apache2/access.log | sort | uniq -c | sort -rn     # códigos de respuesta
+sudo awk '$9 ~ /^40[13]$/ {print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head</code></pre>
+
+<p><b>8) Nube</b> (para conocerlo; fuera del laboratorio)</p>
+<p>Registran cada llamada a la API: AWS CloudTrail, Azure Activity Log y Google Cloud Audit Logs. Se vigila sobre todo la <b>identidad</b> (usuarios, roles y permisos nuevos o cambiados), la <b>creación inesperada de recursos</b> (máquinas para minar criptomonedas) y los cambios de red y seguridad. Campos típicos de CloudTrail: <code>eventTime</code>, <code>eventName</code>, <code>userIdentity</code>, <code>sourceIPAddress</code>.</p>
+
+<p><b>Práctica rápida</b> (tras la actividad 2.2): con los logs de srvweb y win10, construye una mini línea temporal del ataque de fuerza bruta: primera y última petición, IP, número de intentos, si hubo acceso correcto después y qué hizo esa cuenta. Indica de qué fuente sale cada dato.</p>
+<p style="font-size:12px;color:#5b6676">Inspirado en la serie «Understanding Security Logs» de Veriqta (Instagram, nov. 2026); contenido reelaborado y adaptado al laboratorio del módulo.</p>

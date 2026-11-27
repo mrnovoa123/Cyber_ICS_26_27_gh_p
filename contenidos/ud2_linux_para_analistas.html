@@ -1,0 +1,80 @@
+<p>El siem y srvweb son Debian y el atacante es Kali: buena parte de la investigación se hace en la terminal. Esta sección reúne lo imprescindible de Linux <b>con la mirada del analista</b>: dónde está la evidencia, qué comando la muestra y qué indica algo raro. Todos los comandos son de consulta; los que cambian algo están marcados.</p>
+
+<p><b>1) Dónde está cada cosa</b></p>
+<div class="tbl-wrap"><table><thead><tr><th>Ruta</th><th>Contenido</th><th>Interés para el analista</th></tr></thead><tbody>
+<tr><td><code>/etc</code></td><td>Configuración (SSH, usuarios, servicios, cron)</td><td>Cambios no autorizados: <code>/etc/passwd</code>, <code>/etc/sudoers</code>, <code>/etc/ssh/sshd_config</code></td></tr>
+<tr><td><code>/var/log</code></td><td>Logs del sistema y de las aplicaciones</td><td>Inicios de sesión, errores, Apache, Suricata</td></tr>
+<tr><td><code>/home</code>, <code>/root</code></td><td>Datos de usuarios</td><td><code>.bash_history</code>, <code>.ssh/authorized_keys</code> (claves añadidas = puerta trasera)</td></tr>
+<tr><td><code>/tmp</code>, <code>/dev/shm</code></td><td>Temporales (escribibles por todos)</td><td>Lugar favorito para dejar y ejecutar malware</td></tr>
+<tr><td><code>/proc</code></td><td>Sistema de ficheros virtual con los procesos en marcha</td><td><code>/proc/&lt;PID&gt;/exe</code> y <code>cmdline</code>: qué ejecuta de verdad un proceso</td></tr>
+<tr><td><code>/etc/systemd/system</code>, <code>/etc/cron*</code></td><td>Servicios y tareas programadas</td><td>Persistencia</td></tr>
+</tbody></table></div>
+
+<p><b>2) Comandos básicos de lectura</b></p>
+<pre style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45"><code>pwd; ls -la /var/log                 # dónde estoy y qué hay (con permisos y fechas)
+less /var/log/apache2/access.log     # leer por páginas (/ busca, q sale)
+head -n 20 fichero; tail -n 50 fichero
+tail -f /var/log/suricata/fast.log   # seguir en directo
+grep -i "failed" fichero             # buscar texto (-r recursivo, -c contar, -v excluir)
+find /etc /var /tmp /home -type f -mmin -60 2&gt;/dev/null      # ficheros cambiados en la última hora
+find /tmp /dev/shm -type f -perm -u+x 2&gt;/dev/null          # ejecutables en temporales</code></pre>
+
+<p><b>3) Usuarios, grupos y privilegios</b></p>
+<pre style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45"><code>id; whoami; groups
+awk -F: '$3 == 0' /etc/passwd        # cuentas con UID 0 (solo debería salir root)
+awk -F: '$3 &gt;= 1000' /etc/passwd      # cuentas de personas
+getent group sudo                    # quién puede usar sudo
+sudo ls -l /etc/passwd /etc/shadow   # shadow solo debe leerlo root (640 o 600)
+last -n 20; lastb -n 20              # últimos accesos correctos y fallidos</code></pre>
+<p>Riesgos: demasiados usuarios con <code>sudo</code>, cuentas nuevas sin explicación, un segundo UID 0, contraseñas débiles o compartidas.</p>
+
+<p><b>4) Permisos y propietarios</b></p>
+<p>Cada fichero tiene permisos de lectura (r = 4), escritura (w = 2) y ejecución (x = 1) para propietario, grupo y resto: <code>rw-r--r--</code> = 644; <code>rw-------</code> = 600. Se cambian con <code>chmod</code>, <code>chown</code> y <code>chgrp</code> (estos sí modifican).</p>
+<pre style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45"><code>ls -l /etc/ssh/sshd_config           # -rw-r--r-- root root: solo root modifica
+find / -perm -0002 -type f -not -path "/proc/*" 2&gt;/dev/null   # escribibles por todos
+find / -perm -4000 -type f 2&gt;/dev/null                       # binarios SUID (escalada de privilegios)</code></pre>
+<p>Malas prácticas: <code>chmod 777</code>, claves privadas legibles por otros (deben ser 600 y la carpeta <code>~/.ssh</code> 700), configuración con propietario incorrecto. Principio de <b>mínimo privilegio</b>.</p>
+
+<p><b>5) Procesos</b></p>
+<pre style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45"><code>ps aux --sort=-%cpu | head           # los que más CPU usan
+pstree -p                            # árbol padre → hijo
+pgrep -a sshd
+sudo ls -l /proc/&lt;PID&gt;/exe; sudo cat /proc/&lt;PID&gt;/cmdline | tr '\0' ' '
+sudo ls -l /proc/*/exe 2&gt;/dev/null | grep deleted           # binario borrado pero aún en marcha</code></pre>
+<p>Sospechoso: procesos que se ejecutan desde <code>/tmp</code> o <code>/dev/shm</code>, consumo de CPU disparado (minero), cadenas padre-hijo raras (un servidor web que lanza <code>bash</code>), nombres que imitan procesos del sistema.</p>
+
+<p><b>6) Servicios y persistencia con systemd</b></p>
+<pre style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45"><code>systemctl list-units --type=service --state=running
+systemctl list-unit-files --state=enabled          # lo que arranca al iniciar
+systemctl status ssh; journalctl -u ssh -n 50
+ls -lt /etc/systemd/system/ | head                  # unidades añadidas recientemente
+sudo crontab -l; ls -la /etc/cron.*                 # tareas programadas</code></pre>
+<p>Una unidad <code>.service</code> desconocida con <code>Restart=always</code> y <code>WantedBy=multi-user.target</code>, que ejecuta algo de <code>/tmp</code>, es persistencia de manual (MITRE T1543.002). Lo mismo con una tarea de cron inesperada (T1053.003). Wazuh las detecta con FIM sobre esas rutas.</p>
+
+<p><b>7) Red</b></p>
+<pre style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px;line-height:1.45"><code>ip -br addr; ip route                # interfaces y rutas
+sudo ss -tulpn                       # puertos a la escucha y qué proceso los abre
+sudo ss -tnp state established       # conexiones activas
+sudo lsof -i -P -n                   # ficheros de red abiertos por proceso
+dig &lt;dominio&gt;; ping -c 3 172.21.10.30       # resolución DNS y alcance
+curl -I http://172.21.10.30          # ¿responde el servicio?</code></pre>
+<p>Sospechoso: puertos a la escucha que nadie ha abierto (4444, puertos altos), conexiones salientes repetidas hacia la misma IP o dominio (posible canal de mando y control), un proceso inesperado detrás de un puerto. Recordatorio: TCP establece conexión y garantiza la entrega (SSH, HTTP); UDP no (DNS, streaming).</p>
+
+<p><b>8) Cortafuegos y SSH</b></p>
+<div class="tbl-wrap"><table><thead><tr><th>Herramienta</th><th>Uso</th></tr></thead><tbody>
+<tr><td>nftables (<code>nft list ruleset</code>)</td><td>El cortafuegos moderno de Linux; es el que se usa en el laboratorio (UD4)</td></tr>
+<tr><td>UFW (<code>ufw status verbose</code>)</td><td>Capa sencilla, habitual en Ubuntu</td></tr>
+<tr><td>iptables / firewalld</td><td>Antiguo pero aún presente / gestor habitual en RHEL</td></tr>
+</tbody></table></div>
+<p>Endurecimiento de SSH (en <code>/etc/ssh/sshd_config</code>, y después <code>sudo sshd -t</code> para validar y <code>sudo systemctl reload ssh</code>; <b>modifica el sistema</b>):</p>
+<ul>
+<li>Autenticación por clave y <code>PasswordAuthentication no</code> (frena la fuerza bruta de la 2.2).</li>
+<li><code>PermitRootLogin no</code> y acceso solo para usuarios o grupos concretos (<code>AllowUsers</code>/<code>AllowGroups</code>).</li>
+<li>Cortafuegos que solo deja entrar SSH desde la red de gestión.</li>
+<li>Cambiar el puerto 22 reduce el ruido de los escaneos, pero <b>no es una medida de seguridad</b> por sí sola.</li>
+<li>Revisar los logs de SSH y aplicar actualizaciones.</li>
+</ul>
+<div class="note warn"><div><b>Antes de endurecer SSH en una máquina remota</b>, deja otra sesión abierta y comprueba que puedes entrar con la clave: un error en <code>sshd_config</code> o en el cortafuegos te deja fuera.</div></div>
+
+<p><b>Práctica: triaje rápido de srvweb</b> (10 minutos, solo lectura). Responde con el comando y la salida que lo prueba: ¿qué cuentas pueden ser root?, ¿quién entró en las últimas horas y desde dónde?, ¿qué escucha en la red y qué proceso lo abre?, ¿hay ejecutables en <code>/tmp</code> o <code>/dev/shm</code>?, ¿hay servicios o tareas de cron añadidos recientemente?, ¿qué ficheros de <code>/etc</code> cambiaron hoy? Después compáralo con lo que muestra Wazuh.</p>
+<p class="sec-meta">Inspirado en la serie «Linux for Security Analysts» de Veriqta (Instagram, nov. 2026); contenido reelaborado y adaptado al laboratorio del módulo.</p>
