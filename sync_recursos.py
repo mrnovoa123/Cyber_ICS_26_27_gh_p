@@ -59,14 +59,14 @@ ENGINE_FN = r"""function recursosSection(){var R=D.recursos,s=el('section','unit
  var tipos={};R.cats.forEach(function(c){c.items.forEach(function(it){tipos[it.t]=(tipos[it.t]||0)+1;});});
  var total=R.cats.reduce(function(a,c){return a+c.items.length;},0);
  var chips='<button type="button" class="rcf on" data-f="">Todos</button>'+Object.keys(TL).filter(function(k){return tipos[k];}).map(function(k){return '<button type="button" class="rcf" data-f="'+k+'">'+TL[k]+' <span class="cnt">'+tipos[k]+'</span></button>';}).join('');
- var blocks=R.cats.map(function(c){var body=(c.d?'<p class="rc-cd">'+c.d+'</p>':'')+(c.origen?'<p class="rc-or">'+esc(c.origen)+'</p>':'')+(c.tabla?tabla(c):'<div class="rcgrid">'+c.items.map(card).join('')+'</div>');
+ var blocks=R.cats.map(function(c){var body=(c.d?'<p class="rc-cd">'+c.d+'</p>':'')+(c.origen?'<p class="rc-or">'+esc(c.origen)+'</p>':'')+(c.html||'')+(c.tabla?tabla(c):(c.items.length?'<div class="rcgrid">'+c.items.map(card).join('')+'</div>':''));
   return '<details class="ampblk'+(c.profe?' rec-profe':'')+'" id="recursos-'+c.id+'"><summary><span class="ab-h">'+c.h+' <span class="cnt">'+c.items.length+'</span></span><span class="chev">'+ICON.chev+'</span></summary><div class="ab-body">'+body+'</div></details>';}).join('');
  s.innerHTML='<div class="uhead"><div class="sec-head"><span class="tag" style="background:var(--defend)">REC</span><h2>Recursos de ciberseguridad</h2></div><p class="lead">'+R.intro+'</p><p class="sec-meta amp-src"><b>'+total+' recursos</b> en '+R.cats.length+' grupos · actualizado '+R.actualizado.split('-').reverse().join('/')+'</p>'
   +'<div class="recctl"><input id="recQ" type="search" placeholder="Buscar: wazuh, forense, gratis, UD3…" aria-label="Buscar recursos"><span class="rec-cnt" id="recCnt"></span><button type="button" class="ampall" data-act="open">Abrir todo</button><button type="button" class="ampall" data-act="close">Cerrar todo</button></div>'
   +'<div class="rcfs">'+chips+'</div><p class="rec-warn">'+R.aviso+'</p></div>'+blocks;
  var f='';function run(){var qq=(s.querySelector('#recQ').value||'').trim().toLowerCase(),n=0;
   s.querySelectorAll('.rec-it').forEach(function(e){var ok=(!f||e.getAttribute('data-t')===f)&&(!qq||e.getAttribute('data-q').indexOf(qq)>-1);e.classList.toggle('rec-hide',!ok);if(ok)n++;});
-  s.querySelectorAll('details.ampblk').forEach(function(d){var v=d.querySelectorAll('.rec-it:not(.rec-hide)').length;d.classList.toggle('rec-hide',!v);if(qq||f)d.open=v>0;});
+  s.querySelectorAll('details.ampblk').forEach(function(d){var v=d.querySelectorAll('.rec-it:not(.rec-hide)').length;d.classList.toggle('rec-hide',(qq||f)&&!v);if(qq||f)d.open=v>0;});
   s.querySelector('#recCnt').textContent=(qq||f)?n+' resultado'+(n===1?'':'s'):'';}
  s.addEventListener('input',function(e){if(e.target.id==='recQ')run();});
  s.addEventListener('click',function(e){var b=e.target.closest('.rcf');if(!b)return;f=b.getAttribute('data-f');s.querySelectorAll('.rcf').forEach(function(x){x.classList.toggle('on',x===b);});run();});
@@ -93,7 +93,7 @@ def publico(R):
         if c.get("profe"):
             continue
         c["items"] = [it for it in c["items"] if not it.get("profe")]
-        if c["items"]:
+        if c["items"] or c.get("html"):
             cats.append(c)
     R["cats"] = cats
     return R

@@ -139,7 +139,7 @@ if D.get("recursos"):   # recursos: fuera lo marcado como solo-profesorado
         dict(c, items=[i for i in c["items"] if not i.get("profe")])
         for c in D["recursos"]["cats"] if not c.get("profe")
     ]
-    D["recursos"]["cats"] = [c for c in D["recursos"]["cats"] if c["items"]]
+    D["recursos"]["cats"] = [c for c in D["recursos"]["cats"] if c["items"] or c.get("html")]
 D["detalle"] = {k: v for k, v in D.get("detalle", {}).items() if k in PUBLICADAS}
 # quitar las secciones marcadas como solo-profesorado (por título exacto)
 _ocultas = 0
