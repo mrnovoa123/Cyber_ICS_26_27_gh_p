@@ -2124,9 +2124,8 @@
   },
   {
    "id": "practica",
-   "h": "Plataformas de práctica, retos y bug bounty",
+   "h": "Plataformas de práctica y retos",
    "d": "Laboratorios legales para entrenar detección (blue) y ataque (red).",
-   "origen": "Incluye el tema de un reel de cyberwithjohann («5 free websites to start bug bounty hunting»); selección propia.",
    "items": [
     {
      "n": "TryHackMe",
@@ -2206,35 +2205,6 @@
      "d": "Laboratorios gratuitos de vulnerabilidades web."
     },
     {
-     "n": "Hacker101 (HackerOne)",
-     "u": "https://www.hacker101.com/",
-     "t": "curso",
-     "l": "EN",
-     "ud": [
-      "UD3"
-     ],
-     "d": "Formación gratuita de bug bounty con retos CTF.",
-     "alta": "2026-11-26"
-    },
-    {
-     "n": "Intigriti",
-     "u": "https://www.intigriti.com/",
-     "t": "plataforma",
-     "l": "EN",
-     "ud": [],
-     "d": "Plataforma europea de bug bounty; publica retos mensuales gratuitos.",
-     "alta": "2026-11-26"
-    },
-    {
-     "n": "YesWeHack",
-     "u": "https://www.yeswehack.com/",
-     "t": "plataforma",
-     "l": "EN",
-     "ud": [],
-     "d": "Plataforma europea de bug bounty con programas y entorno de formación.",
-     "alta": "2026-11-26"
-    },
-    {
      "n": "picoCTF",
      "u": "https://picoctf.org/",
      "t": "plataforma",
@@ -2256,9 +2226,113 @@
    ]
   },
   {
+   "id": "bugbounty",
+   "h": "Bug bounty en la práctica: plataformas y divulgación responsable",
+   "d": "Un programa de bug bounty es una invitación de la organización a buscar fallos en un <b>alcance</b> concreto, con unas <b>reglas</b> y unas <b>recompensas</b> publicadas. Fuera de ese alcance, o sin programa, probar sistemas ajenos es acceso no autorizado y puede ser delito. Lo correcto es la <b>divulgación coordinada</b>: informar en privado, no aprovechar el fallo y esperar a que se corrija antes de publicarlo. Para la organización que defiende (UD4), recibir esos avisos es parte de la gestión de vulnerabilidades: canal de contacto (<code>security.txt</code>), política publicada, plazos de respuesta y, si procede, CVE.",
+   "items": [
+    {
+     "n": "HackerOne",
+     "u": "https://www.hackerone.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Plataforma de bug bounty y divulgación de vulnerabilidades más extendida; muchas empresas publican ahí sus programas y políticas.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "Hacker101 (HackerOne)",
+     "u": "https://www.hacker101.com/",
+     "t": "curso",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Formación gratuita de bug bounty con retos CTF.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "Bugcrowd",
+     "u": "https://www.bugcrowd.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Otra gran plataforma de bug bounty y divulgación de vulnerabilidades, con programas públicos y privados.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "Intigriti",
+     "u": "https://www.intigriti.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [],
+     "d": "Plataforma europea de bug bounty; publica retos mensuales gratuitos.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "YesWeHack",
+     "u": "https://www.yeswehack.com/",
+     "t": "plataforma",
+     "l": "EN",
+     "ud": [],
+     "d": "Plataforma europea de bug bounty con programas y entorno de formación.",
+     "alta": "2026-11-26"
+    },
+    {
+     "n": "INCIBE-CERT · Política de reporte de vulnerabilidades",
+     "u": "https://www.incibe.es/incibe-cert/sobre-incibe-cert/politica-reporte-vulnerabilidades",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD4",
+      "UD5"
+     ],
+     "d": "Cómo y dónde notificar en España una vulnerabilidad nueva: INCIBE-CERT actúa como CNA (autoridad que asigna identificadores CVE) y coordina su divulgación; pide notificarla en cuanto se detecta y no sacar provecho de ella.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "INCIBE-CERT · Asignación y publicación de CVE",
+     "u": "https://www.incibe.es/incibe-cert/alerta-temprana/vulnerabilidades/asignacion-publicacion-cve",
+     "t": "agencia",
+     "l": "ES",
+     "ud": [
+      "UD4",
+      "UD5"
+     ],
+     "d": "Qué gestiona el CNA de INCIBE-CERT (fallos de día cero aún sin CVE) y qué no (incidentes o vulnerabilidades ya publicadas, que van por el canal de incidentes).",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "security.txt (RFC 9116)",
+     "u": "https://www.rfc-editor.org/rfc/rfc9116",
+     "t": "norma",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Fichero estándar en /.well-known/security.txt donde una organización indica cómo reportarle vulnerabilidades: contacto, clave de cifrado, política, caducidad.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "OWASP · Vulnerability Disclosure Cheat Sheet",
+     "u": "https://cheatsheetseries.owasp.org/cheatsheets/Vulnerability_Disclosure_Cheat_Sheet.html",
+     "t": "web",
+     "l": "EN",
+     "ud": [
+      "UD4"
+     ],
+     "d": "Buenas prácticas para quien informa (respetar el alcance, no exigir pago fuera de un programa) y para quien recibe (canal claro, plazos, no amenazar con acciones legales, pedir CVE).",
+     "alta": "2026-11-28"
+    }
+   ]
+  },
+  {
    "id": "bugbounty-video",
    "h": "Ruta en vídeo: bug bounty (7 canales de YouTube)",
-   "d": "Siete canales en inglés para aprender a buscar vulnerabilidades web, en orden de visionado. Al defensor le sirven para reconocer en los logs (Apache, Suricata, Wazuh) la huella de cada técnica. Se practica solo en laboratorios propios o en programas de bug bounty que lo autorizan expresamente, respetando su alcance.",
+   "d": "Siete canales en inglés para aprender a buscar vulnerabilidades web, en orden de visionado. Al defensor le sirven para reconocer en los logs (Apache, Suricata, Wazuh) la huella de cada técnica. Se practica solo en laboratorios propios o en programas de bug bounty que lo autorizan expresamente, respetando su alcance (ver el grupo anterior, «Bug bounty en la práctica»).",
    "origen": "Ruta compartida en redes («7 YouTube channels to learn bug bounty, in watch order»).",
    "items": [
     {
