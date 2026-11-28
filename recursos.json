@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-27",
+ "actualizado": "2026-11-28",
  "intro": "Catálogo vivo de recursos externos agrupados por temática: organismos, normativa, marcos, herramientas del laboratorio, plataformas de práctica, cursos, certificaciones, vídeos, noticias y empresas. Cada ficha indica el tipo, el idioma y las unidades del módulo con las que encaja. Se amplía a medida que aparecen recursos nuevos (marcados como <b>nuevo</b>). Usa el buscador o los filtros por tipo.",
  "aviso": "Las herramientas ofensivas, los mapas de ataques y las plataformas de hacking se usan solo con fines formativos, en el laboratorio aislado o en plataformas que lo autorizan expresamente. Nunca contra sistemas de terceros.",
  "cats": [
@@ -2252,6 +2252,91 @@
       "UD3"
      ],
      "d": "Tienda web vulnerable por diseño; se usa en el servidor víctima del laboratorio."
+    }
+   ]
+  },
+  {
+   "id": "bugbounty-video",
+   "h": "Ruta en vídeo: bug bounty (7 canales de YouTube)",
+   "d": "Siete canales en inglés para aprender a buscar vulnerabilidades web, en orden de visionado. Al defensor le sirven para reconocer en los logs (Apache, Suricata, Wazuh) la huella de cada técnica. Se practica solo en laboratorios propios o en programas de bug bounty que lo autorizan expresamente, respetando su alcance.",
+   "origen": "Ruta compartida en redes («7 YouTube channels to learn bug bounty, in watch order»).",
+   "items": [
+    {
+     "n": "1 · InsiderPhD",
+     "u": "https://youtube.com/@InsiderPhD",
+     "t": "video",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Desde cero hasta el primer fallo: cómo empezar, metodología y primeras clases de vulnerabilidad.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "2 · Rana Khalil",
+     "u": "https://youtube.com/@RanaKhalil101",
+     "t": "video",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Cada clase de vulnerabilidad web explicada laboratorio a laboratorio (resuelve los labs de PortSwigger).",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "3 · NahamSec",
+     "u": "https://youtube.com/@NahamSec",
+     "t": "video",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Reconocimiento y metodología de búsqueda en programas reales.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "4 · rs0n_live",
+     "u": "https://youtube.com/@rs0n_live",
+     "t": "video",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Sesiones de búsqueda en directo, sin editar: cómo se trabaja de verdad.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "5 · Bug Bounty Reports Explained",
+     "u": "https://youtube.com/@BugBountyReportsExplained",
+     "t": "video",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Informes reales premiados, desmontados paso a paso; útil también para aprender a redactar informes.",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "6 · Medusa",
+     "u": "https://youtube.com/@medusa0xf",
+     "t": "video",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Clases de vulnerabilidad modernas (APIs, GraphQL, lógica de negocio…).",
+     "alta": "2026-11-28"
+    },
+    {
+     "n": "7 · Critical Thinking",
+     "u": "https://youtube.com/@criticalthinkingpodcast",
+     "t": "video",
+     "l": "EN",
+     "ud": [
+      "UD3"
+     ],
+     "d": "Pódcast avanzado de bug bounty: técnicas recientes y entrevistas a cazadores de vulnerabilidades.",
+     "alta": "2026-11-28"
     }
    ]
   },
